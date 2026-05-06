@@ -4,7 +4,7 @@ import React from 'react'
 import PixelCard from '../../reactBitsComponents/pixelCard/PixelCard'
 import BorderGlow from '../../reactBitsComponents/borderGlow/BorderGlow'
 import Image from 'next/image'
-import Header from '../Header/Header'
+import Header from '../../commonComponents/Header/Header'
 
 const CertificateCard = () => {
   const certificateData = [
