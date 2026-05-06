@@ -1,10 +1,9 @@
 'use client';
 
 import React, { useRef, useState } from 'react';
-import ProjectCursor from './ProjectCursor';
-import Image from 'next/image';
-import FloatingImage from '../floatingImage/FloatingImage';
-import Header from '../Header/Header';
+import FloatingImage from '../../commonComponents/floatingImage/FloatingImage';
+import Header from '../../commonComponents/Header/Header';
+import { useCursor } from '../../context/CursorContext';
 
 interface Project {
   name: string;
@@ -25,6 +24,7 @@ const projects = [
   { name: "Sidcup Family Golf", roles: "Sports Brand, Scroll Effects, UI/UX", image: "/projects/GolfSite.webp", link: "https://sidecup-family-golf-landing-page.netlify.app/" },
 ];
 const ProjectList = () => {
+  const { setCursorType } = useCursor();
   const [hoveredProject, setHoveredProject] = useState<Project | null>(null);
   const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
 
@@ -38,11 +38,14 @@ const ProjectList = () => {
       title="Work That Speaks in Pixels"
       description="A curated collection of modern websites and interactive experiences crafted to blend creativity, performance, and conversion-focused design."
     >
-      <div
-        className='w-full'
-        onMouseMove={handleMouseMove}
-        onMouseLeave={() => setHoveredProject(null)}
-      >
+        <div
+          className='w-full'
+          onMouseMove={handleMouseMove}
+          onMouseLeave={() => {
+            setHoveredProject(null);
+            setCursorType('default');
+          }}
+        >
         <FloatingImage project={hoveredProject} mousePosition={mousePos} />
 
         <div className="border-t border-black/30 flex flex-col">
@@ -50,7 +53,11 @@ const ProjectList = () => {
             <div
               key={index}
               className="group flex flex-col sm:flex-row sm:items-center justify-between py-6 sm:py-8 border-b border-b-gray-400 cursor-pointer relative"
-              onMouseEnter={() => setHoveredProject(project)}
+              onMouseEnter={(e) => {
+                setHoveredProject(project);
+                setMousePos({ x: e.clientX, y: e.clientY });
+                setCursorType('project');
+              }}
               onClick={() => window.open(project.link, "_blank")}
             >
               <h3 className="text-lg sm:text-xl font-semibold text-heading tracking-tight">

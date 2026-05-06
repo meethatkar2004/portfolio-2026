@@ -2,6 +2,8 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import SmoothScroll from "./components/SmoothScroll";
+import CustomCursor from "./commonComponents/CustomCursor/CustomCursor";
+import { CursorProvider } from "./context/CursorContext";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -30,7 +32,10 @@ export default function RootLayout({
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased bg-background`}
     >
       <body className="min-h-full flex flex-col" suppressHydrationWarning>
-        <SmoothScroll>{children}</SmoothScroll>
+        <CursorProvider>
+          <CustomCursor />
+          <SmoothScroll>{children}</SmoothScroll>
+        </CursorProvider>
       </body>
     </html>
   );
