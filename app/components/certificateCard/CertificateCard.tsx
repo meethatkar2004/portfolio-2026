@@ -1,10 +1,15 @@
 // c:\Users\meeth\OneDrive\Desktop\portfolio_2026\app\components\certificateCard\CertificateCard.tsx
-
+"use client";
 import React from 'react'
 import PixelCard from '../../reactBitsComponents/pixelCard/PixelCard'
 import BorderGlow from '../../reactBitsComponents/borderGlow/BorderGlow'
 import Image from 'next/image'
 import Header from '../../commonComponents/Header/Header'
+import gsap from 'gsap'
+import { ScrollTrigger } from 'gsap/ScrollTrigger'
+import { useGSAP } from '@gsap/react'
+
+gsap.registerPlugin(ScrollTrigger);
 
 const CertificateCard = () => {
   const certificateData = [
@@ -31,13 +36,33 @@ const CertificateCard = () => {
     }
   ]
 
+  const containerRef = React.useRef<HTMLDivElement>(null);
+
+  useGSAP(() => {
+    if (!containerRef.current) return;
+
+    gsap.to("body", {
+      backgroundColor: "#000000", // Deep dark navy instead of just black for better look
+      scrollTrigger: {
+        trigger: containerRef.current,
+        start: "top bottom",
+        end: "bottom 40%",
+        toggleActions: "play reverse play reverse",
+        scrub: true,
+        markers: true,
+      },
+    });
+  });
+
   return (
     <Header
       title="Proof of Skill, Built for Results"
       description="Industry-recognized certifications in SEO, Three.js, and GitHub that sharpen my ability to build high-performing, visually engaging, and professionally managed digital experiences."
       className='w-full'
+      titleClass='text-white!'
+      descClass='text-gray-100!'
     >
-      <div className='w-full h-[450px] flex flex-wrap items-stretch gap-8 justify-center'>
+      <div ref={containerRef} className='w-full h-[450px] flex flex-wrap items-stretch gap-8 justify-center'>
         {certificateData.map((certificate, index) => (
           <BorderGlow
             edgeSensitivity={30}
@@ -54,7 +79,7 @@ const CertificateCard = () => {
           >
             <PixelCard
               variant={"blue"}
-              className='w-[320px] h-full flex flex-col bg-[#fbfedd00]' // Adjusted size for better layout
+              className='w-[320px] h-full flex flex-col bg-[#dae9fd]' // Adjusted size for better layout
             >
               <div className="relative z-10 h-full w-full p-4 pb-none flex flex-col justify-between">
 

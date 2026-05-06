@@ -90,7 +90,6 @@ const CustomCursor: React.FC<CustomCursorProps> = ({
         style={{
           width: innerSize,
           height: innerSize,
-          border: `${innerBorderWidth}px solid ${innerBorderColor}`,
         }}
       />
     </>
