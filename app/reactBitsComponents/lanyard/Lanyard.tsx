@@ -121,8 +121,8 @@ function Band({ maxSpeed = 50, minSpeed = 0, isMobile = false }: BandProps) {
   const texture = useTexture(lanyard);
 
   // Custom images for the card
-  const frontTexture = useTexture('/MEET-PROFILE-GIBLI-removebg.png');
-  const backTexture = useTexture('/projects/GolfSite.webp');
+  const frontTexture = useTexture('/profile-normal.png');
+  const backTexture = useTexture('/profile-black.png');
 
   useEffect(() => {
     if (frontTexture) {
@@ -130,8 +130,8 @@ function Band({ maxSpeed = 50, minSpeed = 0, isMobile = false }: BandProps) {
       frontTexture.rotation = -Math.PI;
     }
     if (backTexture) {
-      backTexture.center.set(0.5, 0.5);
-      // backTexture.rotation = -Math.PI / 2;
+      backTexture.center.set(0.38, 0.5);
+      backTexture.rotation = -Math.PI;
     }
   }, [frontTexture, backTexture]);
 
@@ -246,6 +246,7 @@ function Band({ maxSpeed = 50, minSpeed = 0, isMobile = false }: BandProps) {
                 clearcoatRoughness={0.15}
                 roughness={0.9}
                 metalness={0.8}
+                color={"white"}
               />
             </mesh>
             <mesh geometry={nodes.clip.geometry} material={materials.metal} material-roughness={0.3} />
