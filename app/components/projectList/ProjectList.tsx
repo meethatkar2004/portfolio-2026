@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useRef, useState } from 'react';
+import React, { useRef, useState, useEffect } from 'react';
 import FloatingImage from '../../commonComponents/floatingImage/FloatingImage';
 import Header from '../../commonComponents/Header/Header';
 import { useCursor } from '../../context/CursorContext';
@@ -26,11 +26,42 @@ const projects = [
 const ProjectList = () => {
   const { setCursorType } = useCursor();
   const [hoveredProject, setHoveredProject] = useState<Project | null>(null);
-  const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
+  const mouseRef = useRef({ x: 0, y: 0 });
+  const rafId = useRef<number | null>(null);
 
   const handleMouseMove = (e: React.MouseEvent) => {
-    setMousePos({ x: e.clientX, y: e.clientY });
+    mouseRef.current = { x: e.clientX, y: e.clientY };
   };
+
+  useEffect(() => {
+    const updateHover = () => {
+      const element = document.elementFromPoint(mouseRef.current.x, mouseRef.current.y);
+      const item = element?.closest('.project-item') as HTMLElement;
+
+      if (item) {
+        const index = item.dataset.index;
+        if (index !== undefined) {
+          const project = projects[parseInt(index)];
+          setHoveredProject(prev => (prev?.name === project.name ? prev : project));
+          setCursorType('project');
+        }
+      }
+    };
+
+    const handleScroll = () => {
+      if (rafId.current) cancelAnimationFrame(rafId.current);
+      rafId.current = requestAnimationFrame(updateHover);
+    };
+
+    window.addEventListener('wheel', handleScroll, { passive: true });
+    window.addEventListener('scroll', handleScroll, { passive: true });
+
+    return () => {
+      window.removeEventListener('wheel', handleScroll);
+      window.removeEventListener('scroll', handleScroll);
+      if (rafId.current) cancelAnimationFrame(rafId.current);
+    };
+  }, [setCursorType]);
 
   return (
     <Header
@@ -38,24 +69,25 @@ const ProjectList = () => {
       title="Work That Speaks in Pixels"
       description="A curated collection of modern websites and interactive experiences crafted to blend creativity, performance, and conversion-focused design."
     >
-        <div
-          className='w-full'
-          onMouseMove={handleMouseMove}
-          onMouseLeave={() => {
-            setHoveredProject(null);
-            setCursorType('default');
-          }}
-        >
-        <FloatingImage project={hoveredProject} mousePosition={mousePos} />
+      <div
+        className='w-full relative'
+        onMouseMove={handleMouseMove}
+        onWheel={handleMouseMove}
+        onMouseLeave={() => {
+          setHoveredProject(null);
+          setCursorType('default');
+        }}
+      >
+        <FloatingImage project={hoveredProject} />
 
         <div className="border-t border-black/30 flex flex-col">
           {projects.map((project, index) => (
             <div
               key={index}
-              className="group flex flex-col sm:flex-row sm:items-center justify-between py-6 sm:py-8 border-b border-b-gray-400 cursor-pointer relative"
-              onMouseEnter={(e) => {
+              data-index={index}
+              className="project-item group flex flex-col sm:flex-row sm:items-center justify-between py-6 sm:py-8 border-b border-b-gray-400 cursor-pointer relative"
+              onMouseEnter={() => {
                 setHoveredProject(project);
-                setMousePos({ x: e.clientX, y: e.clientY });
                 setCursorType('project');
               }}
               onClick={() => window.open(project.link, "_blank")}
