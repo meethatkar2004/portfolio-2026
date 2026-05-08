@@ -19,7 +19,6 @@ const Hero = () => {
         gradientTo="#011257"
         glowColor="transparent"
       />
-
       {/* Main Typography */}
       <div className='absolute left-[5%] top-1/2 -translate-y-1/2 z-20 pointer-events-none uppercase font-bold'>
         <h1 className='text-[10vw] md:text-[8vw] leading-[0.85] text-secondary tracking-tighter opacity-90'>
