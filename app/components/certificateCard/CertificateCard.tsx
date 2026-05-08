@@ -49,7 +49,7 @@ const CertificateCard = () => {
         end: "bottom 40%",
         toggleActions: "play reverse play reverse",
         scrub: true,
-        markers: true,
+        // markers: true,
       },
     });
   });
