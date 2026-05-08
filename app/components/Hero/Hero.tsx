@@ -3,7 +3,7 @@ import DotField from '../../reactBitsComponents/dotField/DotField'
 
 const Hero = () => {
   return (
-    <div className='w-full h-screen relative'>
+    <div className='w-full h-screen relative overflow-hidden'>
       <DotField
         dotRadius={1.5}
         dotSpacing={14}
@@ -17,6 +17,10 @@ const Hero = () => {
         gradientFrom="#476afd"
         gradientTo="#011257"
         glowColor="transparent"
+      />
+      <div
+        className="pointer-events-none absolute inset-x-0 bottom-0 h-[18vh]"
+        style={{ backgroundImage: 'linear-gradient(to bottom, rgba(255,250,229,0), var(--background))' }}
       />
     </div>
   )
