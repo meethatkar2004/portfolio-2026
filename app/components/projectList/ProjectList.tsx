@@ -85,17 +85,29 @@ const ProjectList = () => {
             <div
               key={index}
               data-index={index}
-              className="project-item group flex flex-col sm:flex-row sm:items-center justify-between py-6 sm:py-8 border-b border-b-gray-400 cursor-pointer relative"
+              className="project-item group flex flex-col sm:flex-row sm:items-center justify-between py-6 sm:py-8 border-b border-b-gray-400 cursor-pointer relative hover:py-[2.5%] transition-[padding] ease-linear"
               onMouseEnter={() => {
                 setHoveredProject(project);
                 setCursorType('project');
               }}
               onClick={() => window.open(project.link, "_blank")}
             >
-              <h3 className="text-lg sm:text-xl font-semibold text-heading tracking-tight">
+              <h3 className={`font-semibold tracking-tight transition-all duration-500 origin-left ${
+                hoveredProject && hoveredProject.name === project.name 
+                  ? 'text-2xl sm:text-5xl text-heading' 
+                  : hoveredProject 
+                    ? 'text-lg sm:text-xl text-heading/50' 
+                    : 'text-lg sm:text-xl text-heading/30'
+              }`}>
                 {project.name}
               </h3>
-              <p className="text-sm sm:text-base font-medium">
+              <p className={`text-sm sm:text-base font-medium transition-all duration-500 ${
+                hoveredProject && hoveredProject.name === project.name 
+                  ? 'text-heading opacity-100' 
+                  : hoveredProject 
+                    ? 'text-heading/50' 
+                    : 'text-heading/50'
+              }`}>
                 {project.roles}
               </p>
             </div>
