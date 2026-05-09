@@ -1,16 +1,68 @@
+'use client';
 import Image from "next/image";
 import CertificateCard from "./components/certificateCard/CertificateCard";
 import ProjectList from "./components/projectList/ProjectList";
 import Hero from "./components/Hero/Hero";
-import HeroText from "./components/heroText/HeroText";
+import { useScroll } from "./context/ScrollContext";
+import { useRef } from "react";
+import gsap from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { useGSAP } from '@gsap/react';
+
+gsap.registerPlugin(ScrollTrigger);
 
 export default function Home() {
-  return (
-    <div className="flex flex-col flex-1 items-center justify-center font-sans w-full relative">
-      <Hero />
-      {/* <HeroText /> */}
+  const { setIsPinned } = useScroll();
+  const mainRef = useRef<HTMLDivElement>(null);
+  const heroTextRef = useRef<HTMLDivElement>(null);
+  const sectionRef = useRef<HTMLDivElement>(null);
+
+  const text = "FORGET NORMAL. CREATE IMPACT";
+
+  useGSAP(() => {
+    if (!sectionRef.current || !heroTextRef.current || !mainRef.current) return;
+
+    // Use scrollWidth - window.innerWidth to stop text at the right edge
+    const scrollWidth = sectionRef.current.scrollWidth - window.innerWidth;
+
+    gsap.to(sectionRef.current, {
+      x: -scrollWidth,
+      ease: "none",
+        scrollTrigger: {
+          trigger: heroTextRef.current,
+          pin: mainRef.current,
+          scrub: 1,
+          start: "top top", 
+          end: `+=${scrollWidth}`,
+          invalidateOnRefresh: true,
+          markers: false, // Cleaned up markers
+          onToggle: (self) => setIsPinned(self.isActive),
+        }
+      });
+    });
+  
+    return (
+      <main 
+        ref={mainRef}
+        id="main-wrapper" 
+        className="relative flex flex-col items-center w-full"
+      >
+        <Hero />
+        
+        {/* Horizontal Scroll Section - Now h-screen for full locking effect */}
+        <div ref={heroTextRef} className="relative w-full h-screen overflow-hidden bg-background z-10 flex items-center">
+          <div
+            ref={sectionRef}
+            className="flex items-center w-max px-[5vw] whitespace-nowrap"
+          >
+            <h1 className="text-[13vmax] font-black leading-none tracking-tighter text-heading select-none">
+              {text}
+            </h1>
+          </div>
+        </div>
+
       <ProjectList />
       <CertificateCard />
-    </div>
+    </main>
   );
 }

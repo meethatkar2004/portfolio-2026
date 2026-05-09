@@ -5,6 +5,7 @@ import SmoothScroll from "./components/SmoothScroll";
 import CustomCursor from "./commonComponents/CustomCursor/CustomCursor";
 import { CursorProvider } from "./context/CursorContext";
 import Stairs from "./commonComponents/Stairs/Stairs";
+import { ScrollProvider } from "./context/ScrollContext";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -33,13 +34,15 @@ export default function RootLayout({
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased bg-background`}
     >
       <body className="min-h-full flex flex-col overflow-x-hidden" suppressHydrationWarning>
-        <CursorProvider>
-          <CustomCursor />
-          <SmoothScroll>
-            {children}
-            {/* <Stairs>{children}</Stairs> */}
-          </SmoothScroll>
-        </CursorProvider>
+        <ScrollProvider>
+          <CursorProvider>
+            <CustomCursor />
+            <SmoothScroll>
+              {children}
+              {/* <Stairs>{children}</Stairs> */}
+            </SmoothScroll>
+          </CursorProvider>
+        </ScrollProvider>
       </body>
     </html>
   );
