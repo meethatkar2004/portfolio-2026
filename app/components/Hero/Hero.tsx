@@ -16,7 +16,7 @@ const Hero = () => {
     // Animate lanyard container growing up from the bottom anchor
     tl.fromTo(lanyardRef.current,
       { height: 0, opacity: 0 },
-      { height: "85%", opacity: 1, duration: 2 }
+      { height: "100%", opacity: 1, duration: 2 }
     );
 
     // Animate text elements sliding up
@@ -65,7 +65,7 @@ const Hero = () => {
       {/* Lanyard on the right */}
       <div
         ref={lanyardRef}
-        className='absolute left-0 top-0 w-full h-full z-10 overflow-hidden will-change-[height] pl-[60%]'
+        className='absolute left-0 top-0 w-full h-full z-10 overflow-hidden will-change-[height] pl-[0%]'
       >
         <Lanyard position={[0, 0, 8]} gravity={[0, -40, -5]} />
       </div>
