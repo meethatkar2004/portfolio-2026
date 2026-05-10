@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { Canvas, extend, useFrame } from '@react-three/fiber';
 import { useGLTF, useTexture, Environment, Lightformer } from '@react-three/drei';
+import { useCursor } from '../../context/CursorContext';
 import {
   BallCollider,
   CuboidCollider,
@@ -102,6 +103,7 @@ function Band({ maxSpeed = 50, minSpeed = 0, isMobile = false }: BandProps) {
   const j2 = useRef<any>(null);
   const j3 = useRef<any>(null);
   const card = useRef<any>(null);
+  const { setCursorType } = useCursor();
 
   const vec = new THREE.Vector3();
   const ang = new THREE.Vector3();
@@ -151,12 +153,19 @@ function Band({ maxSpeed = 50, minSpeed = 0, isMobile = false }: BandProps) {
 
   useEffect(() => {
     if (hovered) {
-      // document.body.style.cursor = dragged ? 'grabbing' : 'grab';
-      return () => {
-        document.body.style.cursor = 'auto';
-      };
+      if (dragged) {
+        setCursorType('dragging');
+      } else {
+        setCursorType('drag');
+      }
+    } else {
+      setCursorType('default');
     }
-  }, [hovered, dragged]);
+
+    return () => {
+      setCursorType('default');
+    };
+  }, [hovered, dragged, setCursorType]);
 
   useFrame((state, delta) => {
     if (dragged && typeof dragged !== 'boolean') {
