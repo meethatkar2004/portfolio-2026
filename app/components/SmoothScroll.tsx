@@ -1,6 +1,6 @@
 'use client';
 
-import Lenis from '@studio-freight/lenis/types';
+import Lenis from '@studio-freight/lenis';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { useEffect } from 'react';

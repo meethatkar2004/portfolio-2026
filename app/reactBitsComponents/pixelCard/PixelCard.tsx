@@ -1,5 +1,5 @@
 "use client";
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useCallback } from 'react';
 import { JSX } from 'react';
 
 class Pixel {
@@ -224,8 +224,15 @@ export default function PixelCard({
     pixelsRef.current = pxs;
   };
 
-  const doAnimate = (fnName: keyof Pixel) => {
-    animationRef.current = requestAnimationFrame(() => doAnimate(fnName));
+  const doAnimateRef = useRef<(fnName: keyof Pixel) => void>(null);
+
+  const doAnimate = useCallback((fnName: keyof Pixel) => {
+    animationRef.current = requestAnimationFrame(() => {
+      if (doAnimateRef.current) {
+        doAnimateRef.current(fnName);
+      }
+    });
+
     const timeNow = performance.now();
     const timePassed = timeNow - timePreviousRef.current;
     const timeInterval = 1000 / 60;
@@ -241,16 +248,22 @@ export default function PixelCard({
     let allIdle = true;
     for (let i = 0; i < pixelsRef.current.length; i++) {
       const pixel = pixelsRef.current[i];
-      // @ts-ignore
+      // @ts-expect-error - dynamically calling method by name
       pixel[fnName]();
       if (!pixel.isIdle) {
         allIdle = false;
       }
     }
     if (allIdle) {
-      cancelAnimationFrame(animationRef.current);
+      if (animationRef.current !== null) {
+        cancelAnimationFrame(animationRef.current);
+      }
     }
-  };
+  }, []);
+
+  useEffect(() => {
+    doAnimateRef.current = doAnimate;
+  }, [doAnimate]);
 
   const handleAnimation = (name: keyof Pixel) => {
     if (animationRef.current !== null) {

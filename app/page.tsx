@@ -1,5 +1,4 @@
 'use client';
-import Image from "next/image";
 import CertificateCard from "./components/certificateCard/CertificateCard";
 import ProjectList from "./components/projectList/ProjectList";
 import Hero from "./components/Hero/Hero";

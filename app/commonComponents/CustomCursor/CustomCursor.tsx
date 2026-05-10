@@ -7,9 +7,7 @@ import { useCursor } from '../../context/CursorContext';
 interface CustomCursorProps {
   innerSize?: number;
   outerSize?: number;
-  innerBorderColor?: string;
   outerBorderColor?: string;
-  innerBorderWidth?: number;
   outerBorderWidth?: number;
   outerGlowColor?: string;
   innerSpeed?: number;
@@ -19,9 +17,7 @@ interface CustomCursorProps {
 const CustomCursor: React.FC<CustomCursorProps> = ({
   innerSize = 20,
   outerSize = 60,
-  innerBorderColor = '#000000',
   outerBorderColor = 'rgba(71, 106, 253, 0.5)',
-  innerBorderWidth = 2,
   outerBorderWidth = 1,
   outerGlowColor = 'rgba(71, 106, 253, 0.3)',
   innerSpeed = 0.5, // Slower as requested
