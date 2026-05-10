@@ -2,6 +2,7 @@
 
 import React, { useEffect, useRef } from 'react';
 import gsap from 'gsap';
+import { useCursor } from '../../context/CursorContext';
 
 interface CustomCursorProps {
   innerSize?: number;
@@ -28,12 +29,14 @@ const CustomCursor: React.FC<CustomCursorProps> = ({
 }) => {
   const innerRef = useRef<HTMLDivElement>(null);
   const outerRef = useRef<HTMLDivElement>(null);
+  const labelRef = useRef<HTMLDivElement>(null);
+  const { cursorType } = useCursor();
 
   useEffect(() => {
-    if (!innerRef.current || !outerRef.current) return;
+    if (!innerRef.current || !outerRef.current || !labelRef.current) return;
 
     // Set initial positions
-    gsap.set([innerRef.current, outerRef.current], {
+    gsap.set([innerRef.current, outerRef.current, labelRef.current], {
       xPercent: -50,
       yPercent: -50,
     });
@@ -56,11 +59,22 @@ const CustomCursor: React.FC<CustomCursorProps> = ({
       ease: 'power3.out',
     });
 
+    const xLabelTo = gsap.quickTo(labelRef.current, 'x', {
+      duration: outerSpeed,
+      ease: 'power3.out',
+    });
+    const yLabelTo = gsap.quickTo(labelRef.current, 'y', {
+      duration: outerSpeed,
+      ease: 'power3.out',
+    });
+
     const handleMouseMove = (e: MouseEvent) => {
       xInnerTo(e.clientX);
       yInnerTo(e.clientY);
       xOuterTo(e.clientX);
       yOuterTo(e.clientY);
+      xLabelTo(e.clientX);
+      yLabelTo(e.clientY);
     };
 
     window.addEventListener('mousemove', handleMouseMove);
@@ -70,12 +84,52 @@ const CustomCursor: React.FC<CustomCursorProps> = ({
     };
   }, [innerSpeed, outerSpeed]);
 
+  useEffect(() => {
+    if (!innerRef.current || !outerRef.current || !labelRef.current) return;
+
+    if (cursorType === 'drag') {
+      gsap.to(outerRef.current, {
+        width: 80,
+        height: 80,
+        backgroundColor: 'rgba(71, 106, 253, 0.15)',
+        borderColor: 'rgba(71, 106, 253, 0.8)',
+        duration: 0.4,
+        ease: 'power3.out'
+      });
+      gsap.to(innerRef.current, { scale: 0, opacity: 0, duration: 0.3 });
+      gsap.to(labelRef.current, { scale: 1, opacity: 1, duration: 0.4 });
+    } else if (cursorType === 'dragging') {
+      gsap.to(outerRef.current, {
+        width: 40,
+        height: 40,
+        backgroundColor: 'rgba(71, 106, 253, 0.4)',
+        borderColor: 'rgba(71, 106, 253, 1)',
+        duration: 0.3,
+        ease: 'power3.out'
+      });
+      gsap.to(innerRef.current, { scale: 0, opacity: 0, duration: 0.2 });
+      gsap.to(labelRef.current, { scale: 0.5, opacity: 0, duration: 0.2 });
+    } else {
+      // Default and 'project' types (preserving original behavior for projects)
+      gsap.to(outerRef.current, {
+        width: outerSize,
+        height: outerSize,
+        backgroundColor: 'transparent',
+        borderColor: outerBorderColor,
+        duration: 0.4,
+        ease: 'power3.out'
+      });
+      gsap.to(innerRef.current, { scale: 1, opacity: 1, duration: 0.3 });
+      gsap.to(labelRef.current, { scale: 0, opacity: 0, duration: 0.3 });
+    }
+  }, [cursorType, outerSize, outerBorderColor]);
+
   return (
     <>
       {/* Outer Circle */}
       <div
         ref={outerRef}
-        className="fixed top-0 left-0 pointer-events-none z-100 rounded-full transition-[width,height] duration-300"
+        className="fixed top-0 left-0 pointer-events-none z-100 rounded-full transition-[background-color,border-color] backdrop-blur-[2px]"
         style={{
           width: outerSize,
           height: outerSize,
@@ -92,6 +146,15 @@ const CustomCursor: React.FC<CustomCursorProps> = ({
           height: innerSize,
         }}
       />
+      {/* Label for Drag Text */}
+      <div
+        ref={labelRef}
+        className="fixed top-0 left-0 pointer-events-none z-[101] flex items-center justify-center opacity-0 scale-0"
+      >
+        <span className="text-[10px] font-black tracking-[0.2em] text-white uppercase drop-shadow-md">
+          DRAG
+        </span>
+      </div>
     </>
   );
 };

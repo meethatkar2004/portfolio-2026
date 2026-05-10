@@ -2,7 +2,7 @@
 
 import React, { createContext, useContext, useState, ReactNode } from 'react';
 
-type CursorType = 'default' | 'project';
+type CursorType = 'default' | 'project' | 'drag' | 'dragging';
 
 interface CursorContextType {
   cursorType: CursorType;
