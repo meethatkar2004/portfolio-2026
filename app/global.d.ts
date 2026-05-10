@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 declare module '*.glb';
 declare module '*.png';
 
@@ -8,15 +9,15 @@ declare module 'meshline' {
     setPoints(points: THREE.Vector3[] | number[]): void;
   }
   export class MeshLineMaterial extends THREE.ShaderMaterial {
-    constructor(parameters?: any);
+    constructor(parameters?: { [key: string]: unknown });
   }
 }
 
 declare global {
   namespace JSX {
     interface IntrinsicElements {
-      meshLineGeometry: any;
-      meshLineMaterial: any;
+      meshLineGeometry: unknown;
+      meshLineMaterial: unknown;
     }
   }
 }

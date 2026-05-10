@@ -4,7 +4,6 @@ import "./globals.css";
 import SmoothScroll from "./components/SmoothScroll";
 import CustomCursor from "./commonComponents/CustomCursor/CustomCursor";
 import { CursorProvider } from "./context/CursorContext";
-import Stairs from "./commonComponents/Stairs/Stairs";
 import { ScrollProvider } from "./context/ScrollContext";
 
 const geistSans = Geist({

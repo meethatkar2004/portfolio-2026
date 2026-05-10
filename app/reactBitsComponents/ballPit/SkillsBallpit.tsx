@@ -6,7 +6,6 @@ import React, { useEffect, useRef, useState } from 'react';
 import {
   ACESFilmicToneMapping,
   AmbientLight,
-  Color,
   Group,
   MathUtils,
   Mesh,
@@ -147,7 +146,11 @@ class BallpitEngine {
     
     this.#intersectionObserver = new IntersectionObserver((entries) => {
       this.#isAnimating = entries[0].isIntersecting;
-      this.#isAnimating ? this.#startAnimation() : this.#stopAnimation();
+      if (this.#isAnimating) {
+        this.#startAnimation();
+      } else {
+        this.#stopAnimation();
+      }
     }, { threshold: 0 });
     
     this.#intersectionObserver.observe(this.canvas);
@@ -161,7 +164,11 @@ class BallpitEngine {
 
   #onVisibilityChange = () => {
     if (this.#isAnimating) {
-      document.hidden ? this.#stopAnimation() : this.#startAnimation();
+      if (document.hidden) {
+        this.#stopAnimation();
+      } else {
+        this.#startAnimation();
+      }
     }
   };
 
@@ -255,11 +262,11 @@ class BallpitEngine {
     this.#intersectionObserver?.disconnect();
     document.removeEventListener('visibilitychange', this.#onVisibilityChange);
     
-    this.scene.traverse((obj: any) => {
-      if (obj.isMesh) {
+    this.scene.traverse((obj) => {
+      if (obj instanceof Mesh) {
         obj.geometry.dispose();
         if (Array.isArray(obj.material)) {
-          obj.material.forEach((m: any) => m.dispose());
+          obj.material.forEach((m) => m.dispose());
         } else {
           obj.material.dispose();
         }
@@ -274,13 +281,13 @@ class BallpitEngine {
  * Handles physics simulation for the balls.
  */
 class PhysicsWorld {
-  config: any;
+  config: typeof DEFAULT_CONFIG;
   positions: Float32Array;
   velocities: Float32Array;
   sizes: Float32Array;
   center: Vector3 = new Vector3();
 
-  constructor(config: any) {
+  constructor(config: typeof DEFAULT_CONFIG) {
     this.config = config;
     const count = config.count;
     this.positions = new Float32Array(count * 3);
@@ -436,7 +443,7 @@ const SkillsBallpit: React.FC<SkillsBallpitProps> = ({
   const engineRef = useRef<BallpitEngine | null>(null);
   const ballsRef = useRef<Mesh[]>([]);
   const physicsRef = useRef<PhysicsWorld | null>(null);
-  const [hoveredProject, setHoveredProject] = useState<any>(null);
+  const [hoveredProject, setHoveredProject] = useState<{ name: string; image: string } | null>(null);
   const [tooltipPos, setTooltipPos] = useState({ x: 0, y: 0 });
 
   useEffect(() => {
@@ -549,11 +556,16 @@ const SkillsBallpit: React.FC<SkillsBallpitProps> = ({
       }
     };
 
-    canvasRef.current.addEventListener('pointermove', handlePointerMove);
+    const currentCanvas = canvasRef.current;
+    if (currentCanvas) {
+      currentCanvas.addEventListener('pointermove', handlePointerMove);
+    }
 
     return () => {
       engine.dispose();
-      canvasRef.current?.removeEventListener('pointermove', handlePointerMove);
+      if (currentCanvas) {
+        currentCanvas.removeEventListener('pointermove', handlePointerMove);
+      }
       ballsRef.current = [];
     };
   }, [maxBalls, followCursor, gravity, friction, wallBounce]);

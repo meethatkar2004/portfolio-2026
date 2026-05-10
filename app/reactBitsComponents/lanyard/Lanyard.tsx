@@ -11,7 +11,8 @@ import {
   RigidBody,
   useRopeJoint,
   useSphericalJoint,
-  RigidBodyProps
+  RigidBodyProps,
+  RapierRigidBody
 } from '@react-three/rapier';
 import { MeshLineGeometry, MeshLineMaterial } from 'meshline';
 import * as THREE from 'three';
@@ -97,12 +98,12 @@ interface BandProps {
 }
 
 function Band({ maxSpeed = 50, minSpeed = 0, isMobile = false }: BandProps) {
-  const band = useRef<any>(null);
-  const fixed = useRef<any>(null);
-  const j1 = useRef<any>(null);
-  const j2 = useRef<any>(null);
-  const j3 = useRef<any>(null);
-  const card = useRef<any>(null);
+  const band = useRef<THREE.Mesh>(null);
+  const fixed = useRef<RapierRigidBody>(null);
+  const j1 = useRef<RapierRigidBody>(null);
+  const j2 = useRef<RapierRigidBody>(null);
+  const j3 = useRef<RapierRigidBody>(null);
+  const card = useRef<RapierRigidBody>(null);
   const { setCursorType } = useCursor();
 
   const vec = new THREE.Vector3();
@@ -110,7 +111,7 @@ function Band({ maxSpeed = 50, minSpeed = 0, isMobile = false }: BandProps) {
   const rot = new THREE.Vector3();
   const dir = new THREE.Vector3();
 
-  const segmentProps: any = {
+  const segmentProps = {
     type: 'dynamic' as RigidBodyProps['type'],
     canSleep: true,
     colliders: false,
@@ -118,7 +119,8 @@ function Band({ maxSpeed = 50, minSpeed = 0, isMobile = false }: BandProps) {
     linearDamping: 4
   };
 
-  const { nodes, materials } = useGLTF(cardGLB) as any;
+  // @ts-expect-error - useGLTF nodes/materials are dynamically populated
+  const { nodes, materials } = useGLTF(cardGLB);
   const texture = useTexture(lanyard);
 
   // Custom images for the card
@@ -128,18 +130,26 @@ function Band({ maxSpeed = 50, minSpeed = 0, isMobile = false }: BandProps) {
   useEffect(() => {
     if (frontTexture) {
       frontTexture.center.set(0.38, 0.5);
+      // eslint-disable-next-line react-hooks/immutability
       frontTexture.rotation = -Math.PI;
     }
     if (backTexture) {
       backTexture.center.set(0.38, 0.5);
+      // eslint-disable-next-line react-hooks/immutability
       backTexture.rotation = -Math.PI;
     }
   }, [frontTexture, backTexture]);
 
-  const [curve] = useState(
-    () =>
-      new THREE.CatmullRomCurve3([new THREE.Vector3(), new THREE.Vector3(), new THREE.Vector3(), new THREE.Vector3()])
-  );
+  const [curve] = useState(() => {
+    const c = new THREE.CatmullRomCurve3([
+      new THREE.Vector3(),
+      new THREE.Vector3(),
+      new THREE.Vector3(),
+      new THREE.Vector3()
+    ]);
+    c.curveType = 'chordal';
+    return c;
+  });
   const [dragged, drag] = useState<false | THREE.Vector3>(false);
   const [hovered, hover] = useState(false);
 
@@ -199,8 +209,12 @@ function Band({ maxSpeed = 50, minSpeed = 0, isMobile = false }: BandProps) {
     }
   });
 
-  curve.curveType = 'chordal';
-  texture.wrapS = texture.wrapT = THREE.RepeatWrapping;
+  useEffect(() => {
+    if (texture) {
+      // eslint-disable-next-line react-hooks/immutability
+      texture.wrapS = texture.wrapT = THREE.RepeatWrapping;
+    }
+  }, [texture]);
 
   return (
     <>
@@ -227,11 +241,13 @@ function Band({ maxSpeed = 50, minSpeed = 0, isMobile = false }: BandProps) {
             position={[0, -0.62, -0.05]}
             onPointerOver={() => hover(true)}
             onPointerOut={() => hover(false)}
-            onPointerUp={(e: any) => {
+            onPointerUp={(e: THREE.ThreeEvent<PointerEvent>) => {
+              // @ts-expect-error - releasePointerCapture exists on the target
               e.target.releasePointerCapture(e.pointerId);
               drag(false);
             }}
-            onPointerDown={(e: any) => {
+            onPointerDown={(e: THREE.ThreeEvent<PointerEvent>) => {
+              // @ts-expect-error - setPointerCapture exists on the target
               e.target.setPointerCapture(e.pointerId);
               drag(new THREE.Vector3().copy(e.point).sub(vec.copy(card.current.translation())));
             }}
