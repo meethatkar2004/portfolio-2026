@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Geist, Geist_Mono, Anton_SC } from "next/font/google";
 import "./globals.css";
 import SmoothScroll from "./components/SmoothScroll";
 import CustomCursor from "./commonComponents/CustomCursor/CustomCursor";
@@ -16,6 +16,12 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
+const anton = Anton_SC({
+  weight: "400",
+  subsets: ["latin"],
+  variable: "--font-anton",
+});
+
 export const metadata: Metadata = {
   title: "Meet Portfolio 2026",
   description: "Created by Meet",
@@ -30,7 +36,7 @@ export default function RootLayout({
     <html
       lang="en"
       suppressHydrationWarning
-      className={`${geistSans.variable} ${geistMono.variable} h-full antialiased bg-background`}
+      className={`${geistSans.variable} ${geistMono.variable} ${anton.variable} h-full antialiased bg-background`}
     >
       <body className="min-h-full flex flex-col overflow-x-hidden" suppressHydrationWarning>
         <ScrollProvider>
