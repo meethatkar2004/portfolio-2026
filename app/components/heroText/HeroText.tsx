@@ -39,7 +39,7 @@ const HeroText = () => {
         ref={sectionRef}
         className="flex items-center h-full w-max px-[5vw] whitespace-nowrap"
       >
-        <h1 className="text-[13vmax] font-black leading-none tracking-tighter text-heading select-none">
+        <h1 className="text-[13vmax] font-heading font-black leading-none tracking-tighter text-heading select-none">
           {text}
         </h1>
       </div>

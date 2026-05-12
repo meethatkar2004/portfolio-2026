@@ -1,3 +1,4 @@
+@import url('https://fonts.googleapis.com/css2?family=Chewy&family=Commissioner:wght@100..900&family=Metal+Mania&family=Protest+Revolution&display=swap');
 @import "tailwindcss";
 
 :root {
@@ -9,6 +10,8 @@
 }
 
 @theme {
+  --font-heading: "Metal Mania", sans-serif;
+  /* Use in tex-scroll component*/
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --color-heading: var(--heading);
