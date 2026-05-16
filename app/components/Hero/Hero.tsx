@@ -1,10 +1,14 @@
 'use client';
 import DotField from '../../reactBitsComponents/dotField/DotField'
 import Lanyard from '../../reactBitsComponents/lanyard/Lanyard'
+import Navbar from '../navbar/Navbar'
 
 const Hero = () => {
   return (
     <div className='w-full h-screen relative overflow-hidden bg-background'>
+      <div className='absolute top-0 left-0 w-full z-30'>
+        <Navbar />
+      </div>
       <DotField
         dotRadius={1.5}
         dotSpacing={14}
