@@ -1,19 +1,19 @@
 'use client';
 import CertificateCard from "./components/certificateCard/CertificateCard";
 import ProjectList from "./components/projectList/ProjectList";
-import Hero from "./components/Hero/Hero";
 import { useScroll } from "./context/ScrollContext";
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { useGSAP } from '@gsap/react';
 import InitialLoad from "./commonComponents/Loader/InitialLoad";
-import Loader from "./commonComponents/Loader/Loader";
+import Navbar from "./components/navbar/Navbar";
 
 gsap.registerPlugin(ScrollTrigger);
 
 export default function Home() {
   const { setIsPinned } = useScroll();
+  const [isLoading, setIsLoading] = useState(true);
   const mainRef = useRef<HTMLDivElement>(null);
   const heroTextRef = useRef<HTMLDivElement>(null);
   const sectionRef = useRef<HTMLDivElement>(null);
@@ -21,38 +21,45 @@ export default function Home() {
   const text = "FORGET NORMAL. CREATE IMPACT";
 
   useGSAP(() => {
-    if (!sectionRef.current || !heroTextRef.current || !mainRef.current) return;
+    if (isLoading || !sectionRef.current || !heroTextRef.current || !mainRef.current) return;
 
-    // Use scrollWidth - window.innerWidth to stop text at the right edge
+    // Ensure layout is settled before calculating ScrollTrigger
+    const refreshTimer = setTimeout(() => ScrollTrigger.refresh(), 100);
+
     const scrollWidth = sectionRef.current.scrollWidth - window.innerWidth;
 
     gsap.to(sectionRef.current, {
       x: -scrollWidth,
       ease: "none",
-        scrollTrigger: {
-          trigger: heroTextRef.current,
-          start: "center center",
-          pin: true,
-          anticipatePin: 1,
-          scrub: 1,
-          end: `left left`,
-          invalidateOnRefresh: true,
-          markers: false,
-          onToggle: (self) => setIsPinned(self.isActive),
-        }
-      });
+      scrollTrigger: {
+        trigger: heroTextRef.current,
+        start: "bottom bottom",
+        pin: true,
+        anticipatePin: 1,
+        scrub: 1,
+        end: `left left`,
+        invalidateOnRefresh: true,
+        onToggle: (self) => setIsPinned(self.isActive),
+      }
     });
-  
-    return (
-      <main 
-        ref={mainRef}
-        id="main-wrapper" 
-        className="relative flex flex-col items-center w-full"
-      >
-        <InitialLoad />
-        <Hero />
+
+    return () => clearTimeout(refreshTimer);
+  }, [isLoading]);
+
+  return (
+    <main 
+      ref={mainRef}
+      id="main-wrapper" 
+      className="relative flex flex-col items-center w-full"
+    >
+      <InitialLoad onComplete={() => setIsLoading(false)} />
         
-        {/* Horizontal Scroll Section - Now h-screen for full locking effect */}
+      
+      <div className={`relative ${isLoading ? "opacity-0 invisible h-screen overflow-hidden" : "opacity-100 w-full"}`}>
+      <div className="fixed w-full z-50 top-0">
+        <Navbar />
+      </div>
+        {/* Horizontal Scroll Section */}
         <div ref={heroTextRef} className="relative w-full py-[5%] overflow-hidden bg-background z-10 flex items-center">
           <div
             ref={sectionRef}
@@ -64,8 +71,9 @@ export default function Home() {
           </div>
         </div>
 
-      <ProjectList />
-      <CertificateCard />
+        <ProjectList />
+        <CertificateCard />
+      </div>
     </main>
   );
 }
