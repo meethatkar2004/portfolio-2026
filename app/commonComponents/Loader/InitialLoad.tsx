@@ -27,11 +27,13 @@ const InitialLoad = () => {
   useGSAP(() => {
     const tl = gsap.timeline();
 
+    // Each word animation in X axis
     tl.from(".moving-word", {
       x: (index) => `${index * 10}%`,
       opacity: 0,
       stagger: 0.12,
       duration: 1.2,
+      delay: 1,
       ease: "sine"
     })
 
@@ -40,12 +42,13 @@ const InitialLoad = () => {
       y: "-100%",
       stagger: 0.1,
       duration: 1,
-      // delay: 2,
+      delay: 2,
       ease: "power3.out"
     }, "up")
     .to(loader.current, {
       y: "-100%",
-      duration: 1,
+      duration: 2,
+      delay: 2,
       ease: "power3.out"
     }, "up")
 
@@ -54,8 +57,7 @@ const InitialLoad = () => {
       height: '0vh',
       duration: 1.5,
       ease: "expo.inOut",
-      delay: 0.5 // Keep text visible for a moment
-    })
+    }, "-=1.7")
 
     tl.to(GreenDiv.current, {
       height: "100vh",
