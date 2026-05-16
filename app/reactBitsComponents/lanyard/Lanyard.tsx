@@ -104,7 +104,10 @@ interface RigidBodyRef {
   lerped?: THREE.Vector3;
 }
 
+import { useCursor } from '../../context/CursorContext';
+
 function Band({ maxSpeed = 50, minSpeed = 0, isMobile = false }: BandProps) {
+  const { setCursorType } = useCursor();
   const band = useRef<THREE.Mesh>(null);
   const fixed = useRef<RapierRigidBody>(null!);
   const j1 = useRef<RapierRigidBody>(null!);
@@ -163,6 +166,7 @@ function Band({ maxSpeed = 50, minSpeed = 0, isMobile = false }: BandProps) {
   });
 
   const [dragged, drag] = useState<false | THREE.Vector3>(false);
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [hovered, hover] = useState(false);
 
   useRopeJoint(fixed, j1, [[0, 0, 0], [0, 0, 0], 1]);
@@ -175,9 +179,15 @@ function Band({ maxSpeed = 50, minSpeed = 0, isMobile = false }: BandProps) {
 
   useEffect(() => {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    const handlePointerOver = () => hover(true);
+    const handlePointerOver = () => {
+      hover(true);
+      setCursorType('drag');
+    };
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    const handlePointerOut = () => hover(false);
+    const handlePointerOut = () => {
+      hover(false);
+      setCursorType('default');
+    };
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const handlePointerUp = (e: PointerEvent) => {
       const target = e.target as HTMLElement;
@@ -185,6 +195,7 @@ function Band({ maxSpeed = 50, minSpeed = 0, isMobile = false }: BandProps) {
         (target as any).releasePointerCapture((e as any).pointerId);
       }
       drag(false);
+      setCursorType('drag');
     };
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const handlePointerDown = (e: PointerEvent) => {
@@ -194,6 +205,7 @@ function Band({ maxSpeed = 50, minSpeed = 0, isMobile = false }: BandProps) {
       }
       const point = (e as any).point as THREE.Vector3;
       drag(new THREE.Vector3().copy(point).sub(vec.copy(card.current.translation())));
+      setCursorType('dragging');
     };
 
     return () => {
@@ -268,14 +280,21 @@ function Band({ maxSpeed = 50, minSpeed = 0, isMobile = false }: BandProps) {
           <group
             scale={1.7}
             position={[0, -0.62, -0.05]}
-            onPointerOver={() => hover(true)}
-            onPointerOut={() => hover(false)}
+            onPointerOver={() => {
+              hover(true);
+              setCursorType('drag');
+            }}
+            onPointerOut={() => {
+              hover(false);
+              setCursorType('default');
+            }}
             onPointerUp={(e: THREE.ThreeEvent<PointerEvent>) => {
               const target = e.target as any;
               if (target?.releasePointerCapture) {
                 target.releasePointerCapture(e.pointerId);
               }
               drag(false);
+              setCursorType('drag');
             }}
             onPointerDown={(e: THREE.ThreeEvent<PointerEvent>) => {
               const target = e.target as any;
@@ -283,9 +302,17 @@ function Band({ maxSpeed = 50, minSpeed = 0, isMobile = false }: BandProps) {
                 target.setPointerCapture(e.pointerId);
               }
               drag(new THREE.Vector3().copy(e.point).sub(vec.copy(card.current.translation())));
+              setCursorType('dragging');
             }}
           >
-            <mesh geometry={nodes.card.geometry}>
+            <mesh
+              geometry={nodes.card.geometry}
+              onPointerOver={(e) => {
+                e.stopPropagation();
+                setCursorType('drag');
+              }}
+              onPointerOut={() => setCursorType('default')}
+            >
               <meshPhysicalMaterial
                 map={frontTexture}
                 map-anisotropy={16}
@@ -295,7 +322,15 @@ function Band({ maxSpeed = 50, minSpeed = 0, isMobile = false }: BandProps) {
                 metalness={0.8}
               />
             </mesh>
-            <mesh geometry={nodes.card.geometry} rotation={[0, Math.PI, 0]}>
+            <mesh
+              geometry={nodes.card.geometry}
+              rotation={[0, Math.PI, 0]}
+              onPointerOver={(e) => {
+                e.stopPropagation();
+                setCursorType('drag');
+              }}
+              onPointerOut={() => setCursorType('default')}
+            >
               <meshPhysicalMaterial
                 map={backTexture}
                 map-anisotropy={16}

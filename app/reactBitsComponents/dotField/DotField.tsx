@@ -116,6 +116,15 @@ const DotField = memo(({
     }
 
     function onMouseMove(e: MouseEvent) {
+      if(!canvas) return;
+      const rect = canvas.getBoundingClientRect();
+      sizeRef.current.offsetX = rect.left;
+      sizeRef.current.offsetY = rect.top;
+
+      if (dotsRef.current.length === 0 && rect.width > 0) {
+        doResize();
+      }
+      
       const s = sizeRef.current;
       mouseRef.current.x = e.clientX - s.offsetX;
       mouseRef.current.y = e.clientY - s.offsetY;
@@ -234,6 +243,16 @@ const DotField = memo(({
     }
 
     doResize();
+
+    // ResizeObserver to handle layout changes (e.g., when loader transition finishes)
+    const observer = new ResizeObserver(() => {
+      resize();
+    });
+
+    if (canvas.parentElement) {
+      observer.observe(canvas.parentElement);
+    }
+
     window.addEventListener('resize', resize);
     window.addEventListener('mousemove', onMouseMove, { passive: true });
     rafRef.current = requestAnimationFrame(tick);
@@ -247,6 +266,7 @@ const DotField = memo(({
       if (rafRef.current) cancelAnimationFrame(rafRef.current);
       clearInterval(speedInterval);
       clearTimeout(resizeTimer);
+      observer.disconnect();
       window.removeEventListener('resize', resize);
       window.removeEventListener('mousemove', onMouseMove);
     };

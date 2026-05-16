@@ -105,8 +105,23 @@ const CustomCursor: React.FC<CustomCursorProps> = ({
       });
       gsap.to(innerRef.current, { scale: 0, opacity: 0, duration: 0.2 });
       gsap.to(labelRef.current, { scale: 0.5, opacity: 0, duration: 0.2 });
+    } else if (cursorType === 'link') {
+      gsap.to(innerRef.current, {
+        width: outerSize,
+        height: outerSize,
+        opacity: 0,
+        duration: 0.4,
+        ease: 'power3.out'
+      });
+      gsap.to(outerRef.current, {
+        width: outerSize * 1.2,
+        height: outerSize * 1.2,
+        borderColor: 'rgba(71, 106, 253, 0.8)',
+        duration: 0.4,
+        ease: 'power3.out'
+      });
     } else {
-      // Default and 'project' types (preserving original behavior for projects)
+      // Default and 'project' types
       gsap.to(outerRef.current, {
         width: outerSize,
         height: outerSize,
@@ -115,10 +130,16 @@ const CustomCursor: React.FC<CustomCursorProps> = ({
         duration: 0.4,
         ease: 'power3.out'
       });
-      gsap.to(innerRef.current, { scale: 1, opacity: 1, duration: 0.3 });
+      gsap.to(innerRef.current, { 
+        width: innerSize,
+        height: innerSize,
+        scale: 1, 
+        opacity: 1, 
+        duration: 0.3 
+      });
       gsap.to(labelRef.current, { scale: 0, opacity: 0, duration: 0.3 });
     }
-  }, [cursorType, outerSize, outerBorderColor]);
+  }, [cursorType, outerSize, innerSize, outerBorderColor]);
 
   return (
     <>

@@ -40,13 +40,13 @@ export default function RootLayout({
     >
       <body className="min-h-full flex flex-col overflow-x-hidden" suppressHydrationWarning>
         <ScrollProvider>
-          <CursorProvider>
-            <CustomCursor />
-            <SmoothScroll>
-              {children}
+            <CursorProvider>
+              <CustomCursor />
+              <SmoothScroll>
+                {children}
               {/* <Stairs>{children}</Stairs> */}
-            </SmoothScroll>
-          </CursorProvider>
+              </SmoothScroll>
+            </CursorProvider>
         </ScrollProvider>
       </body>
     </html>
