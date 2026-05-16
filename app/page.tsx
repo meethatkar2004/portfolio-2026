@@ -7,6 +7,7 @@ import { useRef } from "react";
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { useGSAP } from '@gsap/react';
+import InitialLoad from "./commonComponents/Loader/InitialLoad";
 import Loader from "./commonComponents/Loader/Loader";
 
 gsap.registerPlugin(ScrollTrigger);
@@ -32,8 +33,9 @@ export default function Home() {
           trigger: heroTextRef.current,
           start: "center center",
           pin: true,
+          anticipatePin: 1,
           scrub: 1,
-          end: `+=${scrollWidth}`,
+          end: `left left`,
           invalidateOnRefresh: true,
           markers: false,
           onToggle: (self) => setIsPinned(self.isActive),
@@ -47,11 +49,11 @@ export default function Home() {
         id="main-wrapper" 
         className="relative flex flex-col items-center w-full"
       >
-        <Loader />
-        {/* <Hero /> */}
+        <InitialLoad />
+        <Hero />
         
         {/* Horizontal Scroll Section - Now h-screen for full locking effect */}
-        {/* <div ref={heroTextRef} className="relative w-full py-[5%] overflow-hidden bg-background z-10 flex items-center">
+        <div ref={heroTextRef} className="relative w-full py-[5%] overflow-hidden bg-background z-10 flex items-center">
           <div
             ref={sectionRef}
             className="flex items-center w-max px-[5vw] whitespace-nowrap"
@@ -63,7 +65,7 @@ export default function Home() {
         </div>
 
       <ProjectList />
-      <CertificateCard /> */}
+      <CertificateCard />
     </main>
   );
 }
