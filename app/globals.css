@@ -2,10 +2,10 @@
 @import "tailwindcss";
 
 :root {
-  --background: #fffae5;
-  --foreground: #000310;
-  --heading: #011257;
-  --primary: #476afd;
+  --background: #ffffeb;
+  --foreground: #2a1209;
+  --heading: #2a1209;
+  --primary: #8c3b1f;
   --secondary: #ffffff;
 }
 
@@ -36,4 +36,13 @@ h6 {
   /* margin: 0; */
   /* padding: 0; */
   box-sizing: border-box;
+}
+
+.parent {
+  display: block;
+  overflow: hidden;
+}
+
+.child {
+  display: block;
 }
