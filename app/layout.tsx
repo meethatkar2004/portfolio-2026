@@ -44,7 +44,6 @@ export default function RootLayout({
               <CustomCursor />
               <SmoothScroll>
                 {children}
-              {/* <Stairs>{children}</Stairs> */}
               </SmoothScroll>
             </CursorProvider>
         </ScrollProvider>

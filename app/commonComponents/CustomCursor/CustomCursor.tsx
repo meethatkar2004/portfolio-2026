@@ -146,7 +146,7 @@ const CustomCursor: React.FC<CustomCursorProps> = ({
       {/* Outer Circle */}
       <div
         ref={outerRef}
-        className="fixed top-0 left-0 pointer-events-none z-100 rounded-full transition-[background-color,border-color] backdrop-blur-[2px]"
+        className="fixed top-0 left-0 pointer-events-none z-500 rounded-full transition-[background-color,border-color] backdrop-blur-[2px]"
         style={{
           width: outerSize,
           height: outerSize,
@@ -157,7 +157,7 @@ const CustomCursor: React.FC<CustomCursorProps> = ({
       {/* Inner Circle */}
       <div
         ref={innerRef}
-        className="fixed top-0 left-0 pointer-events-none z-100 rounded-full backdrop-invert"
+        className="fixed top-0 left-0 pointer-events-none z-500 rounded-full backdrop-invert"
         style={{
           width: innerSize,
           height: innerSize,
@@ -166,7 +166,7 @@ const CustomCursor: React.FC<CustomCursorProps> = ({
       {/* Label for Drag Text */}
       <div
         ref={labelRef}
-        className="fixed top-0 left-0 pointer-events-none z-[101] flex items-center justify-center opacity-0 scale-0"
+        className="fixed top-0 left-0 pointer-events-none z-500 flex items-center justify-center opacity-0 scale-0"
       >
         <span className="text-[10px] font-black tracking-[0.2em] text-white uppercase drop-shadow-md">
           DRAG

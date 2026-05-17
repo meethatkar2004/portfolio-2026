@@ -53,12 +53,7 @@ export default function Home() {
       className="relative flex flex-col items-center w-full"
     >
       <InitialLoad onComplete={() => setIsLoading(false)} />
-        
-      
       <div className={`relative ${isLoading ? "opacity-0 invisible h-screen overflow-hidden" : "opacity-100 w-full"}`}>
-      <div className="fixed w-full z-50 top-0">
-        <Navbar />
-      </div>
         {/* Horizontal Scroll Section */}
         <div ref={heroTextRef} className="relative w-full py-[5%] overflow-hidden bg-background z-10 flex items-center">
           <div

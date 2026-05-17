@@ -4,6 +4,7 @@ import { useGSAP } from '@gsap/react';
 import React, { useRef, useState } from 'react'
 import Loader from './Loader';
 import Hero from '@/app/components/Hero/Hero';
+import Navbar from '@/app/components/navbar/Navbar';
 
 const RevealText = ({ children, isSlidingAnim = false }: { children: React.ReactNode, isSlidingAnim?: boolean }) => (
   <span className="inline-block overflow-hidden">
@@ -20,37 +21,36 @@ const InitialLoad = ({ onComplete }: { onComplete: () => void }) => {
   const heroBg = useRef<HTMLDivElement>(null);
   const loader = useRef<HTMLDivElement>(null);
   const [isFixed, setisFixed] = useState(true);
+  const [animateHero, setanimateHero] = useState(false);
 
   useGSAP(() => {
     const tl = gsap.timeline({
       onComplete: () => {
         onComplete();
         setisFixed(false);
+        setanimateHero(true);
       }
     });
 
     // 1. Initial word-slide entry
     tl.from(".moving-word", {
       x: (index) => `${index * 10}%`,
-      opacity: 0,
+      opacity: 0.3,
       stagger: 0.1,
       duration: 1,
-      delay: 0.5,
+      delay: 0.3,
       ease: "expo.inOut"
     });
 
     // 2. Main reveal sequence
     tl.to(".child", {
       y: "-100%",
-      stagger: 0.1,
       duration: 1,
-      delay: 1.5,
       ease: "power3.inOut"
     }, "reveal")
     .to(loader.current, {
       y: "-100%",
-      duration: 1.5,
-      delay: 1.5,
+      duration: 1,
       ease: "power3.inOut"
     }, "reveal");
 
@@ -59,17 +59,17 @@ const InitialLoad = ({ onComplete }: { onComplete: () => void }) => {
       height: '0vh',
       duration: 1.2,
       ease: "expo.inOut",
-    }, "-=1.2")
+    }, "-=1")
     .to(GreenDiv.current, {
       height: "100vh",
       duration: 1.2,
       ease: "expo.inOut",
-    }, "-=1.5")
+    }, "-=0.9")
     .to(heroBg.current, {
       height: "100vh",
       duration: 1.2,
       ease: "expo.inOut",
-    }, "-=1.3");
+    }, "-=1");
 
   }, { scope: container });
 
@@ -90,7 +90,7 @@ const InitialLoad = ({ onComplete }: { onComplete: () => void }) => {
           </RevealText>
         </h1>
 
-        <div className='absolute bottom-[10%]'>
+        <div className='absolute bottom-[10%] overflow-clip'>
           <div ref={loader}><Loader /></div>
         </div>
       </div>
@@ -100,7 +100,10 @@ const InitialLoad = ({ onComplete }: { onComplete: () => void }) => {
 
       {/* Main Hero Background Layer */}
       <div ref={heroBg} className='absolute bottom-0 left-0 w-full h-0 bg-background z-30'>
-        <Hero />
+        <div className='absolute top-0 w-full'>
+            <Navbar animateHero={animateHero} />
+        </div>
+        <Hero animateHero={animateHero}/>
       </div>
     </div>
   )
