@@ -9,7 +9,7 @@ const Navbar = () => {
   const handleMouseLeave = () => setCursorType('default');
 
   return (
-    <div className='w-full px-[5vw] py-6 flex items-center justify-between relative z-50'>
+    <div className='w-full px-[3vw] py-6 flex items-center justify-between relative z-50'>
       <div className='h-full flex justify-start font-heading'>
         <span className='text-2xl font-extrabold text-primary uppercase tracking-tighter'>Meet Hatkar</span>
       </div>
