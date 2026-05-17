@@ -11,7 +11,7 @@ import { useGSAP } from '@gsap/react'
 
 gsap.registerPlugin(ScrollTrigger);
 
-const CertificateCard = () => {
+const CertificateCard = ({ isLoading = false }: { isLoading?: boolean }) => {
   const certificateData = [
     {
       title: "SEO",
@@ -39,84 +39,83 @@ const CertificateCard = () => {
   const containerRef = React.useRef<HTMLDivElement>(null);
 
   useGSAP(() => {
-    if (!containerRef.current) return;
+    if (isLoading || !containerRef.current) return;
 
-    gsap.to("body", {
-      backgroundColor: "#000000", // Deep dark navy instead of just black for better look
+    gsap.to(document.body, {
+      backgroundColor: "#000000", // Deep black background for certificates section
       scrollTrigger: {
         trigger: containerRef.current,
-        start: "top bottom",
-        end: "bottom 40%",
+        start: "top 80%", // starts when the top of the certificates section enters the screen from the bottom
+        end: "top 30%",   // completes when the section reaches the upper-middle part of the viewport
         toggleActions: "play reverse play reverse",
         scrub: true,
         // markers: true,
       },
     });
-  });
+  }, { dependencies: [isLoading], scope: containerRef });
 
   return (
-    <Header
-      title="Proof of Skill, Built for Results"
-      description="Industry-recognized certifications in SEO, Three.js, and GitHub that sharpen my ability to build high-performing, visually engaging, and professionally managed digital experiences."
-      className='w-full'
-      titleClass='text-white!'
-      descClass='text-gray-100!'
-    >
-      <div ref={containerRef} className='w-full h-[450px] flex flex-wrap items-stretch gap-8 justify-center'>
-        {certificateData.map((certificate, index) => (
-          <BorderGlow
-            edgeSensitivity={30}
-            glowColor="228 97 64"
-            backgroundColor="#FFFFFF"
-            borderRadius={28}
-            glowRadius={60}
-            glowIntensity={5}
-            coneSpread={25}
-            animated={false}
-            colors={['#476afd', '#011257', '#a0b3ff']}
-            key={index}
-            className='h-full hover:cursor-pointer'
-          >
-            <PixelCard
-              variant={"blue"}
-              className='w-[320px] h-full flex flex-col bg-[#dae9fd]' // Adjusted size for better layout
+      <Header
+        title="Proof of Skill, Built for Results"
+        description="Industry-recognized certifications in SEO, Three.js, and GitHub that sharpen my ability to build high-performing, visually engaging, and professionally managed digital experiences."
+        className='w-full'
+        titleClass='text-white!'
+        descClass='text-gray-100!'
+      >
+        <div ref={containerRef} className='w-full h-[450px] flex flex-wrap items-stretch gap-8 justify-center'>
+          {certificateData.map((certificate, index) => (
+            <BorderGlow
+              edgeSensitivity={30}
+              glowColor="228 97 64"
+              backgroundColor="#FFFFFF"
+              borderRadius={28}
+              glowRadius={60}
+              glowIntensity={5}
+              coneSpread={25}
+              animated={false}
+              colors={['#476afd', '#011257', '#a0b3ff']}
+              key={index}
+              className='h-full hover:cursor-pointer'
             >
-              <div className="relative z-10 h-full w-full p-4 pb-none flex flex-col justify-between">
+              <PixelCard
+                variant={"blue"}
+                className='w-[320px] h-full flex flex-col bg-[#dae9fd]' // Adjusted size for better layout
+              >
+                <div className="relative z-10 h-full w-full p-4 pb-none flex flex-col justify-between">
 
-                {/* 1. Image Area */}
-                <div className="w-full aspect-4/3 bg-gray-100 rounded-2xl border-3 border-gray-400 flex items-center justify-center mb-6 overflow-hidden backdrop-blur-sm">
-                  <Image src={certificate.image} alt={certificate.title} className="h-full w-full object-cover"
-                    width={200}
-                    height={200}
-                  ></Image>
-                  {/* When you have real images, use: <img src={certificate.image} className="w-full h-full object-cover" /> */}
-                </div>
-
-                <div className='mt-auto'>
-                  {/* 2. Title & Date Row */}
-                  <div className="flex justify-between items-baseline mb-3">
-                    <h2 className="text-xl font-bold tracking-tight text-gray-900">{certificate.title}</h2>
-                    <span className="text-xs font-mono text-gray-600">{certificate.issueDate}</span>
+                  {/* 1. Image Area */}
+                  <div className="w-full aspect-4/3 bg-gray-100 rounded-2xl border-3 border-gray-400 flex items-center justify-center mb-6 overflow-hidden backdrop-blur-sm">
+                    <Image src={certificate.image} alt={certificate.title} className="h-full w-full object-cover"
+                      width={200}
+                      height={200}
+                    ></Image>
                   </div>
 
-                  {/* 3. Description */}
-                  <p className="text-sm text-gray-700 leading-relaxed line-clamp-3 mb-4">
-                    {certificate.description}
-                  </p>
+                  <div className='mt-auto'>
+                    {/* 2. Title & Date Row */}
+                    <div className="flex justify-between items-baseline mb-3">
+                      <h2 className="text-xl font-bold tracking-tight text-gray-900">{certificate.title}</h2>
+                      <span className="text-xs font-mono text-gray-600">{certificate.issueDate}</span>
+                    </div>
 
-                  {/* 4. Issued By (Pushed to bottom) */}
-                  <div className="mt-auto border-t pt-1 border-gray-200">
-                    <p className="text-[10px] uppercase tracking-[0.2em] text-gray-500 font-semibold mb-1">Issued By</p>
-                    <p className="text-sm font-medium text-blue-600">{certificate.issueBy}</p>
+                    {/* 3. Description */}
+                    <p className="text-sm text-gray-700 leading-relaxed line-clamp-3 mb-4">
+                      {certificate.description}
+                    </p>
+
+                    {/* 4. Issued By (Pushed to bottom) */}
+                    <div className="mt-auto border-t pt-1 border-gray-200">
+                      <p className="text-[10px] uppercase tracking-[0.2em] text-gray-500 font-semibold mb-1">Issued By</p>
+                      <p className="text-sm font-medium text-blue-600">{certificate.issueBy}</p>
+                    </div>
                   </div>
-                </div>
 
-              </div>
-            </PixelCard>
-          </BorderGlow>
-        ))}
-      </div>
-    </Header>
+                </div>
+              </PixelCard>
+            </BorderGlow>
+          ))}
+        </div>
+      </Header>
   )
 }
 
