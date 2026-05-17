@@ -30,14 +30,14 @@ const Hero = () => {
       </div>
 
       {/* Hero Typography */}
-      <div className='absolute left-[5vw] top-[45%] -translate-y-1/2 z-30 pointer-events-none'>
+      <div className='absolute left-[3vw] top-[45%] -translate-y-1/2 z-30 pointer-events-none'>
         <h1 className='text-[10vmax] font-black leading-[0.8] tracking-tighter text-heading uppercase'>
           <span className="block">CREATIVE</span>
           <span className="block ml-[12vw]">
             DESIGNER
           </span>
         </h1>
-        <p className='text-sm md:text-xl text-primary ml-[8vw] md:ml-[45vw] mt-6 font-bold tracking-widest uppercase opacity-80'>
+        <p className='text-sm md:text-xl text-primary ml-[8vw] md:ml-[50vw] font-bold tracking-widest uppercase opacity-80'>
           BASED IN MUMBAI
         </p>
       </div>

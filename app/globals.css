@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Chewy&family=Commissioner:wght@100..900&family=Metal+Mania&family=Protest+Revolution&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Anton&family=Bebas+Neue&family=Black+Ops+One&family=Elms+Sans:ital,wght@0,100..900;1,100..900&family=Manrope:wght@200..800&display=swap');
 @import "tailwindcss";
 
 :root {
@@ -10,7 +10,8 @@
 }
 
 @theme {
-  --font-heading: "Metal Mania", sans-serif;
+  --font-heading: "Bebas Neue", sans-serif;
+  --font-small: "Elms Sans", sans-serif;
   /* Use in tex-scroll component*/
   --color-background: var(--background);
   --color-foreground: var(--foreground);
@@ -30,6 +31,10 @@ h4,
 h5,
 h6 {
   color: var(--heading);
+}
+
+p, link, a, span {
+  font-family: var(--font-small);
 }
 
 * {

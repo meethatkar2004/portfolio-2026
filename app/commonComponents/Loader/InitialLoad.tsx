@@ -36,7 +36,7 @@ const InitialLoad = ({ onComplete }: { onComplete: () => void }) => {
       stagger: 0.1,
       duration: 1,
       delay: 0.5,
-      ease: "power2.out"
+      ease: "expo.inOut"
     });
 
     // 2. Main reveal sequence
@@ -64,12 +64,12 @@ const InitialLoad = ({ onComplete }: { onComplete: () => void }) => {
       height: "100vh",
       duration: 1.2,
       ease: "expo.inOut",
-    }, "-=1.0")
+    }, "-=1.5")
     .to(heroBg.current, {
       height: "100vh",
       duration: 1.2,
       ease: "expo.inOut",
-    }, "-=0.8");
+    }, "-=1.3");
 
   }, { scope: container });
 
