@@ -21,7 +21,7 @@ const Hero = ({animateHero}: {animateHero: boolean}) => {
     gsap.to(".hero-text", {
       y: "0%",
       duration: 1,
-      stagger: 0.07,
+      stagger: 0.1,
       ease: "power4.out"
     });
 
@@ -83,7 +83,7 @@ const Hero = ({animateHero}: {animateHero: boolean}) => {
       </div>
 
       {/* Bottom Aesthetic Gradient Fade */}
-      <div className='absolute bottom-0 left-0 w-full h-40 bg-gradient-to-t from-background via-transparent to-transparent z-10 pointer-events-none' />
+      <div className='absolute bottom-0 left-0 w-full h-40 bg-linear-to-t from-background via-transparent to-transparent z-10 pointer-events-none' />
     </div>
   )
 }
