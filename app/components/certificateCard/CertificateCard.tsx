@@ -9,30 +9,36 @@ import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import { useGSAP } from '@gsap/react'
 
+import { useCursor } from '../../context/CursorContext'
+
 gsap.registerPlugin(ScrollTrigger);
 
 const CertificateCard = ({ isLoading = false }: { isLoading?: boolean }) => {
+  const { setCursorType } = useCursor();
   const certificateData = [
     {
       title: "SEO",
       description: "Optimized websites for higher rankings using advanced SEO, keyword strategy, and technical performance improvements.",
-      image: "/certificates/SEO.jpg",
+      image: "/certificates/SEO.png",
       issueDate: "7-25",
-      issueBy: "MOZ"
+      issueBy: "MOZ",
+      link: "https://www.linkedin.com/learning/certificates/2583a0e52ca6a3a496403f5205b27a9ce4393258c5532a1589f09639773b8048/?lipi=urn%3Ali%3Apage%3Ad_flagship3_profile_view_base_certifications_details%3B6F1mzBjIR1muWDlrpc7YhA%3D%3D"
     },
     {
       title: "Three.js",
       description: "Built immersive 3D web experiences using Three.js, creating visually stunning, interactive websites.",
-      image: "/certificates/ThreeJS.jpg",
+      image: "/certificates/ThreeJS.png",
       issueDate: "04-26",
-      issueBy: "Sheryains Coding School"
+      issueBy: "Sheryains Coding School",
+      link: "https://sheryians.com/certificate/2085873512282417"
     },
     {
       title: "Git & Github",
       description: "Streamlined development workflows with Git, GitHub, and automation tools for efficient project delivery.",
       image: "/certificates/Github.png",
       issueDate: "6-25",
-      issueBy: "Github"
+      issueBy: "Github",
+      link: "https://www.linkedin.com/learning/certificates/baa0c2c86b9e8cd9de83186e6afeade4b9aee2b7836779aeef54ef6f6504e6a1/?trk=share_certificate&lipi=urn%3Ali%3Apage%3Ad_flagship3_profile_view_base_certifications_details%3B6F1mzBjIR1muWDlrpc7YhA%3D%3D"
     }
   ]
 
@@ -55,68 +61,80 @@ const CertificateCard = ({ isLoading = false }: { isLoading?: boolean }) => {
   }, { dependencies: [isLoading], scope: containerRef });
 
   return (
-      <Header
-        title="Proof of Skill, Built for Results"
-        description="Industry-recognized certifications in SEO, Three.js, and GitHub that sharpen my ability to build high-performing, visually engaging, and professionally managed digital experiences."
-        className='w-full'
-        titleClass='text-white!'
-        descClass='text-gray-100!'
-      >
-        <div ref={containerRef} className='w-full h-[450px] flex flex-wrap items-stretch gap-8 justify-center'>
-          {certificateData.map((certificate, index) => (
+    <Header
+      title="Proof of Skill, Built for Results"
+      description="Industry-recognized certifications in SEO, Three.js, and GitHub that sharpen my ability to build high-performing, visually engaging, and professionally managed digital experiences."
+      className='w-full'
+      titleClass='text-white!'
+      descClass='text-gray-100!'
+    >
+      <div ref={containerRef} className='w-full flex flex-wrap items-stretch gap-8 justify-center mt-10 pb-16'>
+        {certificateData.map((certificate, index) => (
+          <div
+            key={index}
+            onMouseEnter={() => setCursorType('view')}
+            onMouseLeave={() => setCursorType('default')}
+            onClick={() => window.open(certificate.link, "_blank")}
+          >
             <BorderGlow
-              edgeSensitivity={30}
-              glowColor="228 97 64"
-              backgroundColor="#FFFFFF"
-              borderRadius={28}
-              glowRadius={60}
-              glowIntensity={5}
-              coneSpread={25}
-              animated={false}
-              colors={['#476afd', '#011257', '#a0b3ff']}
-              key={index}
-              className='h-full hover:cursor-pointer'
+            edgeSensitivity={30}
+            glowColor="228 97 64"
+            backgroundColor="#FFFFFF"
+            borderRadius={32}
+            glowRadius={60}
+            glowIntensity={5}
+            coneSpread={25}
+            animated={false}
+            colors={['#476afd', '#011257', '#a0b3ff']}
+            className='relative group cursor-pointer transition-all duration-500 hover:-translate-y-4 hover:shadow-[0_20px_40px_rgba(71,106,253,0.15)] rounded-[32px]'
+          >
+
+            <PixelCard
+              variant="blue"
+              className='w-[340px] h-[550px] flex flex-col bg-[#dae9fd] rounded-[32px] overflow-hidden'
             >
-              <PixelCard
-                variant={"blue"}
-                className='w-[320px] h-full flex flex-col bg-[#dae9fd]' // Adjusted size for better layout
-              >
-                <div className="relative z-10 h-full w-full p-4 pb-none flex flex-col justify-between">
+              {/* Card Content Wrapper */}
+              <div className="relative z-10 h-full w-full p-5 flex flex-col justify-between text-left">
+                {/* 1. Image Area (Aspect Square with black bg) */}
+                <div className="w-full aspect-square bg-[#0c0f16] rounded-[24px] overflow-hidden mb-5 relative flex items-center justify-center shadow-inner">
+                  <Image 
+                    src={certificate.image} 
+                    alt={certificate.title} 
+                    className="w-full h-full object-cover"
+                    width={300}
+                    height={300}
+                  />
+                </div>
 
-                  {/* 1. Image Area */}
-                  <div className="w-full aspect-4/3 bg-gray-100 rounded-2xl border-3 border-gray-400 flex items-center justify-center mb-6 overflow-hidden backdrop-blur-sm">
-                    <Image src={certificate.image} alt={certificate.title} className="h-full w-full object-cover"
-                      width={200}
-                      height={200}
-                    ></Image>
-                  </div>
-
-                  <div className='mt-auto'>
-                    {/* 2. Title & Date Row */}
-                    <div className="flex justify-between items-baseline mb-3">
-                      <h2 className="text-xl font-bold tracking-tight text-gray-900">{certificate.title}</h2>
-                      <span className="text-xs font-mono text-gray-600">{certificate.issueDate}</span>
+                {/* 2. Text Content */}
+                <div className='flex flex-col flex-grow justify-between text-left'>
+                  <div>
+                    {/* Title & Date Row */}
+                    <div className="flex justify-between items-baseline mb-2">
+                      <h2 className="text-2xl font-bold tracking-tight text-gray-900 font-heading">{certificate.title}</h2>
+                      <span className="text-sm font-mono text-gray-600 font-bold">{certificate.issueDate}</span>
                     </div>
 
-                    {/* 3. Description */}
-                    <p className="text-sm text-gray-700 leading-relaxed line-clamp-3 mb-4">
+                    {/* Description */}
+                    <p className="text-sm text-gray-700 leading-relaxed line-clamp-3 mb-4 font-sans font-medium">
                       {certificate.description}
                     </p>
-
-                    {/* 4. Issued By (Pushed to bottom) */}
-                    <div className="mt-auto border-t pt-1 border-gray-200">
-                      <p className="text-[10px] uppercase tracking-[0.2em] text-gray-500 font-semibold mb-1">Issued By</p>
-                      <p className="text-sm font-medium text-blue-600">{certificate.issueBy}</p>
-                    </div>
                   </div>
 
+                  {/* 3. Issued By (Pushed to bottom) */}
+                  <div className="border-t pt-3 border-gray-300/60 mt-auto">
+                    <p className="text-[10px] uppercase tracking-[0.2em] text-gray-500 font-semibold mb-1">Issued By</p>
+                    <p className="text-base font-bold text-[#476afd] font-heading">{certificate.issueBy}</p>
+                  </div>
                 </div>
-              </PixelCard>
-            </BorderGlow>
-          ))}
-        </div>
-      </Header>
+              </div>
+            </PixelCard>
+          </BorderGlow>
+          </div>
+        ))}
+      </div>
+    </Header>
   )
 }
 
-export default CertificateCard
+export default CertificateCard;

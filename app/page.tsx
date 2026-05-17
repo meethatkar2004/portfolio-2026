@@ -1,6 +1,7 @@
 'use client';
 import CertificateCard from "./components/certificateCard/CertificateCard";
 import ProjectList from "./components/projectList/ProjectList";
+import Playful from "./components/playful/Playful";
 import { useScroll } from "./context/ScrollContext";
 import { useRef, useState } from "react";
 import gsap from 'gsap';
@@ -68,6 +69,7 @@ export default function Home() {
 
         <ProjectList />
         <CertificateCard isLoading={isLoading} />
+        <Playful />
       </div>
     </main>
   );
