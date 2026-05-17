@@ -83,7 +83,7 @@ const CustomCursor: React.FC<CustomCursorProps> = ({
   useEffect(() => {
     if (!innerRef.current || !outerRef.current || !labelRef.current) return;
 
-    if (cursorType === 'drag') {
+    if (cursorType === 'drag' || cursorType === 'view') {
       gsap.to(outerRef.current, {
         width: 80,
         height: 80,
@@ -163,13 +163,13 @@ const CustomCursor: React.FC<CustomCursorProps> = ({
           height: innerSize,
         }}
       />
-      {/* Label for Drag Text */}
+      {/* Label for Drag/View Text */}
       <div
         ref={labelRef}
         className="fixed top-0 left-0 pointer-events-none z-500 flex items-center justify-center opacity-0 scale-0"
       >
         <span className="text-[10px] font-black tracking-[0.2em] text-white uppercase drop-shadow-md">
-          DRAG
+          {cursorType === 'view' ? 'VIEW' : 'DRAG'}
         </span>
       </div>
     </>
