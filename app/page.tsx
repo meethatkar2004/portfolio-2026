@@ -9,6 +9,7 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { useGSAP } from '@gsap/react';
 import InitialLoad from "./commonComponents/Loader/InitialLoad";
 import Navbar from "./components/navbar/Navbar";
+import Whyme from "./components/whyMe/Whyme";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -48,9 +49,9 @@ export default function Home() {
   }, [isLoading]);
 
   return (
-    <main 
+    <main
       ref={mainRef}
-      id="main-wrapper" 
+      id="main-wrapper"
       className="relative flex flex-col items-center w-full"
     >
       <InitialLoad onComplete={() => setIsLoading(false)} />
@@ -67,9 +68,10 @@ export default function Home() {
           </div>
         </div> */}
 
-        <ProjectList />
-        <CertificateCard isLoading={isLoading} />
-        <Playful />
+        <Whyme />
+        {/* <ProjectList /> */}
+        {/* <CertificateCard isLoading={isLoading} /> */}
+        {/* <Playful /> */}
       </div>
     </main>
   );
