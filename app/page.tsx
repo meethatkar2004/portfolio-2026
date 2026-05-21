@@ -56,6 +56,7 @@ export default function Home() {
     >
       <InitialLoad onComplete={() => setIsLoading(false)} />
       <div className={`relative ${isLoading ? "opacity-0 invisible h-screen overflow-hidden" : "opacity-100 w-full"}`}>
+
         {/* Horizontal Scroll Section */}
         {/* <div ref={heroTextRef} className="relative w-full py-[5%] overflow-hidden bg-background z-10 flex items-center">
           <div
@@ -67,11 +68,10 @@ export default function Home() {
             </h1>
           </div>
         </div> */}
-
         <Whyme />
-        {/* <ProjectList /> */}
-        {/* <CertificateCard isLoading={isLoading} /> */}
-        {/* <Playful /> */}
+        <ProjectList />
+        <CertificateCard isLoading={isLoading} />
+        <Playful isLoading={isLoading} />
       </div>
     </main>
   );
