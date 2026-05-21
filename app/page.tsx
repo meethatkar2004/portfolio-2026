@@ -8,7 +8,6 @@ import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { useGSAP } from '@gsap/react';
 import InitialLoad from "./commonComponents/Loader/InitialLoad";
-import Navbar from "./components/navbar/Navbar";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -55,6 +54,7 @@ export default function Home() {
     >
       <InitialLoad onComplete={() => setIsLoading(false)} />
       <div className={`relative ${isLoading ? "opacity-0 invisible h-screen overflow-hidden" : "opacity-100 w-full"}`}>
+
         {/* Horizontal Scroll Section */}
         {/* <div ref={heroTextRef} className="relative w-full py-[5%] overflow-hidden bg-background z-10 flex items-center">
           <div
@@ -69,7 +69,7 @@ export default function Home() {
 
         <ProjectList />
         <CertificateCard isLoading={isLoading} />
-        <Playful />
+        <Playful isLoading={isLoading} />
       </div>
     </main>
   );
