@@ -5,15 +5,15 @@ import { useEffect, useRef } from 'react';
 import gsap from 'gsap';
 
 const skillImages = [
-  { src: '/skills/tailwind_css.webp', alt: 'Tailwind CSS' },
-  { src: '/skills/grafana.webp', alt: 'Grafana' },
-  { src: '/skills/github.webp', alt: 'GitHub' },
-  { src: '/skills/redux.webp', alt: 'Redux' },
-  { src: '/skills/typescript.webp', alt: 'TypeScript' },
-  { src: '/skills/docker.webp', alt: 'Docker' },
-  { src: '/skills/python.webp', alt: 'Python' },
-  { src: '/skills/next_js.webp', alt: 'Next.js' },
-  { src: '/skills/three_js.webp', alt: 'Three.js' },
+  { src: '/skills/tailwind_css.webp', alt: 'Tailwind CSS', name: 'TAILWIND CSS' },
+  { src: '/skills/grafana.webp', alt: 'Grafana', name: 'GRAFANA' },
+  { src: '/skills/github.webp', alt: 'GitHub', name: 'GITHUB' },
+  { src: '/skills/redux.webp', alt: 'Redux', name: 'REDUX' },
+  { src: '/skills/typescript.webp', alt: 'TypeScript', name: 'TYPESCRIPT' },
+  { src: '/skills/docker.webp', alt: 'Docker', name: 'DOCKER' },
+  { src: '/skills/python.webp', alt: 'Python', name: 'PYTHON' },
+  { src: '/skills/next_js.webp', alt: 'Next.js', name: 'NEXT.JS' },
+  { src: '/skills/three_js.webp', alt: 'Three.js', name: 'THREE.JS' },
 ];
 
 const lerp = (a: number, b: number, n: number) => (1 - n) * a + n * b;
@@ -26,6 +26,8 @@ type ImageTrailProps = {
 
 export default function ImageTrail({ enabled = true, threshold = 100 }: ImageTrailProps) {
   const imageRefs = useRef<Array<HTMLDivElement | null>>([]);
+  const containerRef = useRef<HTMLDivElement>(null);
+  const isHovering = useRef(false);
   const rafRef = useRef<number | null>(null);
   const mousePos = useRef({ x: 0, y: 0 });
   const cacheMousePos = useRef({ x: 0, y: 0 });
@@ -41,27 +43,15 @@ export default function ImageTrail({ enabled = true, threshold = 100 }: ImageTra
 
     let isMounted = true;
     const trailImages = imageRefs.current;
+    const parent = containerRef.current?.parentElement;
+
+    if (!parent) return;
 
     const preloadImages = skillImages.map(({ src }) => {
       const img = new window.Image();
       img.src = src;
       return img.decode?.().catch(() => undefined);
     });
-
-    const handleMouseMove = (event: MouseEvent) => {
-      mousePos.current = { x: event.clientX, y: event.clientY };
-    };
-
-    const resetStackIfIdle = () => {
-      const isIdle = imageRefs.current.every((image) => {
-        if (!image) return true;
-        return !gsap.isTweening(image) && Number(gsap.getProperty(image, 'opacity')) === 0;
-      });
-
-      if (isIdle && zIndex.current !== 1) {
-        zIndex.current = 1;
-      }
-    };
 
     const showNextImage = () => {
       const image = imageRefs.current[imageIndex.current];
@@ -97,7 +87,7 @@ export default function ImageTrail({ enabled = true, threshold = 100 }: ImageTra
     };
 
     const render = () => {
-      if (!isMounted) return;
+      if (!isMounted || !isHovering.current) return;
 
       const moved = distance(
         mousePos.current.x,
@@ -116,27 +106,56 @@ export default function ImageTrail({ enabled = true, threshold = 100 }: ImageTra
         lastMousePos.current = mousePos.current;
       }
 
-      resetStackIfIdle();
       rafRef.current = requestAnimationFrame(render);
+    };
+
+    const handlePointerEnter = (e: PointerEvent) => {
+      isHovering.current = true;
+      const rect = parent.getBoundingClientRect();
+      const localX = e.clientX - rect.left;
+      const localY = e.clientY - rect.top;
+      
+      mousePos.current = { x: localX, y: localY };
+      cacheMousePos.current = { x: localX, y: localY };
+      lastMousePos.current = { x: localX, y: localY };
+
+      if (!rafRef.current) {
+        rafRef.current = requestAnimationFrame(render);
+      }
+    };
+
+    const handlePointerMove = (e: PointerEvent) => {
+      const rect = parent.getBoundingClientRect();
+      mousePos.current = { x: e.clientX - rect.left, y: e.clientY - rect.top };
+    };
+
+    const handlePointerLeave = () => {
+      isHovering.current = false;
+      if (rafRef.current) {
+        cancelAnimationFrame(rafRef.current);
+        rafRef.current = null;
+      }
     };
 
     Promise.all(preloadImages).finally(() => {
       if (!isMounted) return;
-
-      window.addEventListener('mousemove', handleMouseMove, { passive: true });
-      rafRef.current = requestAnimationFrame(render);
+      parent.addEventListener('pointerenter', handlePointerEnter as EventListener);
+      parent.addEventListener('pointermove', handlePointerMove as EventListener);
+      parent.addEventListener('pointerleave', handlePointerLeave as EventListener);
     });
 
     return () => {
       isMounted = false;
-      window.removeEventListener('mousemove', handleMouseMove);
+      parent.removeEventListener('pointerenter', handlePointerEnter as EventListener);
+      parent.removeEventListener('pointermove', handlePointerMove as EventListener);
+      parent.removeEventListener('pointerleave', handlePointerLeave as EventListener);
       if (rafRef.current) cancelAnimationFrame(rafRef.current);
       trailImages.forEach((image) => image && gsap.killTweensOf(image));
     };
   }, [enabled, threshold]);
 
   return (
-    <div className="pointer-events-none fixed inset-0 z-40 overflow-hidden" aria-hidden="true">
+    <div ref={containerRef} className="pointer-events-none absolute inset-0 z-40 overflow-hidden" aria-hidden="true">
       {skillImages.map((image, index) => (
         <div
           key={image.src}
@@ -148,11 +167,14 @@ export default function ImageTrail({ enabled = true, threshold = 100 }: ImageTra
           <Image
             src={image.src}
             alt={image.alt}
-            width={160}
-            height={160}
-            className="h-full w-full object-contain drop-shadow-[0_18px_28px_rgba(42,18,9,0.22)]"
+            width={360}
+            height={360}
+            className="h-full w-full scale-150 object-contain drop-shadow-[0_18px_28px_rgba(42,18,9,0.22)]"
             priority={index < 3}
           />
+          <p className="absolute -bottom-[50%] left-1/2 -translate-x-1/2 text-xs md:text-sm font-bold tracking-widest text-background drop-shadow-md whitespace-nowrap uppercase">
+            {image.name}
+          </p>
         </div>
       ))}
     </div>
