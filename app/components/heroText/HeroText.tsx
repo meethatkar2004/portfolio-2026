@@ -4,7 +4,7 @@ const HeroText = forwardRef<
   HTMLDivElement,
   { sectionRef: React.RefObject<HTMLDivElement | null> }
 >(({ sectionRef }, ref) => {
-  const text = "FORGET NORMAL. CREATE IMPACT";
+  const textArr = ["FORGET NORMAL. CREATE IMPACT", "TURN CLICKS INTO OBSESSION", "BREAK THE ORDINARY. BUILD THE UNFORGETTABLE."];
 
   return (
     <div ref={ref} className="relative w-full py-[5%] overflow-hidden bg-background z-10 flex items-center">
