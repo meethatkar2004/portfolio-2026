@@ -1,6 +1,7 @@
 'use client';
 import React, { useRef } from 'react'
 import { useCursor } from '../../context/CursorContext';
+import CircularText from '../../reactBitsComponents/circularText/CircularText'
 import gsap from 'gsap'
 import { useGSAP } from '@gsap/react'
 
@@ -43,7 +44,20 @@ const Navbar = ({ animateHero = false }: { animateHero?: boolean }) => {
           </span>
         ))}
       </div>
-      <div className='w-2 h-2 rounded-full bg-primary ml-2 shadow-[0_0_8px_rgba(71,106,253,0.6)]'></div>
+
+      {/* Interactive Circular Text Badge */}
+      <div 
+        className='relative pointer-events-auto select-none cursor-pointer flex items-center justify-center ml-2'
+        onMouseEnter={() => setCursorType('link')}
+        onMouseLeave={() => setCursorType('default')}
+      >
+        <CircularText
+          text="CODE•DESIGN•BUILD•"
+          onHover="speedUp"
+          spinDuration={15}
+          className="text-[9px] md:text-[11px] font-heading font-black uppercase tracking-widest text-primary w-[64px] h-[64px] md:w-[70px] md:h-[70px]"
+        />
+      </div>
     </div>
   )
 }
