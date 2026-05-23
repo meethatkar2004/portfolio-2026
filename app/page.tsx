@@ -2,7 +2,6 @@
 import CertificateCard from "./components/certificateCard/CertificateCard";
 import ProjectList from "./components/projectList/ProjectList";
 import Playful from "./components/playful/Playful";
-import { useScroll } from "./context/ScrollContext";
 import { useRef, useState } from "react";
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
@@ -14,10 +13,8 @@ import Whyme from "./components/whyMe/Whyme";
 gsap.registerPlugin(ScrollTrigger);
 
 export default function Home() {
-  const { setIsPinned } = useScroll();
   const [isLoading, setIsLoading] = useState(true);
   const mainRef = useRef<HTMLDivElement>(null);
-  // const heroTextRef = useRef<HTMLDivElement>(null);
   const sectionRef = useRef<HTMLDivElement>(null);
 
   const text = "FORGET NORMAL. CREATE IMPACT";
@@ -27,24 +24,6 @@ export default function Home() {
 
     // Ensure layout is settled before calculating ScrollTrigger
     const refreshTimer = setTimeout(() => ScrollTrigger.refresh(), 100);
-
-    const scrollWidth = sectionRef.current.scrollWidth - window.innerWidth;
-
-    // gsap.to(sectionRef.current, {
-    //   x: -scrollWidth,
-    //   ease: "none",
-    //   scrollTrigger: {
-    //     trigger: heroTextRef.current,
-    //     start: "bottom bottom",
-    //     pin: true,
-    //     anticipatePin: 1,
-    //     scrub: 1,
-    //     end: `left left`,
-    //     invalidateOnRefresh: true,
-    //     onToggle: (self) => setIsPinned(self.isActive),
-    //   }
-    // });
-
     return () => clearTimeout(refreshTimer);
   }, [isLoading]);
 
@@ -56,19 +35,7 @@ export default function Home() {
     >
       <InitialLoad onComplete={() => setIsLoading(false)} />
       <div className={`relative ${isLoading ? "opacity-0 invisible h-screen overflow-hidden" : "opacity-100 w-full"}`}>
-
-        {/* Horizontal Scroll Section */}
-        {/* <div ref={heroTextRef} className="relative w-full py-[5%] overflow-hidden bg-background z-10 flex items-center">
-          <div
-            ref={sectionRef}
-            className="flex items-center w-max px-[5vw] whitespace-nowrap"
-          >
-            <h1 className="text-[13vmax] font-black leading-none tracking-tighter text-heading select-none">
-              {text}
-            </h1>
-          </div>
-        </div> */}
-        <Whyme />
+        {/* <Whyme /> */}
         <ProjectList />
         <CertificateCard isLoading={isLoading} />
         <Playful isLoading={isLoading} />

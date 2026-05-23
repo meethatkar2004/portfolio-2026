@@ -61,7 +61,7 @@ const Hero = ({animateHero}: {animateHero: boolean}) => {
       <div className='absolute left-[3vw] top-[45%] -translate-y-1/2 z-30 pointer-events-none'>
         <h1 className='text-[10vmax] font-black leading-[0.8] tracking-tighter text-heading uppercase'>
           <span className="block overflow-hidden">
-            <span className="hero-text block">CREATIVE</span>
+            <span className="hero-text block">WEBSITE</span>
           </span>
           <span className="block overflow-hidden ml-[12vw]">
             <span className="hero-text block">
@@ -69,7 +69,7 @@ const Hero = ({animateHero}: {animateHero: boolean}) => {
             </span>
           </span>
         </h1>
-        <div className="overflow-hidden mt-6">
+        <div className="overflow-hidden mt-6=[2%]">
           <p className='hero-text text-sm md:text-xl text-primary ml-[8vw] md:ml-[50vw] font-bold tracking-widest uppercase opacity-80 block'>
             BASED IN MUMBAI
           </p>

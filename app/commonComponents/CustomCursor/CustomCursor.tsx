@@ -17,9 +17,9 @@ interface CustomCursorProps {
 const CustomCursor: React.FC<CustomCursorProps> = ({
   innerSize = 20,
   outerSize = 60,
-  outerBorderColor = 'rgba(71, 106, 253, 0.5)',
+  outerBorderColor = 'rgba(251, 191, 36, 0.5)',
   outerBorderWidth = 1,
-  outerGlowColor = 'rgba(71, 106, 253, 0.3)',
+  outerGlowColor = 'rgba(251, 191, 36, 0.3)',
   innerSpeed = 0.5, // Slower as requested
   outerSpeed = 0.15, // Faster
 }) => {
@@ -87,8 +87,8 @@ const CustomCursor: React.FC<CustomCursorProps> = ({
       gsap.to(outerRef.current, {
         width: 80,
         height: 80,
-        backgroundColor: 'rgba(71, 106, 253, 0.15)',
-        borderColor: 'rgba(71, 106, 253, 0.8)',
+        backgroundColor: 'rgba(251, 191, 36, 0.15)',
+        borderColor: 'rgba(251, 191, 36, 0.8)',
         duration: 0.4,
         ease: 'power3.out'
       });
@@ -98,8 +98,8 @@ const CustomCursor: React.FC<CustomCursorProps> = ({
       gsap.to(outerRef.current, {
         width: 40,
         height: 40,
-        backgroundColor: 'rgba(71, 106, 253, 0.4)',
-        borderColor: 'rgba(71, 106, 253, 1)',
+        backgroundColor: 'rgba(251, 191, 36, 0.4)',
+        borderColor: 'rgba(251, 191, 36, 1)',
         duration: 0.3,
         ease: 'power3.out'
       });
@@ -116,7 +116,7 @@ const CustomCursor: React.FC<CustomCursorProps> = ({
       gsap.to(outerRef.current, {
         width: outerSize * 1.2,
         height: outerSize * 1.2,
-        borderColor: 'rgba(71, 106, 253, 0.8)',
+        borderColor: 'rgba(251, 191, 36, 0.8)',
         duration: 0.4,
         ease: 'power3.out'
       });
@@ -168,7 +168,7 @@ const CustomCursor: React.FC<CustomCursorProps> = ({
         ref={labelRef}
         className="fixed top-0 left-0 pointer-events-none z-500 flex items-center justify-center opacity-0 scale-0"
       >
-        <span className="text-[10px] font-black tracking-[0.2em] text-white uppercase drop-shadow-md">
+        <span className={`text-[10px] font-black tracking-[0.2em] uppercase drop-shadow-md ${cursorType === 'view' ? 'text-gray-400' : 'text-white'}`}>
           {cursorType === 'view' ? 'VIEW' : 'DRAG'}
         </span>
       </div>
