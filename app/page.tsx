@@ -8,8 +8,7 @@ import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { useGSAP } from '@gsap/react';
 import InitialLoad from "./commonComponents/Loader/InitialLoad";
-import Navbar from "./components/navbar/Navbar";
-import Whyme from "./components/whyMe/Whyme";
+
 
 gsap.registerPlugin(ScrollTrigger);
 

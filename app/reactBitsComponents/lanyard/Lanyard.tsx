@@ -1,8 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-/* eslint-disable react/no-unknown-property */
 'use client';
 import { useEffect, useRef, useState, useMemo } from 'react';
-import { Canvas, extend, useFrame } from '@react-three/fiber';
+import { Canvas, extend, useFrame, ThreeEvent } from '@react-three/fiber';
 import { useGLTF, useTexture, Environment, Lightformer } from '@react-three/drei';
 import {
   BallCollider,
@@ -11,7 +10,6 @@ import {
   RigidBody,
   useRopeJoint,
   useSphericalJoint,
-  RigidBodyProps,
   RapierRigidBody
 } from '@react-three/rapier';
 import { MeshLineGeometry, MeshLineMaterial } from 'meshline';
@@ -99,10 +97,7 @@ interface BandProps {
   isMobile?: boolean;
 }
 
-interface RigidBodyRef {
-  current: RapierRigidBody;
-  lerped?: THREE.Vector3;
-}
+
 
 import { useCursor } from '../../context/CursorContext';
 
@@ -123,7 +118,7 @@ function Band({ maxSpeed = 50, minSpeed = 0, isMobile = false }: BandProps) {
   const segmentProps = {
     type: 'dynamic' as const,
     canSleep: true,
-    colliders: false,
+    colliders: false as const,
     angularDamping: 4,
     linearDamping: 4
   };
@@ -177,41 +172,7 @@ function Band({ maxSpeed = 50, minSpeed = 0, isMobile = false }: BandProps) {
     [0, 1.45, 0]
   ]);
 
-  useEffect(() => {
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    const handlePointerOver = () => {
-      hover(true);
-      setCursorType('drag');
-    };
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    const handlePointerOut = () => {
-      hover(false);
-      setCursorType('default');
-    };
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    const handlePointerUp = (e: PointerEvent) => {
-      const target = e.target as HTMLElement;
-      if (target && 'releasePointerCapture' in target) {
-        (target as any).releasePointerCapture((e as any).pointerId);
-      }
-      drag(false);
-      setCursorType('drag');
-    };
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    const handlePointerDown = (e: PointerEvent) => {
-      const target = e.target as HTMLElement;
-      if (target && 'setPointerCapture' in target) {
-        (target as any).setPointerCapture((e as any).pointerId);
-      }
-      const point = (e as any).point as THREE.Vector3;
-      drag(new THREE.Vector3().copy(point).sub(vec.copy(card.current.translation())));
-      setCursorType('dragging');
-    };
 
-    return () => {
-      // Cleanup
-    };
-  }, []);
 
   useFrame((state, delta) => {
     if (dragged && typeof dragged !== 'boolean') {
@@ -288,7 +249,7 @@ function Band({ maxSpeed = 50, minSpeed = 0, isMobile = false }: BandProps) {
               hover(false);
               setCursorType('default');
             }}
-            onPointerUp={(e: THREE.ThreeEvent<PointerEvent>) => {
+            onPointerUp={(e: ThreeEvent<PointerEvent>) => {
               const target = e.target as any;
               if (target?.releasePointerCapture) {
                 target.releasePointerCapture(e.pointerId);
@@ -296,7 +257,7 @@ function Band({ maxSpeed = 50, minSpeed = 0, isMobile = false }: BandProps) {
               drag(false);
               setCursorType('drag');
             }}
-            onPointerDown={(e: THREE.ThreeEvent<PointerEvent>) => {
+            onPointerDown={(e: ThreeEvent<PointerEvent>) => {
               const target = e.target as any;
               if (target?.setPointerCapture) {
                 target.setPointerCapture(e.pointerId);
@@ -347,7 +308,9 @@ function Band({ maxSpeed = 50, minSpeed = 0, isMobile = false }: BandProps) {
         </RigidBody>
       </group>
       <mesh ref={band}>
+        {/* @ts-expect-error - Custom R3F element */}
         <meshLineGeometry />
+        {/* @ts-expect-error - Custom R3F element */}
         <meshLineMaterial
           color="white"
           depthTest={false}

@@ -4,7 +4,7 @@ import React, { forwardRef, useRef } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { useGSAP } from '@gsap/react';
-import Image from 'next/image';
+
 
 // Register ScrollTrigger safely
 if (typeof window !== 'undefined') {
