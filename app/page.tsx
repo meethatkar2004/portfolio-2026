@@ -2,6 +2,7 @@
 import CertificateCard from "./components/certificateCard/CertificateCard";
 import ProjectList from "./components/projectList/ProjectList";
 import Playful from "./components/playful/Playful";
+import HeroText from "./components/heroText/HeroText";
 import { useRef, useState } from "react";
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
@@ -16,8 +17,6 @@ export default function Home() {
   const [isLoading, setIsLoading] = useState(true);
   const mainRef = useRef<HTMLDivElement>(null);
   const sectionRef = useRef<HTMLDivElement>(null);
-
-  const text = "FORGET NORMAL. CREATE IMPACT";
 
   useGSAP(() => {
     if (isLoading || !sectionRef.current || !mainRef.current) return;
@@ -39,6 +38,26 @@ export default function Home() {
         <ProjectList />
         <CertificateCard isLoading={isLoading} />
         <Playful isLoading={isLoading} />
+        
+        {/* Interactive Double Marquee Section */}
+        <div className="relative w-full py-[12vh] md:py-[15vh] overflow-hidden z-10 flex flex-col gap-6 md:gap-12 justify-center select-none">
+          <HeroText 
+            speed={15} 
+            direction="left" 
+            textArray={[
+              "FORGET NORMAL CREATE IMPACT",
+              "BREAK THE ORDINARY BUILD THE UNFORGETTABLE"
+            ]} 
+          />
+          <HeroText 
+            speed={15} 
+            direction="right" 
+            textArray={[
+              "ORDINARY IS DEAD EXPERIENCE IS KING",
+              "TURN CLICKS INTO OBSESSION",
+            ]} 
+          />
+        </div>
       </div>
     </main>
   );

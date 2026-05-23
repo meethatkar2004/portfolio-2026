@@ -4,7 +4,8 @@ import ImageTrail from '../imageTrail/ImageTrail';
 
 const Playful = ({isLoading}:{isLoading: boolean}) => {
   return (
-    <div className='w-full h-screen cursor-grab overflow-hidden relative'>
+    <div className='w-full h-screen cursor-grab overflow-hidden relative z-0'>
+      <div className='absolute w-full h-full inset-0 bg-linear-to-b from-transparent via-transparent to-[#343434] z-200'></div>
       <ImageTrail enabled={!isLoading} />
       <div className='h-full w-full flex items-center justify-center relative'>
         <div className='absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 flex items-center justify-center gap-[2vmax] z-200'>
