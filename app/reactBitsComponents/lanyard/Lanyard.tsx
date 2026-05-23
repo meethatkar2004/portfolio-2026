@@ -2,7 +2,7 @@
 /* eslint-disable react/no-unknown-property */
 'use client';
 import { useEffect, useRef, useState, useMemo } from 'react';
-import { Canvas, extend, useFrame } from '@react-three/fiber';
+import { Canvas, extend, useFrame, ThreeEvent } from '@react-three/fiber';
 import { useGLTF, useTexture, Environment, Lightformer } from '@react-three/drei';
 import {
   BallCollider,
@@ -11,7 +11,6 @@ import {
   RigidBody,
   useRopeJoint,
   useSphericalJoint,
-  RigidBodyProps,
   RapierRigidBody
 } from '@react-three/rapier';
 import { MeshLineGeometry, MeshLineMaterial } from 'meshline';
@@ -123,7 +122,7 @@ function Band({ maxSpeed = 50, minSpeed = 0, isMobile = false }: BandProps) {
   const segmentProps = {
     type: 'dynamic' as const,
     canSleep: true,
-    colliders: false,
+    colliders: false as const,
     angularDamping: 4,
     linearDamping: 4
   };
@@ -288,7 +287,7 @@ function Band({ maxSpeed = 50, minSpeed = 0, isMobile = false }: BandProps) {
               hover(false);
               setCursorType('default');
             }}
-            onPointerUp={(e: THREE.ThreeEvent<PointerEvent>) => {
+            onPointerUp={(e: ThreeEvent<PointerEvent>) => {
               const target = e.target as any;
               if (target?.releasePointerCapture) {
                 target.releasePointerCapture(e.pointerId);
@@ -296,7 +295,7 @@ function Band({ maxSpeed = 50, minSpeed = 0, isMobile = false }: BandProps) {
               drag(false);
               setCursorType('drag');
             }}
-            onPointerDown={(e: THREE.ThreeEvent<PointerEvent>) => {
+            onPointerDown={(e: ThreeEvent<PointerEvent>) => {
               const target = e.target as any;
               if (target?.setPointerCapture) {
                 target.setPointerCapture(e.pointerId);
@@ -347,7 +346,9 @@ function Band({ maxSpeed = 50, minSpeed = 0, isMobile = false }: BandProps) {
         </RigidBody>
       </group>
       <mesh ref={band}>
+        {/* @ts-ignore */}
         <meshLineGeometry />
+        {/* @ts-ignore */}
         <meshLineMaterial
           color="white"
           depthTest={false}
