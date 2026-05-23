@@ -9,7 +9,20 @@ const Eye = ({ key_val }: EyeProps) => {
   const [rotate, setRotate] = useState(0);
   const [eyeOffset, setEyeOffset] = useState({ x: 0, y: 0 });
 
+  const [isInView, setIsInView] = useState(false);
+
   useEffect(() => {
+    if (!eyeRef.current) return;
+    const observer = new IntersectionObserver(([entry]) => {
+      setIsInView(entry.isIntersecting);
+    });
+    observer.observe(eyeRef.current);
+    return () => observer.disconnect();
+  }, []);
+
+  useEffect(() => {
+    if (!isInView) return; // Optimization: only run calculations when eye is in viewport
+
     const handleMouseMove = (e: MouseEvent) => {
       if (!eyeRef.current) return;
 
@@ -42,7 +55,7 @@ const Eye = ({ key_val }: EyeProps) => {
     return () => {
       window.removeEventListener("mousemove", handleMouseMove);
     };
-  }, []);
+  }, [isInView]);
 
   return (
     <div 
