@@ -1,7 +1,7 @@
 // c:\Users\meeth\OneDrive\Desktop\portfolio_2026\app\components\certificateCard\CertificateCard.tsx
 "use client";
 import React from 'react'
-import PixelCard from '../../reactBitsComponents/pixelCard/PixelCard'
+
 import BorderGlow from '../../reactBitsComponents/borderGlow/BorderGlow'
 import Image from 'next/image'
 import Header from '../../commonComponents/Header/Header'

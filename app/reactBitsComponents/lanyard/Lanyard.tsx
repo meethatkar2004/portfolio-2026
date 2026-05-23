@@ -1,5 +1,4 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-/* eslint-disable react/no-unknown-property */
 'use client';
 import { useEffect, useRef, useState, useMemo } from 'react';
 import { Canvas, extend, useFrame, ThreeEvent } from '@react-three/fiber';
@@ -98,10 +97,7 @@ interface BandProps {
   isMobile?: boolean;
 }
 
-interface RigidBodyRef {
-  current: RapierRigidBody;
-  lerped?: THREE.Vector3;
-}
+
 
 import { useCursor } from '../../context/CursorContext';
 
@@ -176,41 +172,7 @@ function Band({ maxSpeed = 50, minSpeed = 0, isMobile = false }: BandProps) {
     [0, 1.45, 0]
   ]);
 
-  useEffect(() => {
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    const handlePointerOver = () => {
-      hover(true);
-      setCursorType('drag');
-    };
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    const handlePointerOut = () => {
-      hover(false);
-      setCursorType('default');
-    };
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    const handlePointerUp = (e: PointerEvent) => {
-      const target = e.target as HTMLElement;
-      if (target && 'releasePointerCapture' in target) {
-        (target as any).releasePointerCapture((e as any).pointerId);
-      }
-      drag(false);
-      setCursorType('drag');
-    };
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    const handlePointerDown = (e: PointerEvent) => {
-      const target = e.target as HTMLElement;
-      if (target && 'setPointerCapture' in target) {
-        (target as any).setPointerCapture((e as any).pointerId);
-      }
-      const point = (e as any).point as THREE.Vector3;
-      drag(new THREE.Vector3().copy(point).sub(vec.copy(card.current.translation())));
-      setCursorType('dragging');
-    };
 
-    return () => {
-      // Cleanup
-    };
-  }, []);
 
   useFrame((state, delta) => {
     if (dragged && typeof dragged !== 'boolean') {
@@ -346,9 +308,9 @@ function Band({ maxSpeed = 50, minSpeed = 0, isMobile = false }: BandProps) {
         </RigidBody>
       </group>
       <mesh ref={band}>
-        {/* @ts-ignore */}
+        {/* @ts-expect-error */}
         <meshLineGeometry />
-        {/* @ts-ignore */}
+        {/* @ts-expect-error */}
         <meshLineMaterial
           color="white"
           depthTest={false}

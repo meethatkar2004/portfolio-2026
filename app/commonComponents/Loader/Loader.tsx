@@ -7,15 +7,18 @@ const Loader = ({className}: {className?: string}) => {
   const ring2Ref = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
+    const ring1 = ring1Ref.current;
+    const ring2 = ring2Ref.current;
+
     // Fast rotation for rings
-    gsap.to(ring1Ref.current, {
+    gsap.to(ring1, {
       rotate: 360,
       duration: 1,
       repeat: -1,
       ease: "none"
     });
 
-    gsap.to(ring2Ref.current, {
+    gsap.to(ring2, {
       rotate: -360,
       duration: 1.5,
       repeat: -1,
@@ -23,7 +26,7 @@ const Loader = ({className}: {className?: string}) => {
     });
 
     return () => {
-      gsap.killTweensOf([ring1Ref.current, ring2Ref.current]);
+      gsap.killTweensOf([ring1, ring2]);
     };
   }, []);
 
