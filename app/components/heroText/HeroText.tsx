@@ -4,6 +4,7 @@ import React, { forwardRef, useRef } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { useGSAP } from '@gsap/react';
+import Image from 'next/image';
 
 // Register ScrollTrigger safely
 if (typeof window !== 'undefined') {
@@ -24,67 +25,92 @@ const HeroText = forwardRef<HTMLDivElement, HeroTextProps>(
     const trackDupRef = useRef<HTMLDivElement>(null);
 
     useGSAP(() => {
-      if (!containerRef.current || !trackRef.current || !trackDupRef.current) return;
+  if (!containerRef.current || !trackRef.current || !trackDupRef.current)
+    return;
 
-      // Calculate dynamic duration based on physical pixel width to guarantee identical visual velocity
-      const trackWidth = trackRef.current.offsetWidth;
-      const viewportWidth = window.innerWidth;
-      // If speed represents duration per viewport width, dynamic duration = (trackWidth / viewportWidth) * speed
-      const calculatedDuration = (trackWidth / viewportWidth) * speed;
+  const trackWidth = trackRef.current.offsetWidth;
+  const viewportWidth = window.innerWidth;
 
-      // Setup marquee animation based on direction prop
-      let tween: gsap.core.Tween;
-      const targets = [trackRef.current, trackDupRef.current];
+  const calculatedDuration = (trackWidth / viewportWidth) * speed;
 
-      if (direction === 'left') {
-        tween = gsap.to(targets, {
-          xPercent: -100,
-          ease: "none",
-          repeat: -1,
-          duration: calculatedDuration
-        });
-      } else {
-        tween = gsap.fromTo(targets, 
-          { xPercent: -100 },
-          {
-            xPercent: 0,
-            ease: "none",
-            repeat: -1,
-            duration: calculatedDuration
-          }
-        );
-      }
+  const targets = [trackRef.current, trackDupRef.current];
 
-      // ScrollTrigger to track scroll direction and reverse dynamically on scroll movement
-      let currentScrollDir = 1;
+  // Base direction
+  const baseDirection = direction === "left" ? -100 : 100;
 
-      const scrollTriggerInstance = ScrollTrigger.create({
-        trigger: containerRef.current,
-        start: "top bottom",
-        end: "bottom top",
-        onUpdate: (self) => {
-          const scrollDir = self.direction; // 1 = scrolling down, -1 = scrolling up
+  // Initial positions
+  gsap.set(trackDupRef.current, {
+    xPercent: baseDirection,
+  });
 
-          // Only trigger a new timeScale animation if the user actually reversed their scroll direction!
-          if (scrollDir !== currentScrollDir) {
-            currentScrollDir = scrollDir;
+  // Infinite marquee
+  const tween = gsap.to(targets, {
+    xPercent: `+=${baseDirection}`,
+    duration: calculatedDuration,
+    force3D: true,
+    ease: "none",
+    repeat: -1,
+    modifiers: {
+      xPercent: gsap.utils.wrap(-100, 0),
+    },
+  });
 
-            // Smoothly reverse direction, using overwrite to kill any active timeScale tweens immediately
-            gsap.to(tween, {
-              timeScale: scrollDir === 1 ? 1 : -1,
-              duration: 1.2, // increased duration for a buttery smooth physical deceleration/acceleration
-              ease: "power3.inOut",
-              overwrite: "auto"
-            });
-          }
+  let lastDirection = 1;
+  let isHovered = false;
+
+  ScrollTrigger.create({
+    trigger: containerRef.current,
+    start: "top bottom",
+    end: "bottom top",
+
+    onUpdate: (self) => {
+      if (self.direction !== lastDirection) {
+        lastDirection = self.direction;
+        
+        if (!isHovered) {
+          gsap.to(tween, {
+            timeScale: self.direction === 1 ? 1 : -1,
+            duration: 0.5,
+            force3D: true,
+            ease: "power2.out",
+            overwrite: true,
+          });
         }
-      });
+      }
+    },
+  });
 
-      return () => {
-        tween.kill();
-        scrollTriggerInstance.kill();
-      };
-    }, { dependencies: [speed, direction, textArr], scope: containerRef });
+  // Smooth Hover pause
+  const handleEnter = () => {
+    isHovered = true;
+    gsap.to(tween, {
+      timeScale: 0,
+      duration: 0.4,
+      ease: "power2.out",
+      overwrite: true,
+    });
+  };
+  
+  const handleLeave = () => {
+    isHovered = false;
+    gsap.to(tween, {
+      timeScale: lastDirection === 1 ? 1 : -1,
+      duration: 0.4,
+      ease: "power2.out",
+      overwrite: true,
+    });
+  };
+
+  containerRef.current.addEventListener("mouseenter", handleEnter);
+  containerRef.current.addEventListener("mouseleave", handleLeave);
+
+  return () => {
+    tween.kill();
+    containerRef.current?.removeEventListener("mouseenter", handleEnter);
+    containerRef.current?.removeEventListener("mouseleave", handleLeave);
+    ScrollTrigger.getAll().forEach((st) => st.kill());
+  };
+}, { dependencies: [speed, direction], scope: containerRef });
 
     // Repeat items to ensure it exceeds viewport width
     const repeatedItems = [...textArr, ...textArr, ...textArr];
@@ -95,7 +121,7 @@ const HeroText = forwardRef<HTMLDivElement, HeroTextProps>(
         className="w-full overflow-hidden select-none"
       >
         <div ref={containerRef} className="w-full overflow-hidden flex whitespace-nowrap">
-          <div ref={trackRef} className="flex items-center whitespace-nowrap shrink-0">
+          <div ref={trackRef} className="flex items-center whitespace-nowrap shrink-0 will-change-transform">
             {repeatedItems.map((text, idx) => (
               <div key={`track-${idx}`} className="flex items-center text-[12vmax] font-heading font-black leading-none tracking-tighter text-background uppercase">
                 <span>{text}</span>
@@ -103,7 +129,7 @@ const HeroText = forwardRef<HTMLDivElement, HeroTextProps>(
               </div>
             ))}
           </div>
-          <div ref={trackDupRef} className="flex items-center whitespace-nowrap shrink-0" aria-hidden="true">
+          <div ref={trackDupRef} className="flex items-center whitespace-nowrap shrink-0 will-change-transform" aria-hidden="true">
             {repeatedItems.map((text, idx) => (
               <div key={`track-dup-${idx}`} className="flex items-center text-[12vmax] font-heading font-black leading-none tracking-tighter text-background uppercase">
                 <span>{text}</span>

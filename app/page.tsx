@@ -42,7 +42,7 @@ export default function Home() {
         {/* Interactive Double Marquee Section */}
         <div className="relative w-full py-[12vh] md:py-[15vh] overflow-hidden z-10 flex flex-col gap-6 md:gap-12 justify-center select-none">
           <HeroText 
-            speed={15} 
+            speed={10} 
             direction="left" 
             textArray={[
               "FORGET NORMAL CREATE IMPACT",
@@ -50,11 +50,11 @@ export default function Home() {
             ]} 
           />
           <HeroText 
-            speed={15} 
+            speed={10} 
             direction="right" 
             textArray={[
-              "ORDINARY IS DEAD EXPERIENCE IS KING",
-              "TURN CLICKS INTO OBSESSION",
+              "KING IS EXPERIENCE DEAD IS ORIDNARY",
+              "OBSESSION TURN CLICK INTO OBSESSION",
             ]} 
           />
         </div>
