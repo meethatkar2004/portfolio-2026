@@ -10,45 +10,45 @@ gsap.registerPlugin(ScrollTrigger);
 export default function Footer({ isLoading }: { isLoading: boolean }) {
   const footerRef = useRef<HTMLElement>(null);
 
-  useGSAP(() => {
-    if (!footerRef.current || isLoading) return;
+  // useGSAP(() => {
+  //   if (!footerRef.current || isLoading) return;
 
-    const tl = gsap.timeline({
-      scrollTrigger: {
-        trigger: footerRef.current,
-        start: 'top 80%',
-        end: 'top 20%',
-        scrub: true,
-        markers: true,
-      }
-    });
+  //   const tl = gsap.timeline({
+  //     scrollTrigger: {
+  //       trigger: footerRef.current,
+  //       start: 'top 60%',
+  //       end: 'top 20%',
+  //       scrub: true,
+  //       markers: true,
+  //     }
+  //   });
 
-    // Hardcoded hex colors from globals.css:
-    // --background: #ffffeb;
-    // --foreground: #2a1209;
+  //   // Hardcoded hex colors from globals.css:
+  //   // --background: #ffffeb;
+  //   // --foreground: #2a1209;
 
-    tl.to(footerRef.current, {
-      backgroundColor: '#ffffeb',
-      color: '#2a1209',
-    }, 0);
+  //   tl.to(footerRef.current, {
+  //     backgroundColor: '#ffffeb',
+  //     color: '#2a1209',
+  //   }, 0);
 
-    tl.to('.footer-title', {
-      color: '#2a1209',
-    }, 0);
+  //   tl.to('.footer-title', {
+  //     color: '#2a1209',
+  //   }, 0);
 
-    tl.to('.footer-link', {
-      color: '#2a1209',
-    }, 0);
+  //   tl.to('.footer-link', {
+  //     color: '#2a1209',
+  //   }, 0);
 
-    tl.to('.footer-big-text', {
-      color: '#2a1209',
-    }, 0);
+  //   tl.to('.footer-big-text', {
+  //     color: '#2a1209',
+  //   }, 0);
 
-    tl.to('.footer-small-text', {
-      color: '#2a1209',
-    }, 0);
+  //   tl.to('.footer-small-text', {
+  //     color: '#2a1209',
+  //   }, 0);
 
-  }, { scope: footerRef, dependencies: [isLoading] });
+  // }, { scope: footerRef, dependencies: [isLoading] });
 
   const connectLinks = [
     { label: 'Twitter', href: '#' },
@@ -66,7 +66,7 @@ export default function Footer({ isLoading }: { isLoading: boolean }) {
   return (
     <footer
       ref={footerRef}
-      className="w-full pt-20 pb-8 px-8 md:px-16 flex flex-col relative z-20"
+      className="w-full pt-20 pb-8 px-8 md:px-16 flex flex-col relative z-20 bg-background"
     >
       {/* Top Section */}
       <div className="flex justify-between items-start w-full mx-auto z-10 max-w-[90rem]">
