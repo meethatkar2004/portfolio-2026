@@ -40,7 +40,7 @@ export default function Home() {
         <Playful isLoading={isLoading} />
 
         {/* Interactive Double Marquee Section */}
-        <div className="relative w-full py-[12vh] md:py-[15vh] overflow-hidden z-10 flex flex-col gap-6 md:gap-12 justify-center select-none">
+        <div className="relative w-full py-[12vh] md:py-[15vh] overflow-hidden z-10 flex flex-col gap-6 md:gap-12 justify-center select-none md:pb-[20%] bg-linear-to-b from-transparent via-transparent to-background">
           <HeroText
             speed={10}
             direction="left"
@@ -58,8 +58,8 @@ export default function Home() {
             ]}
           />
         </div>
-        
-        <Footer />
+
+        <Footer isLoading={isLoading} />
       </div>
     </main>
   );
