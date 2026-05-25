@@ -9,6 +9,7 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { useGSAP } from '@gsap/react';
 import InitialLoad from "./commonComponents/Loader/InitialLoad";
 
+import Footer from "./components/footer/Footer";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -37,26 +38,28 @@ export default function Home() {
         <ProjectList />
         <CertificateCard isLoading={isLoading} />
         <Playful isLoading={isLoading} />
-        
+
         {/* Interactive Double Marquee Section */}
         <div className="relative w-full py-[12vh] md:py-[15vh] overflow-hidden z-10 flex flex-col gap-6 md:gap-12 justify-center select-none">
-          <HeroText 
-            speed={10} 
-            direction="left" 
+          <HeroText
+            speed={10}
+            direction="left"
             textArray={[
               "FORGET NORMAL CREATE IMPACT",
               "BREAK THE ORDINARY BUILD THE UNFORGETTABLE"
-            ]} 
+            ]}
           />
-          <HeroText 
-            speed={10} 
-            direction="right" 
+          <HeroText
+            speed={10}
+            direction="right"
             textArray={[
               "KING IS EXPERIENCE DEAD IS ORIDNARY",
               "OBSESSION TURN CLICK INTO OBSESSION",
-            ]} 
+            ]}
           />
         </div>
+        
+        <Footer />
       </div>
     </main>
   );
