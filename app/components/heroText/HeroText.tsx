@@ -2,14 +2,8 @@
 
 import React, { forwardRef, useRef } from 'react';
 import gsap from 'gsap';
-import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { useGSAP } from '@gsap/react';
 
-
-// Register ScrollTrigger safely
-if (typeof window !== 'undefined') {
-  gsap.registerPlugin(ScrollTrigger);
-}
 
 interface HeroTextProps {
   speed?: number;                // Duration of one complete loop in seconds (default: 35)
@@ -25,92 +19,68 @@ const HeroText = forwardRef<HTMLDivElement, HeroTextProps>(
     const trackDupRef = useRef<HTMLDivElement>(null);
 
     useGSAP(() => {
-  if (!containerRef.current || !trackRef.current || !trackDupRef.current)
-    return;
+      if (!containerRef.current || !trackRef.current || !trackDupRef.current)
+        return;
 
-  const trackWidth = trackRef.current.offsetWidth;
-  const viewportWidth = window.innerWidth;
+      const trackWidth = trackRef.current.offsetWidth;
+      const viewportWidth = window.innerWidth;
 
-  const calculatedDuration = (trackWidth / viewportWidth) * speed;
+      const calculatedDuration = (trackWidth / viewportWidth) * speed;
 
-  const targets = [trackRef.current, trackDupRef.current];
+      const targets = [trackRef.current, trackDupRef.current];
 
-  // Base direction
-  const baseDirection = direction === "left" ? -100 : 100;
+      // Base direction
+      const baseDirection = direction === "left" ? -100 : 100;
 
-  // Initial positions
-  gsap.set(trackDupRef.current, {
-    xPercent: baseDirection,
-  });
+      // Initial positions
+      gsap.set(trackDupRef.current, {
+        xPercent: baseDirection,
+      });
 
-  // Infinite marquee
-  const tween = gsap.to(targets, {
-    xPercent: `+=${baseDirection}`,
-    duration: calculatedDuration,
-    force3D: true,
-    ease: "none",
-    repeat: -1,
-    modifiers: {
-      xPercent: gsap.utils.wrap(-100, 0),
-    },
-  });
+      // Infinite marquee
+      const tween = gsap.to(targets, {
+        xPercent: `+=${baseDirection}`,
+        duration: calculatedDuration,
+        force3D: true,
+        ease: "none",
+        repeat: -1,
+        modifiers: {
+          xPercent: gsap.utils.wrap(-100, 0),
+        },
+      });
 
-  let lastDirection = 1;
-  let isHovered = false;
+      let isHovered = false;
 
-  ScrollTrigger.create({
-    trigger: containerRef.current,
-    start: "top bottom",
-    end: "bottom top",
+      // Smooth Hover pause
+      const handleEnter = () => {
+        isHovered = true;
+        gsap.to(tween, {
+          timeScale: 0,
+          duration: 0.4,
+          ease: "power2.out",
+          overwrite: true,
+        });
+      };
+      
+      const handleLeave = () => {
+        isHovered = false;
+        gsap.to(tween, {
+          timeScale: 1,
+          duration: 0.4,
+          ease: "power2.out",
+          overwrite: true,
+        });
+      };
 
-    onUpdate: (self) => {
-      if (self.direction !== lastDirection) {
-        lastDirection = self.direction;
-        
-        if (!isHovered) {
-          gsap.to(tween, {
-            timeScale: self.direction === 1 ? 1 : -1,
-            duration: 0.5,
-            force3D: true,
-            ease: "power2.out",
-            overwrite: true,
-          });
-        }
-      }
-    },
-  });
+      containerRef.current.addEventListener("mouseenter", handleEnter);
+      containerRef.current.addEventListener("mouseleave", handleLeave);
 
-  // Smooth Hover pause
-  const handleEnter = () => {
-    isHovered = true;
-    gsap.to(tween, {
-      timeScale: 0,
-      duration: 0.4,
-      ease: "power2.out",
-      overwrite: true,
-    });
-  };
-  
-  const handleLeave = () => {
-    isHovered = false;
-    gsap.to(tween, {
-      timeScale: lastDirection === 1 ? 1 : -1,
-      duration: 0.4,
-      ease: "power2.out",
-      overwrite: true,
-    });
-  };
-
-  containerRef.current.addEventListener("mouseenter", handleEnter);
-  containerRef.current.addEventListener("mouseleave", handleLeave);
-
-  return () => {
-    tween.kill();
-    containerRef.current?.removeEventListener("mouseenter", handleEnter);
-    containerRef.current?.removeEventListener("mouseleave", handleLeave);
-    ScrollTrigger.getAll().forEach((st) => st.kill());
-  };
-}, { dependencies: [speed, direction], scope: containerRef });
+      return () => {
+        tween.kill();
+        containerRef.current?.removeEventListener("mouseenter", handleEnter);
+        containerRef.current?.removeEventListener("mouseleave", handleLeave);
+      };
+    }, { dependencies: [speed, direction], scope: containerRef });
 
     // Repeat items to ensure it exceeds viewport width
     const repeatedItems = [...textArr, ...textArr, ...textArr];

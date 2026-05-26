@@ -4,6 +4,8 @@ import gsap from 'gsap';
 import { useGSAP } from '@gsap/react';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import FooterLinkGroup from './FooterLinkGroup';
+import Screensaver from './Screensaver';
+import TextReveal from './TextReveal';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -72,28 +74,22 @@ export default function Footer({ isLoading }: { isLoading: boolean }) {
       <div className="flex justify-between items-start w-full mx-auto z-10 max-w-[90rem]">
         <FooterLinkGroup title="CONNECT" links={connectLinks} />
 
-        {/* Center decorative element */}
-        <div className="hidden md:flex w-[45vw] h-[30vh] rounded-xl relative overflow-hidden items-center justify-center shadow-2xl bg-[#2a2a2a]">
-          {/* Subtle gradient background */}
-          <div className="absolute inset-0 bg-gradient-to-br from-blue-900/30 via-[#343434] to-yellow-600/20 opacity-80 mix-blend-overlay"></div>
-          {/* Noise overlay */}
-          <div className="absolute inset-0 opacity-[0.25] mix-blend-overlay pointer-events-none" style={{ backgroundImage: 'url("https://grainy-gradients.vercel.app/noise.svg")' }}></div>
-
-          <div className="w-12 h-12 border border-white/5 rounded-xl flex items-center justify-center bg-white/5 backdrop-blur-md relative z-10 shadow-lg cursor-pointer hover:bg-white/10 transition-colors duration-300">
-            <div className="w-3 h-3 bg-white/40 rounded-sm blur-[1px]"></div>
-          </div>
-        </div>
+        {/* Center screensaver element */}
+        <Screensaver
+          textArr={['INNOVATE', 'DESIGN', 'DEVELOP', 'CODE', 'ANIMATE', 'LAUNCH']}
+          className="hidden md:flex w-[45vw] h-[45vh]"
+        />
 
         <FooterLinkGroup title="NAVIGATE" links={navigateLinks} align="right" />
       </div>
 
       {/* Big text */}
-      <div className="w-full flex justify-center mt-24 md:mt-32 mb-8 z-10">
-        <h1
-          className="footer-big-text text-[14vw] md:text-[12vw] leading-none font-bold font-heading tracking-tight select-none opacity-90 text-[#e5e5d8]"
-        >
-          PORTFOLIO
-        </h1>
+      <div className="w-full flex justify-center mt-[3%] mb-8 z-10">
+        <TextReveal
+          text="MEET HATKAR"
+          isLoading={isLoading}
+          className="footer-big-text text-[14vw] md:text-[12.5vw] mx-auto whitespace-nowrap leading-none font-black font-heading tracking-tighter text-primary"
+        />
       </div>
 
       {/* Bottom bar */}
