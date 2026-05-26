@@ -9,19 +9,40 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { useGSAP } from '@gsap/react';
 import InitialLoad from "./commonComponents/Loader/InitialLoad";
 
+import Footer from "./components/footer/Footer";
 
 gsap.registerPlugin(ScrollTrigger);
 
 export default function Home() {
   const [isLoading, setIsLoading] = useState(true);
   const mainRef = useRef<HTMLDivElement>(null);
-  const sectionRef = useRef<HTMLDivElement>(null);
+  const marqueeSectionRef = useRef<HTMLDivElement>(null);
 
   useGSAP(() => {
-    if (isLoading || !sectionRef.current || !mainRef.current) return;
+    if (isLoading || !mainRef.current || !marqueeSectionRef.current) return;
 
     // Ensure layout is settled before calculating ScrollTrigger
     const refreshTimer = setTimeout(() => ScrollTrigger.refresh(), 100);
+
+    // Animate Marquee background as it reaches the end
+    const tl = gsap.timeline({
+      scrollTrigger: {
+        trigger: marqueeSectionRef.current,
+        start: 'bottom 100%', // Trigger when the bottom of the section hits the bottom of the viewport
+        end: 'bottom 20%', // End when the bottom of the section reaches 20% from the top
+        scrub: true,
+        markers: true,
+      }
+    });
+
+    tl.to(marqueeSectionRef.current, {
+      backgroundColor: '#ffffeb',
+    }, 0);
+
+    tl.to(marqueeSectionRef.current.querySelectorAll('.text-background'), {
+      color: '#2a1209',
+    }, 0);
+
     return () => clearTimeout(refreshTimer);
   }, [isLoading]);
 
@@ -37,26 +58,31 @@ export default function Home() {
         <ProjectList />
         <CertificateCard isLoading={isLoading} />
         <Playful isLoading={isLoading} />
-        
+
         {/* Interactive Double Marquee Section */}
-        <div className="relative w-full py-[12vh] md:py-[15vh] overflow-hidden z-10 flex flex-col gap-6 md:gap-12 justify-center select-none">
-          <HeroText 
-            speed={10} 
-            direction="left" 
+        <div
+          ref={marqueeSectionRef}
+          className="relative w-full py-[12vh] md:py-[15vh] overflow-hidden z-10 flex flex-col gap-6 md:gap-12 justify-center select-none md:pb-[20%] bg-[#343434]"
+        >
+          <HeroText
+            speed={10}
+            direction="left"
             textArray={[
               "FORGET NORMAL CREATE IMPACT",
               "BREAK THE ORDINARY BUILD THE UNFORGETTABLE"
-            ]} 
+            ]}
           />
-          <HeroText 
-            speed={10} 
-            direction="right" 
+          <HeroText
+            speed={10}
+            direction="right"
             textArray={[
               "KING IS EXPERIENCE DEAD IS ORIDNARY",
               "OBSESSION TURN CLICK INTO OBSESSION",
-            ]} 
+            ]}
           />
         </div>
+
+        <Footer isLoading={isLoading} />
       </div>
     </main>
   );

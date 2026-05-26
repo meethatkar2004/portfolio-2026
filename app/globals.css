@@ -5,7 +5,7 @@
   --background: #ffffeb;
   --foreground: #2a1209;
   --heading: #2a1209;
-  --primary: #533201;
+  --primary: #241600;
   --secondary: #ffffff;
 }
 
@@ -34,7 +34,10 @@
     color: var(--heading);
   }
 
-  p, link, a, span {
+  p,
+  link,
+  a,
+  span {
     font-family: var(--font-small);
   }
 
