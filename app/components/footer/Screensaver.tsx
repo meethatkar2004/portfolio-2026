@@ -171,6 +171,10 @@ export default function Screensaver({ textArr = DEFAULT_WORDS, className = '' }:
         HITS: {String(cornerHits).padStart(2, '0')}
       </div>
 
+      <div className='absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 font-mono text-[clamp(12px,2vw,20px)] tracking-widest text-foreground/20 select-none uppercase font-black text-center whitespace-nowrap z-0'>
+        Precision takes patience.
+      </div>
+
       {/* Moving Screensaver Text */}
       <div
         ref={elementRef}

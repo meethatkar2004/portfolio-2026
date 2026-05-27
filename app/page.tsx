@@ -31,7 +31,7 @@ export default function Home() {
         start: 'bottom 100%', // Trigger when the bottom of the section hits the bottom of the viewport
         end: 'bottom 20%', // End when the bottom of the section reaches 20% from the top
         scrub: true,
-        markers: true,
+        // markers: true,
       }
     });
 
