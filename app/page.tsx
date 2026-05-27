@@ -8,6 +8,7 @@ import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { useGSAP } from '@gsap/react';
 import InitialLoad from "./commonComponents/Loader/InitialLoad";
+import Whyme from "./components/whyMe/Whyme";
 
 import Footer from "./components/footer/Footer";
 
@@ -54,9 +55,9 @@ export default function Home() {
     >
       <InitialLoad onComplete={() => setIsLoading(false)} />
       <div className={`relative ${isLoading ? "opacity-0 invisible h-screen overflow-hidden" : "opacity-100 w-full"}`}>
-        {/* <Whyme /> */}
         <ProjectList />
         <CertificateCard isLoading={isLoading} />
+        <Whyme isLoading={isLoading}/>
         <Playful isLoading={isLoading} />
 
         {/* Interactive Double Marquee Section */}
