@@ -68,7 +68,7 @@ export default function Footer({ isLoading }: { isLoading: boolean }) {
   return (
     <footer
       ref={footerRef}
-      className="w-full pt-20 pb-8 px-8 md:px-16 flex flex-col relative z-20 bg-background"
+      className="w-full pt-20 px-8 md:px-16 flex flex-col relative z-20 bg-background"
     >
       {/* Top Section */}
       <div className="flex justify-between items-start w-full mx-auto z-10 max-w-[90rem]">
@@ -84,7 +84,7 @@ export default function Footer({ isLoading }: { isLoading: boolean }) {
       </div>
 
       {/* Big text */}
-      <div className="w-full flex justify-center mt-[3%] mb-8 z-10">
+      <div className="w-full flex justify-center mt-[3%] pt-[5%] z-10">
         <TextReveal
           text="MEET HATKAR"
           isLoading={isLoading}
@@ -94,7 +94,7 @@ export default function Footer({ isLoading }: { isLoading: boolean }) {
 
       {/* Bottom bar */}
       <div
-        className="footer-small-text flex flex-col md:flex-row justify-between items-center w-full mx-auto pt-6 text-[0.55rem] md:text-[0.65rem] font-mono tracking-widest uppercase z-10 max-w-[90rem] text-[#6c6c6c]"
+        className="footer-small-text flex flex-col md:flex-row justify-between items-center w-full mx-auto text-[0.55rem] md:text-[0.65rem] font-mono tracking-widest uppercase z-10 max-w-360 text-foreground/40"
       >
         <p>© 2026 PORTFOLIO. ALL RIGHTS RESERVED. DESIGNED WITH PRECISION.</p>
         <p className="mt-4 md:mt-0 flex gap-4">

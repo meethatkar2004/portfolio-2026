@@ -32,20 +32,20 @@ export default function TextReveal({ text, className = '', isLoading = false }: 
     gsap.fromTo(
       containerRef.current.querySelectorAll('.reveal-char'),
       {
-        yPercent: 100,
-        scaleY: 1.8,
+        yPercent: 0,
+        scaleY: 1,
         transformOrigin: 'bottom center',
       },
       {
         yPercent: 0,
-        scaleY: 1,
+        scaleY: 1.8,
         duration: 1.2,
         ease: 'power4.out',
-        stagger: 0.03,
         scrollTrigger: {
           trigger: containerRef.current,
           start: 'top 95%',
           toggleActions: 'play none none reverse',
+          // markers: true,
           scrub: true,
         },
       }
@@ -66,7 +66,7 @@ export default function TextReveal({ text, className = '', isLoading = false }: 
           );
         }
         return (
-          <span key={index} className="inline-block overflow-hidden leading-none">
+          <span key={index} className="inline-block leading-none">
             <span className="reveal-char inline-block will-change-transform leading-none">
               {char}
             </span>
