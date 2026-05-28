@@ -78,8 +78,8 @@ export default function Screensaver({ textArr = DEFAULT_WORDS, className = '' }:
         return;
       }
 
-      let { x, y } = posRef.current;
-      let { vx, vy } = velRef.current;
+      const { x, y } = posRef.current;
+      const { vx, vy } = velRef.current;
 
       let nextX = x + vx;
       let nextY = y + vy;
@@ -155,7 +155,7 @@ export default function Screensaver({ textArr = DEFAULT_WORDS, className = '' }:
   return (
     <div
       ref={containerRef}
-      className={`relative overflow-hidden rounded-xl border border-foreground/10 bg-foreground/[0.9] flex select-none ${className}`}
+      className={`relative overflow-hidden rounded-xl border border-foreground/10 bg-foreground/[0.7] flex select-none ${className}`}
     >
       {/* Subtle ambient background */}
       <div className="absolute inset-0 bg-background opacity-90 pointer-events-none" />
