@@ -20,7 +20,8 @@ export default function Footer({ isLoading }: { isLoading: boolean }) {
 
   const navigateLinks = [
     { label: 'Home', href: '#' },
-    { label: 'Work', href: '#' },
+    { label: 'Projects', href: '#' },
+    { label: 'Skills', href: '#' },
     { label: 'About', href: '#' },
     { label: 'Contact', href: '#' },
   ];

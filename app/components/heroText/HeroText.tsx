@@ -49,36 +49,8 @@ const HeroText = forwardRef<HTMLDivElement, HeroTextProps>(
         },
       });
 
-      let isHovered = false;
-
-      // Smooth Hover pause
-      const handleEnter = () => {
-        isHovered = true;
-        gsap.to(tween, {
-          timeScale: 0,
-          duration: 0.4,
-          ease: "power2.out",
-          overwrite: true,
-        });
-      };
-      
-      const handleLeave = () => {
-        isHovered = false;
-        gsap.to(tween, {
-          timeScale: 1,
-          duration: 0.4,
-          ease: "power2.out",
-          overwrite: true,
-        });
-      };
-
-      containerRef.current.addEventListener("mouseenter", handleEnter);
-      containerRef.current.addEventListener("mouseleave", handleLeave);
-
       return () => {
         tween.kill();
-        containerRef.current?.removeEventListener("mouseenter", handleEnter);
-        containerRef.current?.removeEventListener("mouseleave", handleLeave);
       };
     }, { dependencies: [speed, direction], scope: containerRef });
 
