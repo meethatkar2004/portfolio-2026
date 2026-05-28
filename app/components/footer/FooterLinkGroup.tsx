@@ -26,8 +26,9 @@ export default function FooterLinkGroup({ title, links, className = '', align = 
       <ul className={`flex flex-col gap-3 ${align === 'right' ? 'items-end' : 'items-start'}`}>
         {links.map((link) => (
           <li key={link.label}>
-            <Link 
-              href={link.href} 
+            <Link
+              href={link.href}
+              target='_blank'
               onMouseEnter={() => setCursorType('link')}
               onMouseLeave={() => setCursorType('default')}
               className="footer-link text-sm md:text-xl text-primary hover:text-black transition-colors font-small"

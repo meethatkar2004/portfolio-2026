@@ -13,9 +13,9 @@ export default function Footer({ isLoading }: { isLoading: boolean }) {
   const footerRef = useRef<HTMLElement>(null);
 
   const connectLinks = [
-    { label: 'Twitter', href: '#' },
-    { label: 'LinkedIn', href: '#' },
-    { label: 'Instagram', href: '#' },
+    { label: 'Whatsup', href: 'https://wa.me/8355959889' },
+    { label: 'LinkedIn', href: 'https://www.linkedin.com/in/meethatkar/' },
+    { label: 'Instagram', href: 'https://www.instagram.com/hatkarmeet/' },
   ];
 
   const navigateLinks = [
