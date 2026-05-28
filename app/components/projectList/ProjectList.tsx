@@ -26,52 +26,7 @@ const projects = [
 const ProjectList = () => {
   const { setCursorType } = useCursor();
   const [hoveredProject, setHoveredProject] = useState<Project | null>(null);
-  const mouseRef = useRef({ x: 0, y: 0 });
-  const rafId = useRef<number | null>(null);
-  const containerRef = useRef<HTMLDivElement>(null);
 
-  const handleMouseMove = (e: React.MouseEvent) => {
-    mouseRef.current = { x: e.clientX, y: e.clientY };
-  };
-
-  useEffect(() => {
-    const updateHover = () => {
-      const element = document.elementFromPoint(mouseRef.current.x, mouseRef.current.y);
-
-      // Only execute updates if the element is inside the projects container
-      if (element && containerRef.current?.contains(element)) {
-        const item = element.closest('.project-item') as HTMLElement;
-        if (item) {
-          const index = item.dataset.index;
-          if (index !== undefined) {
-            const project = projects[parseInt(index)];
-            setHoveredProject(prev => (prev?.name === project.name ? prev : project));
-            setCursorType('project');
-          }
-        } else {
-          setHoveredProject(null);
-          setCursorType('default');
-        }
-      } else {
-        // If the mouse has scrolled outside the container, clear the hover state immediately
-        setHoveredProject(null);
-      }
-    };
-
-    const handleScroll = () => {
-      if (rafId.current) cancelAnimationFrame(rafId.current);
-      rafId.current = requestAnimationFrame(updateHover);
-    };
-
-    window.addEventListener('wheel', handleScroll, { passive: true });
-    window.addEventListener('scroll', handleScroll, { passive: true });
-
-    return () => {
-      window.removeEventListener('wheel', handleScroll);
-      window.removeEventListener('scroll', handleScroll);
-      if (rafId.current) cancelAnimationFrame(rafId.current);
-    };
-  }, [setCursorType]);
 
   return (
     <Header
@@ -80,10 +35,7 @@ const ProjectList = () => {
       description="A curated collection of modern websites and interactive experiences crafted to blend creativity, performance, and conversion-focused design."
     >
       <div
-        ref={containerRef}
         className='w-full relative'
-        onMouseMove={handleMouseMove}
-        onWheel={handleMouseMove}
         onMouseLeave={() => {
           setHoveredProject(null);
           setCursorType('default');
