@@ -18,9 +18,10 @@ export default function Home() {
   const [isLoading, setIsLoading] = useState(true);
   const mainRef = useRef<HTMLDivElement>(null);
   const marqueeSectionRef = useRef<HTMLDivElement>(null);
+  const bottomSectionRef = useRef<HTMLDivElement>(null);
 
   useGSAP(() => {
-    if (isLoading || !mainRef.current || !marqueeSectionRef.current) return;
+    if (isLoading || !mainRef.current || !marqueeSectionRef.current || !bottomSectionRef.current) return;
 
     // Ensure layout is settled before calculating ScrollTrigger
     const refreshTimer = setTimeout(() => ScrollTrigger.refresh(), 100);
@@ -36,16 +37,12 @@ export default function Home() {
       }
     });
 
-    tl.to(marqueeSectionRef.current, {
+    tl.to(bottomSectionRef.current, {
       backgroundColor: '#ffffeb',
     }, 0);
 
-    tl.to(marqueeSectionRef.current.querySelectorAll('.text-background'), {
-      color: '#2a1209',
-    }, 0);
-
     return () => clearTimeout(refreshTimer);
-  }, [isLoading]);
+}, [isLoading]);
 
   return (
     <main
@@ -60,30 +57,36 @@ export default function Home() {
         <Whyme isLoading={isLoading}/>
         <Playful isLoading={isLoading} />
 
-        {/* Interactive Double Marquee Section */}
+        {/* Bottom Section containing both Marquee and Footer to change background at the same time */}
         <div
-          ref={marqueeSectionRef}
-          className="relative w-full py-[12vh] md:py-[15vh] overflow-hidden z-10 flex flex-col gap-6 md:gap-12 justify-center select-none md:pb-[20%] bg-[#343434]"
+          ref={bottomSectionRef}
+          className="w-full bg-[#343434] relative z-10 transition-colors duration-150"
         >
-          <HeroText
-            speed={10}
-            direction="left"
-            textArray={[
-              "FORGET NORMAL CREATE IMPACT",
-              "BREAK THE ORDINARY BUILD THE UNFORGETTABLE"
-            ]}
-          />
-          <HeroText
-            speed={10}
-            direction="right"
-            textArray={[
-              "KING IS EXPERIENCE DEAD IS ORIDNARY",
-              "OBSESSION TURN CLICK INTO OBSESSION",
-            ]}
-          />
-        </div>
+          {/* Interactive Double Marquee Section */}
+          <div
+            ref={marqueeSectionRef}
+            className="relative w-full py-[12vh] md:py-[15vh] overflow-hidden flex flex-col gap-6 md:gap-12 justify-center select-none md:pb-[20%]"
+          >
+            <HeroText
+              speed={10}
+              direction="left"
+              textArray={[
+                "FORGET NORMAL CREATE IMPACT",
+                "BREAK THE ORDINARY BUILD THE UNFORGETTABLE"
+              ]}
+            />
+            <HeroText
+              speed={10}
+              direction="right"
+              textArray={[
+                "KING IS EXPERIENCE DEAD IS ORIDNARY",
+                "OBSESSION TURN CLICK INTO OBSESSION",
+              ]}
+            />
+          </div>
 
-        <Footer isLoading={isLoading} />
+          <Footer isLoading={isLoading} />
+        </div>
       </div>
     </main>
   );
