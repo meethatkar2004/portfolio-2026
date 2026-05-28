@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useRef, useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import FloatingImage from '../../commonComponents/floatingImage/FloatingImage';
 import Header from '../../commonComponents/Header/Header';
 import { useCursor } from '../../context/CursorContext';

@@ -30,11 +30,11 @@ const Navbar = ({ animateHero = false }: { animateHero?: boolean }) => {
       <div className='h-full flex justify-start font-heading'>
         <span className='text-2xl font-extrabold text-primary uppercase tracking-tighter'>Meet</span>
       </div>
-      
+
       {/* Navigation Links */}
       <div className='absolute left-1/2 -translate-x-1/2 hidden md:flex items-center gap-8 font-heading'>
-        {['Projects', 'About', 'Skills', 'Contact'].map((item) => (
-          <span 
+        {['PROJECTS', 'SKILLS', 'ABOUT', 'CONTACT'].map((item) => (
+          <span
             key={item}
             onMouseEnter={handleMouseEnter}
             onMouseLeave={handleMouseLeave}
@@ -46,7 +46,7 @@ const Navbar = ({ animateHero = false }: { animateHero?: boolean }) => {
       </div>
 
       {/* Interactive Circular Text Badge */}
-      <div 
+      <div
         className='relative pointer-events-auto select-none cursor-pointer flex items-center justify-center ml-2'
         onMouseEnter={() => setCursorType('link')}
         onMouseLeave={() => setCursorType('default')}

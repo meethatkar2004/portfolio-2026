@@ -1,7 +1,6 @@
 'use client';
 import { useRef } from 'react';
 import gsap from 'gsap';
-import { useGSAP } from '@gsap/react';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import FooterLinkGroup from './FooterLinkGroup';
 import Screensaver from './Screensaver';
@@ -20,7 +19,8 @@ export default function Footer({ isLoading }: { isLoading: boolean }) {
 
   const navigateLinks = [
     { label: 'Home', href: '#' },
-    { label: 'Work', href: '#' },
+    { label: 'Projects', href: '#' },
+    { label: 'Skills', href: '#' },
     { label: 'About', href: '#' },
     { label: 'Contact', href: '#' },
   ];
