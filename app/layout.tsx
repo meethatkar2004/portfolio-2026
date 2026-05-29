@@ -5,6 +5,7 @@ import SmoothScroll from "./components/SmoothScroll";
 import CustomCursor from "./commonComponents/CustomCursor/CustomCursor";
 import { CursorProvider } from "./context/CursorContext";
 import { ScrollProvider } from "./context/ScrollContext";
+import { LoadingProvider } from "./context/LoadingContext";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -40,12 +41,14 @@ export default function RootLayout({
     >
       <body className="min-h-full flex flex-col overflow-x-hidden" suppressHydrationWarning>
         <ScrollProvider>
+          <LoadingProvider>
             <CursorProvider>
               <CustomCursor />
               <SmoothScroll>
                 {children}
               </SmoothScroll>
             </CursorProvider>
+          </LoadingProvider>
         </ScrollProvider>
       </body>
     </html>

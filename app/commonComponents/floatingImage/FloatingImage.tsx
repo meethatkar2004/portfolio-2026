@@ -27,7 +27,7 @@ const FloatingImage = ({ project }: { project: { name: string; image: string } |
   return (
     <div
       ref={imageRef}
-      className={`fixed top-0 left-1/2 -translate-x-1/2 h-[15vmax] w-[30vmax] pointer-events-none z-50 shadow-2xl transition-opacity duration-300 rounded-xl overflow-hidden bg-transparent ${project ? 'opacity-100' : 'opacity-0'}`}
+      className={`fixed top-0 left-1/2 -translate-x-1/2 h-[15vmax] w-[30vmax] pointer-events-none z-50 transition-opacity duration-300 rounded-xl overflow-hidden bg-transparent ${project ? 'opacity-100' : 'opacity-0'}`}
     >
       {project && (
         <Image

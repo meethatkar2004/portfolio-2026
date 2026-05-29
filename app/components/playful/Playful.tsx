@@ -1,8 +1,11 @@
+"use client";
 import React from 'react'
 import Eye from './Eye'
 import ImageTrail from '../imageTrail/ImageTrail';
+import { useLoading } from '../../context/LoadingContext';
 
-const Playful = ({ isLoading }: { isLoading: boolean }) => {
+const Playful = () => {
+  const { isLoading } = useLoading();
   return (
     <div className='w-full h-screen cursor-grab overflow-hidden relative z-0'>
       <div className='absolute w-full h-full inset-0 bg-linear-to-b from-transparent via-transparent to-[#343434] z-200'></div>

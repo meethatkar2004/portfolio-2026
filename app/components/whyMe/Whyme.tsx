@@ -8,7 +8,10 @@ import Header from "@/app/commonComponents/Header/Header";
 
 gsap.registerPlugin(ScrollTrigger);
 
-const Whyme = ({ isLoading }: { isLoading: boolean }) => {
+import { useLoading } from "@/app/context/LoadingContext";
+
+const Whyme = () => {
+  const { isLoading } = useLoading();
   const containerRef = useRef(null);
 
   const text =

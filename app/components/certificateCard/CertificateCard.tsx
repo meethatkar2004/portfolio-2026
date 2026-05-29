@@ -12,8 +12,10 @@ import { useGSAP } from '@gsap/react'
 import { useCursor } from '../../context/CursorContext'
 
 gsap.registerPlugin(ScrollTrigger);
+import { useLoading } from '../../context/LoadingContext';
 
-const CertificateCard = ({ isLoading = false }: { isLoading?: boolean }) => {
+const CertificateCard = () => {
+  const { isLoading } = useLoading();
   const { setCursorType } = useCursor();
   const certificateData = [
     {
@@ -95,7 +97,7 @@ const CertificateCard = ({ isLoading = false }: { isLoading?: boolean }) => {
               {/* Card Content Wrapper */}
               <div className="relative z-10 h-full w-full p-5 flex flex-col justify-between text-left">
                 {/* 1. Image Area (Aspect Square with black bg) */}
-                <div className="w-full aspect-square bg-[#0c0f16] rounded-[24px] overflow-hidden mb-5 relative flex items-center justify-center shadow-inner">
+                <div className="w-full aspect-square bg-[#0c0f16] rounded-[24px] overflow-hidden mb-5 relative flex items-center justify-center">
                   <Image 
                     src={certificate.image} 
                     alt={certificate.title} 
