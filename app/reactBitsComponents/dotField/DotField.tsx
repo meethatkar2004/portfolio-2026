@@ -142,7 +142,20 @@ const DotField = memo(({
       m.prevY = m.y;
     }
 
-    const speedInterval = setInterval(updateMouseSpeed, 20);
+    let speedInterval: ReturnType<typeof setInterval> | null = null;
+
+    function startSpeedInterval() {
+      if (!speedInterval) {
+        speedInterval = setInterval(updateMouseSpeed, 20);
+      }
+    }
+
+    function stopSpeedInterval() {
+      if (speedInterval) {
+        clearInterval(speedInterval);
+        speedInterval = null;
+      }
+    }
 
     let frameCount = 0;
 
@@ -228,15 +241,12 @@ const DotField = memo(({
         if (p.sparkle) {
           const hash = ((i * 2654435761) ^ (frameCount >> 3)) >>> 0;
           if ((hash % 100) < 3) {
-            ctx!.moveTo(drawX + rad * 1.8, drawY);
-            ctx!.arc(drawX, drawY, rad * 1.8, 0, TWO_PI);
+            ctx!.rect(drawX - rad * 1.8, drawY - rad * 1.8, rad * 3.6, rad * 3.6);
           } else {
-            ctx!.moveTo(drawX + rad, drawY);
-            ctx!.arc(drawX, drawY, rad, 0, TWO_PI);
+            ctx!.rect(drawX - rad, drawY - rad, rad * 2, rad * 2);
           }
         } else {
-          ctx!.moveTo(drawX + rad, drawY);
-          ctx!.arc(drawX, drawY, rad, 0, TWO_PI);
+          ctx!.rect(drawX - rad, drawY - rad, rad * 2, rad * 2);
         }
       }
 
@@ -261,9 +271,11 @@ const DotField = memo(({
       const isVisible = entries[0].isIntersecting;
       if (isVisible && !isVisibleRef.current) {
         isVisibleRef.current = true;
+        startSpeedInterval();
         rafRef.current = requestAnimationFrame(tick);
       } else if (!isVisible && isVisibleRef.current) {
         isVisibleRef.current = false;
+        stopSpeedInterval();
         if (rafRef.current) cancelAnimationFrame(rafRef.current);
       }
     }, { threshold: 0 });
@@ -274,6 +286,7 @@ const DotField = memo(({
     window.addEventListener('mousemove', onMouseMove, { passive: true });
     
     // Initial start handled by observer if visible, but let's kick it off just in case
+    startSpeedInterval();
     rafRef.current = requestAnimationFrame(tick);
 
     rebuildRef.current = () => {
@@ -283,7 +296,7 @@ const DotField = memo(({
 
     return () => {
       if (rafRef.current) cancelAnimationFrame(rafRef.current);
-      clearInterval(speedInterval);
+      stopSpeedInterval();
       clearTimeout(resizeTimer);
       resizeObserver.disconnect();
       visibilityObserver.disconnect();

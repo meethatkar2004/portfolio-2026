@@ -203,30 +203,49 @@ function Band({ maxSpeed = 50, minSpeed = 0, isMobile = false }: BandProps) {
     }
 
     if (fixed.current) {
+      let needsUpdate = false;
+
       [j1, j2].forEach(ref => {
         if (!(ref.current as any).lerped) {
           (ref.current as any).lerped = new THREE.Vector3().copy(ref.current.translation());
         }
         const lerpedVec = (ref.current as any).lerped as THREE.Vector3;
-        const clampedDistance = Math.max(0.1, Math.min(1, lerpedVec.distanceTo(ref.current.translation())));
-        lerpedVec.lerp(
-          ref.current.translation(),
-          delta * (minSpeed + clampedDistance * (maxSpeed - minSpeed))
-        );
+        const target = ref.current.translation();
+        const dist = lerpedVec.distanceTo(target);
+        
+        if (dist > 0.005) {
+          needsUpdate = true;
+          const clampedDistance = Math.max(0.1, Math.min(1, dist));
+          lerpedVec.lerp(target, delta * (minSpeed + clampedDistance * (maxSpeed - minSpeed)));
+        } else {
+          lerpedVec.copy(target);
+        }
       });
 
-      curve.points[0].copy(j3.current.translation());
-      curve.points[1].copy((j2.current as any).lerped);
-      curve.points[2].copy((j1.current as any).lerped);
-      curve.points[3].copy(fixed.current.translation());
-
-      if (band.current?.geometry) {
-        const geometry = band.current.geometry as any;
-        geometry.setPoints(curve.getPoints(isMobile ? 16 : 32));
+      const j3Pos = j3.current.translation();
+      if (curve.points[0].distanceTo(j3Pos as unknown as THREE.Vector3) > 0.005) {
+        needsUpdate = true;
+      }
+      
+      const fixedPos = fixed.current.translation();
+      if (curve.points[3].distanceTo(fixedPos as unknown as THREE.Vector3) > 0.005) {
+        needsUpdate = true;
       }
 
-      ang.copy(card.current.angvel());
-      rot.copy(card.current.rotation());
+      if (needsUpdate) {
+        curve.points[0].copy(j3Pos as unknown as THREE.Vector3);
+        curve.points[1].copy((j2.current as any).lerped);
+        curve.points[2].copy((j1.current as any).lerped);
+        curve.points[3].copy(fixedPos as unknown as THREE.Vector3);
+
+        if (band.current?.geometry) {
+          const geometry = band.current.geometry as any;
+          geometry.setPoints(curve.getPoints(isMobile ? 16 : 32));
+        }
+      }
+
+      ang.copy(card.current.angvel() as unknown as THREE.Vector3);
+      rot.copy(card.current.rotation() as unknown as THREE.Vector3);
       card.current.setAngvel({ x: ang.x, y: ang.y - rot.y * 0.25, z: ang.z }, true);
     }
   });
