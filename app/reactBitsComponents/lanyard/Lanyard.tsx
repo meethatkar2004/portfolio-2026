@@ -38,15 +38,30 @@ export default function Lanyard({
     typeof window !== 'undefined' && window.innerWidth < 768
   );
 
+  const containerRef = useRef<HTMLDivElement>(null);
+  const [isVisible, setIsVisible] = useState(true);
+
   useEffect(() => {
     const handleResize = (): void => setIsMobile(window.innerWidth < 768);
     window.addEventListener('resize', handleResize);
     return () => window.removeEventListener('resize', handleResize);
   }, []);
 
+  useEffect(() => {
+    const observer = new IntersectionObserver(([entry]) => {
+      setIsVisible(entry.isIntersecting);
+    }, { threshold: 0 });
+
+    if (containerRef.current) {
+      observer.observe(containerRef.current);
+    }
+    return () => observer.disconnect();
+  }, []);
+
   return (
-    <div className="relative z-0 w-screen h-full flex justify-self-end items-end">
+    <div ref={containerRef} className="relative z-0 w-screen h-full flex justify-self-end items-end">
       <Canvas
+        frameloop={isVisible ? 'always' : 'never'}
         camera={{ position, fov }}
         dpr={[1, isMobile ? 1.5 : 2]}
         gl={{ alpha: transparent }}
@@ -188,30 +203,49 @@ function Band({ maxSpeed = 50, minSpeed = 0, isMobile = false }: BandProps) {
     }
 
     if (fixed.current) {
+      let needsUpdate = false;
+
       [j1, j2].forEach(ref => {
         if (!(ref.current as any).lerped) {
           (ref.current as any).lerped = new THREE.Vector3().copy(ref.current.translation());
         }
         const lerpedVec = (ref.current as any).lerped as THREE.Vector3;
-        const clampedDistance = Math.max(0.1, Math.min(1, lerpedVec.distanceTo(ref.current.translation())));
-        lerpedVec.lerp(
-          ref.current.translation(),
-          delta * (minSpeed + clampedDistance * (maxSpeed - minSpeed))
-        );
+        const target = ref.current.translation();
+        const dist = lerpedVec.distanceTo(target);
+        
+        if (dist > 0.005) {
+          needsUpdate = true;
+          const clampedDistance = Math.max(0.1, Math.min(1, dist));
+          lerpedVec.lerp(target, delta * (minSpeed + clampedDistance * (maxSpeed - minSpeed)));
+        } else {
+          lerpedVec.copy(target);
+        }
       });
 
-      curve.points[0].copy(j3.current.translation());
-      curve.points[1].copy((j2.current as any).lerped);
-      curve.points[2].copy((j1.current as any).lerped);
-      curve.points[3].copy(fixed.current.translation());
-
-      if (band.current?.geometry) {
-        const geometry = band.current.geometry as any;
-        geometry.setPoints(curve.getPoints(isMobile ? 16 : 32));
+      const j3Pos = j3.current.translation();
+      if (curve.points[0].distanceTo(j3Pos as unknown as THREE.Vector3) > 0.005) {
+        needsUpdate = true;
+      }
+      
+      const fixedPos = fixed.current.translation();
+      if (curve.points[3].distanceTo(fixedPos as unknown as THREE.Vector3) > 0.005) {
+        needsUpdate = true;
       }
 
-      ang.copy(card.current.angvel());
-      rot.copy(card.current.rotation());
+      if (needsUpdate) {
+        curve.points[0].copy(j3Pos as unknown as THREE.Vector3);
+        curve.points[1].copy((j2.current as any).lerped);
+        curve.points[2].copy((j1.current as any).lerped);
+        curve.points[3].copy(fixedPos as unknown as THREE.Vector3);
+
+        if (band.current?.geometry) {
+          const geometry = band.current.geometry as any;
+          geometry.setPoints(curve.getPoints(isMobile ? 16 : 32));
+        }
+      }
+
+      ang.copy(card.current.angvel() as unknown as THREE.Vector3);
+      rot.copy(card.current.rotation() as unknown as THREE.Vector3);
       card.current.setAngvel({ x: ang.x, y: ang.y - rot.y * 0.25, z: ang.z }, true);
     }
   });
@@ -241,7 +275,8 @@ function Band({ maxSpeed = 50, minSpeed = 0, isMobile = false }: BandProps) {
           <group
             scale={1.7}
             position={[0, -0.62, -0.05]}
-            onPointerOver={() => {
+            onPointerOver={(e) => {
+              e.stopPropagation();
               hover(true);
               setCursorType('drag');
             }}
@@ -255,9 +290,15 @@ function Band({ maxSpeed = 50, minSpeed = 0, isMobile = false }: BandProps) {
                 target.releasePointerCapture(e.pointerId);
               }
               drag(false);
-              setCursorType('drag');
+              
+              if (e.intersections.length > 0) {
+                setCursorType('drag');
+              } else {
+                setCursorType('default');
+              }
             }}
             onPointerDown={(e: ThreeEvent<PointerEvent>) => {
+              e.stopPropagation();
               const target = e.target as any;
               if (target?.setPointerCapture) {
                 target.setPointerCapture(e.pointerId);
@@ -266,14 +307,7 @@ function Band({ maxSpeed = 50, minSpeed = 0, isMobile = false }: BandProps) {
               setCursorType('dragging');
             }}
           >
-            <mesh
-              geometry={nodes.card.geometry}
-              onPointerOver={(e) => {
-                e.stopPropagation();
-                setCursorType('drag');
-              }}
-              onPointerOut={() => setCursorType('default')}
-            >
+            <mesh geometry={nodes.card.geometry}>
               <meshPhysicalMaterial
                 map={frontTexture}
                 map-anisotropy={16}
@@ -283,15 +317,7 @@ function Band({ maxSpeed = 50, minSpeed = 0, isMobile = false }: BandProps) {
                 metalness={0.8}
               />
             </mesh>
-            <mesh
-              geometry={nodes.card.geometry}
-              rotation={[0, Math.PI, 0]}
-              onPointerOver={(e) => {
-                e.stopPropagation();
-                setCursorType('drag');
-              }}
-              onPointerOut={() => setCursorType('default')}
-            >
+            <mesh geometry={nodes.card.geometry} rotation={[0, Math.PI, 0]}>
               <meshPhysicalMaterial
                 map={backTexture}
                 map-anisotropy={16}
