@@ -8,7 +8,10 @@ import TextReveal from './TextReveal';
 
 gsap.registerPlugin(ScrollTrigger);
 
-export default function Footer({ isLoading }: { isLoading: boolean }) {
+import { useLoading } from '../../context/LoadingContext';
+
+export default function Footer() {
+  const { isLoading } = useLoading();
   const footerRef = useRef<HTMLElement>(null);
 
   const connectLinks = [
