@@ -33,13 +33,6 @@ export default function SmoothScroll({
     gsap.ticker.add(update);
     gsap.ticker.lagSmoothing(0);
 
-    function raf(time: number) {
-      lenis.raf(time);
-      requestAnimationFrame(raf);
-    }
-
-    requestAnimationFrame(raf);
-
     return () => {
       lenis.destroy();
       gsap.ticker.remove(update);

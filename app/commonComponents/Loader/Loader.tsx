@@ -15,14 +15,16 @@ const Loader = ({className}: {className?: string}) => {
       rotate: 360,
       duration: 1,
       repeat: -1,
-      ease: "none"
+      ease: "none",
+      force3D: true
     });
 
     gsap.to(ring2, {
       rotate: -360,
       duration: 1.5,
       repeat: -1,
-      ease: "none"
+      ease: "none",
+      force3D: true
     });
 
     return () => {

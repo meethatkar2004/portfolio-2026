@@ -38,15 +38,30 @@ export default function Lanyard({
     typeof window !== 'undefined' && window.innerWidth < 768
   );
 
+  const containerRef = useRef<HTMLDivElement>(null);
+  const [isVisible, setIsVisible] = useState(true);
+
   useEffect(() => {
     const handleResize = (): void => setIsMobile(window.innerWidth < 768);
     window.addEventListener('resize', handleResize);
     return () => window.removeEventListener('resize', handleResize);
   }, []);
 
+  useEffect(() => {
+    const observer = new IntersectionObserver(([entry]) => {
+      setIsVisible(entry.isIntersecting);
+    }, { threshold: 0 });
+
+    if (containerRef.current) {
+      observer.observe(containerRef.current);
+    }
+    return () => observer.disconnect();
+  }, []);
+
   return (
-    <div className="relative z-0 w-screen h-full flex justify-self-end items-end">
+    <div ref={containerRef} className="relative z-0 w-screen h-full flex justify-self-end items-end">
       <Canvas
+        frameloop={isVisible ? 'always' : 'never'}
         camera={{ position, fov }}
         dpr={[1, isMobile ? 1.5 : 2]}
         gl={{ alpha: transparent }}
@@ -241,7 +256,8 @@ function Band({ maxSpeed = 50, minSpeed = 0, isMobile = false }: BandProps) {
           <group
             scale={1.7}
             position={[0, -0.62, -0.05]}
-            onPointerOver={() => {
+            onPointerOver={(e) => {
+              e.stopPropagation();
               hover(true);
               setCursorType('drag');
             }}
@@ -255,9 +271,15 @@ function Band({ maxSpeed = 50, minSpeed = 0, isMobile = false }: BandProps) {
                 target.releasePointerCapture(e.pointerId);
               }
               drag(false);
-              setCursorType('drag');
+              
+              if (e.intersections.length > 0) {
+                setCursorType('drag');
+              } else {
+                setCursorType('default');
+              }
             }}
             onPointerDown={(e: ThreeEvent<PointerEvent>) => {
+              e.stopPropagation();
               const target = e.target as any;
               if (target?.setPointerCapture) {
                 target.setPointerCapture(e.pointerId);
@@ -266,14 +288,7 @@ function Band({ maxSpeed = 50, minSpeed = 0, isMobile = false }: BandProps) {
               setCursorType('dragging');
             }}
           >
-            <mesh
-              geometry={nodes.card.geometry}
-              onPointerOver={(e) => {
-                e.stopPropagation();
-                setCursorType('drag');
-              }}
-              onPointerOut={() => setCursorType('default')}
-            >
+            <mesh geometry={nodes.card.geometry}>
               <meshPhysicalMaterial
                 map={frontTexture}
                 map-anisotropy={16}
@@ -283,15 +298,7 @@ function Band({ maxSpeed = 50, minSpeed = 0, isMobile = false }: BandProps) {
                 metalness={0.8}
               />
             </mesh>
-            <mesh
-              geometry={nodes.card.geometry}
-              rotation={[0, Math.PI, 0]}
-              onPointerOver={(e) => {
-                e.stopPropagation();
-                setCursorType('drag');
-              }}
-              onPointerOut={() => setCursorType('default')}
-            >
+            <mesh geometry={nodes.card.geometry} rotation={[0, Math.PI, 0]}>
               <meshPhysicalMaterial
                 map={backTexture}
                 map-anisotropy={16}

@@ -59,6 +59,7 @@ const DotField = memo(({
   const rebuildRef = useRef<(() => void) | null>(null);
   const generatedId = useId();
   const glowId = `dot-field-glow-${generatedId.replace(/:/g, '')}`;
+  const isVisibleRef = useRef(true);
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -146,6 +147,8 @@ const DotField = memo(({
     let frameCount = 0;
 
     function tick() {
+      if (!isVisibleRef.current) return;
+      
       frameCount++;
       const dots = dotsRef.current;
       const m = mouseRef.current;
@@ -245,16 +248,32 @@ const DotField = memo(({
     doResize();
 
     // ResizeObserver to handle layout changes (e.g., when loader transition finishes)
-    const observer = new ResizeObserver(() => {
+    const resizeObserver = new ResizeObserver(() => {
       resize();
     });
 
     if (canvas.parentElement) {
-      observer.observe(canvas.parentElement);
+      resizeObserver.observe(canvas.parentElement);
     }
+
+    // IntersectionObserver to pause animations when offscreen
+    const visibilityObserver = new IntersectionObserver((entries) => {
+      const isVisible = entries[0].isIntersecting;
+      if (isVisible && !isVisibleRef.current) {
+        isVisibleRef.current = true;
+        rafRef.current = requestAnimationFrame(tick);
+      } else if (!isVisible && isVisibleRef.current) {
+        isVisibleRef.current = false;
+        if (rafRef.current) cancelAnimationFrame(rafRef.current);
+      }
+    }, { threshold: 0 });
+    
+    visibilityObserver.observe(canvas);
 
     window.addEventListener('resize', resize);
     window.addEventListener('mousemove', onMouseMove, { passive: true });
+    
+    // Initial start handled by observer if visible, but let's kick it off just in case
     rafRef.current = requestAnimationFrame(tick);
 
     rebuildRef.current = () => {
@@ -266,7 +285,8 @@ const DotField = memo(({
       if (rafRef.current) cancelAnimationFrame(rafRef.current);
       clearInterval(speedInterval);
       clearTimeout(resizeTimer);
-      observer.disconnect();
+      resizeObserver.disconnect();
+      visibilityObserver.disconnect();
       window.removeEventListener('resize', resize);
       window.removeEventListener('mousemove', onMouseMove);
     };
