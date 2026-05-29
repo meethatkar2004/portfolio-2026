@@ -21,7 +21,7 @@ const InitialLoad = ({ onComplete }: { onComplete: () => void }) => {
   const heroBg = useRef<HTMLDivElement>(null);
   const loader = useRef<HTMLDivElement>(null);
   const [isFixed, setisFixed] = useState(true);
-  const animateHero = useRef(false);
+  const [animateHero, setAnimateHero] = useState(false);
 
   useGSAP(() => {
     gsap.set(
@@ -37,7 +37,7 @@ const InitialLoad = ({ onComplete }: { onComplete: () => void }) => {
         );
         onComplete();
         setisFixed(false);
-        animateHero.current = true;
+        setAnimateHero(true);
       }
     });
 
@@ -123,9 +123,9 @@ const InitialLoad = ({ onComplete }: { onComplete: () => void }) => {
       {/* Main Hero Background Layer */}
       <div ref={heroBg} className={`absolute bottom-0 left-0 w-full h-0 bg-background z-30 contain-layout contain-paint ${isFixed ? 'pointer-events-none' : ''}`}>
         <div className='absolute top-0 w-full'>
-            <Navbar animateHero={animateHero.current} />
+            <Navbar animateHero={animateHero} />
         </div>
-        <Hero animateHero={animateHero.current}/>
+        <Hero animateHero={animateHero}/>
       </div>
     </div>
   )

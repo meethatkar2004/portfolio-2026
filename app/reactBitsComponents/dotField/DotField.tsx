@@ -1,7 +1,7 @@
 "use client";
 import { useEffect, useRef, memo, useId } from 'react';
 
-const TWO_PI = Math.PI * 2;
+
 
 interface Dot {
   ax: number;
