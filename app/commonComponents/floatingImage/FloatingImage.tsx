@@ -15,14 +15,18 @@ const FloatingImage = ({
   const yTo = useRef<gsap.QuickToFunc>(null);
   const [lastActiveIndex, setLastActiveIndex] = useState(0);
 
-  useEffect(() => {
+  const [prevHovered, setPrevHovered] = useState(hoveredProjectName);
+
+  // Derive state during render instead of inside an effect (fixes ESLint warning)
+  if (hoveredProjectName !== prevHovered) {
+    setPrevHovered(hoveredProjectName);
     if (hoveredProjectName) {
       const idx = projects.findIndex(p => p.name === hoveredProjectName);
       if (idx !== -1) {
         setLastActiveIndex(idx);
       }
     }
-  }, [hoveredProjectName, projects]);
+  }
 
   useGSAP(() => {
     // Center the image relative to the cursor
