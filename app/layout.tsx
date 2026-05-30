@@ -37,7 +37,7 @@ export default function RootLayout({
     <html
       lang="en"
       suppressHydrationWarning
-      className={`${geistSans.variable} ${geistMono.variable} ${anton.variable} h-full antialiased bg-background`}
+      className={`${geistSans.variable} ${geistMono.variable} ${anton.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col overflow-x-hidden" suppressHydrationWarning>
         <ScrollProvider>
