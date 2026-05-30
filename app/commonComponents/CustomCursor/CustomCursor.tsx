@@ -108,8 +108,8 @@ const CustomCursor: React.FC<CustomCursorProps> = ({
         duration: 0.4,
         ease: 'power3.out'
       });
-      gsap.to(innerRef.current, { scale: 0, opacity: 0, duration: 0.3 });
-      gsap.to(labelRef.current, { scale: 1, opacity: 1, duration: 0.4 });
+      gsap.to(innerRef.current, { scale: 0, autoAlpha: 0, duration: 0.3 });
+      gsap.to(labelRef.current, { scale: 1, autoAlpha: 1, duration: 0.4 });
     } else if (cursorType === 'dragging') {
       gsap.to(outerRef.current, {
         width: 40,
@@ -119,13 +119,13 @@ const CustomCursor: React.FC<CustomCursorProps> = ({
         duration: 0.3,
         ease: 'power3.out'
       });
-      gsap.to(innerRef.current, { scale: 0, opacity: 0, duration: 0.2 });
-      gsap.to(labelRef.current, { scale: 0.5, opacity: 0, duration: 0.2 });
+      gsap.to(innerRef.current, { scale: 0, autoAlpha: 0, duration: 0.2 });
+      gsap.to(labelRef.current, { scale: 0.5, autoAlpha: 0, duration: 0.2 });
     } else if (cursorType === 'link') {
       gsap.to(innerRef.current, {
         width: outerSize,
         height: outerSize,
-        opacity: 0,
+        autoAlpha: 0,
         duration: 0.4,
         ease: 'power3.out'
       });
@@ -150,10 +150,10 @@ const CustomCursor: React.FC<CustomCursorProps> = ({
         width: innerSize,
         height: innerSize,
         scale: 1,
-        opacity: 1,
+        autoAlpha: 1,
         duration: 0.3
       });
-      gsap.to(labelRef.current, { scale: 0, opacity: 0, duration: 0.3 });
+      gsap.to(labelRef.current, { scale: 0, autoAlpha: 0, duration: 0.3 });
     }
   }, [cursorType, outerSize, innerSize, outerBorderColor]);
 
