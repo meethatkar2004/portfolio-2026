@@ -76,7 +76,6 @@ const CustomCursor: React.FC<CustomCursorProps> = ({
 
     const handleMouseOver = (e: MouseEvent) => {
       const target = e.target as HTMLElement;
-      if (target.tagName === 'CANVAS') return; // Allow canvas to handle its own events
 
       const interactive = target.closest('a, button, [data-cursor]');
       if (interactive) {
@@ -162,7 +161,7 @@ const CustomCursor: React.FC<CustomCursorProps> = ({
       {/* Outer Circle */}
       <div
         ref={outerRef}
-        className="fixed top-0 left-0 pointer-events-none z-500 rounded-full transition-[background-color,border-color] backdrop-blur-[2px]"
+        className="fixed top-0 left-0 pointer-events-none z-500 rounded-full transition-[background-color,border-color] mix-blend-difference"
         style={{
           width: outerSize,
           height: outerSize,

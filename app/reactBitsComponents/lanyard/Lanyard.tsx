@@ -275,12 +275,12 @@ function Band({ maxSpeed = 50, minSpeed = 0, isMobile = false }: BandProps) {
           <group
             scale={1.7}
             position={[0, -0.62, -0.05]}
-            onPointerOver={(e) => {
+            onPointerEnter={(e) => {
               e.stopPropagation();
               hover(true);
               setCursorType('drag');
             }}
-            onPointerOut={() => {
+            onPointerLeave={() => {
               hover(false);
               setCursorType('default');
             }}
@@ -290,12 +290,8 @@ function Band({ maxSpeed = 50, minSpeed = 0, isMobile = false }: BandProps) {
                 target.releasePointerCapture(e.pointerId);
               }
               drag(false);
-              
-              if (e.intersections.length > 0) {
-                setCursorType('drag');
-              } else {
-                setCursorType('default');
-              }
+              hover(false);
+              setCursorType('default');
             }}
             onPointerDown={(e: ThreeEvent<PointerEvent>) => {
               e.stopPropagation();
@@ -333,7 +329,13 @@ function Band({ maxSpeed = 50, minSpeed = 0, isMobile = false }: BandProps) {
           </group>
         </RigidBody>
       </group>
-      <mesh ref={band}>
+      <mesh 
+        ref={band}
+        onPointerEnter={(e) => {
+          e.stopPropagation();
+          setCursorType('default');
+        }}
+      >
         {/* @ts-expect-error - Custom R3F element */}
         <meshLineGeometry />
         {/* @ts-expect-error - Custom R3F element */}
