@@ -35,10 +35,8 @@ export default function Screensaver({ textArr = DEFAULT_WORDS, className = '' }:
   const hudRef = useRef<HTMLDivElement>(null);
 
   const [cornerHits, setCornerHits] = useState(0);
-  const [isMounted, setIsMounted] = useState(false);
 
   useEffect(() => {
-    setIsMounted(true);
     const localVal = localStorage.getItem('corner_hits');
     if (localVal) {
       setCornerHits(parseInt(localVal, 10));
