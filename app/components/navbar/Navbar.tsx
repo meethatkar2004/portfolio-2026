@@ -50,6 +50,9 @@ const Navbar = ({ animateHero = false }: { animateHero?: boolean }) => {
           spinDuration={15}
           className="text-[9px] md:text-[11px] font-heading font-black uppercase tracking-widest text-primary w-[64px] h-[64px] md:w-[70px] md:h-[70px]"
         />
+        <span className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-3xl md:text-3xl leading-none opacity-50">
+          🧿
+        </span>
       </div>
     </div>
   )

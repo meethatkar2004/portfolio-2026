@@ -49,7 +49,7 @@ const Whyme = () => {
 
   return (
     <Header
-      title="Why Me ??!"
+      title="Why Me ?!"
       titleClass="text-[5vmax] text-background"
     >
       <section
