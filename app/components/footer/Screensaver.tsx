@@ -34,13 +34,14 @@ export default function Screensaver({ textArr = DEFAULT_WORDS, className = '' }:
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const hudRef = useRef<HTMLDivElement>(null);
 
-  const [cornerHits, setCornerHits] = useState(() => {
-    if (typeof window !== 'undefined') {
-      const localVal = localStorage.getItem('corner_hits');
-      return localVal ? parseInt(localVal, 10) : 0;
+  const [cornerHits, setCornerHits] = useState(0);
+
+  useEffect(() => {
+    const localVal = localStorage.getItem('corner_hits');
+    if (localVal) {
+      setCornerHits(parseInt(localVal, 10));
     }
-    return 0;
-  });
+  }, []);
   const [textIndex, setTextIndex] = useState(0);
 
   const posRef = useRef({ x: 0, y: 0 });

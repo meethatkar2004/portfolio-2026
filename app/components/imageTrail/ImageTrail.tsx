@@ -36,10 +36,9 @@ export default function ImageTrail({ enabled = true, threshold = 100 }: ImageTra
   const zIndex = useRef(1);
 
   useEffect(() => {
-    const supportsHover = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
-    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-
-    if (!enabled || !supportsHover || prefersReducedMotion) return;
+    // Loosened device checks so it works even if battery saver (reduced motion) is on
+    // or if the device has a touch screen.
+    if (!enabled) return;
 
     let isMounted = true;
     const trailImages = imageRefs.current;
@@ -47,10 +46,11 @@ export default function ImageTrail({ enabled = true, threshold = 100 }: ImageTra
 
     if (!parent) return;
 
-    const preloadImages = skillImages.map(({ src }) => {
+    // We still preload them to avoid layout shifts, but we don't block interactivity!
+    skillImages.forEach(({ src }) => {
       const img = new window.Image();
       img.src = src;
-      return img.decode?.().catch(() => undefined);
+      img.decode?.().catch(() => undefined);
     });
 
     const showNextImage = () => {
@@ -67,6 +67,7 @@ export default function ImageTrail({ enabled = true, threshold = 100 }: ImageTra
           zIndex: zIndex.current,
           x: cacheMousePos.current.x - rect.width / 2,
           y: cacheMousePos.current.y - rect.height / 2,
+          willChange: "transform, opacity",
         })
         .to(image, {
           duration: 0.9,
@@ -137,12 +138,10 @@ export default function ImageTrail({ enabled = true, threshold = 100 }: ImageTra
       }
     };
 
-    Promise.all(preloadImages).finally(() => {
-      if (!isMounted) return;
-      parent.addEventListener('pointerenter', handlePointerEnter as EventListener);
-      parent.addEventListener('pointermove', handlePointerMove as EventListener);
-      parent.addEventListener('pointerleave', handlePointerLeave as EventListener);
-    });
+    // Attach listeners immediately so interaction isn't delayed by slow decoding
+    parent.addEventListener('pointerenter', handlePointerEnter as EventListener);
+    parent.addEventListener('pointermove', handlePointerMove as EventListener);
+    parent.addEventListener('pointerleave', handlePointerLeave as EventListener);
 
     return () => {
       isMounted = false;
