@@ -12,9 +12,10 @@ interface FooterLinkGroupProps {
   links: LinkItem[];
   className?: string;
   align?: 'left' | 'right';
+  onClickItem?: (label: string, e: React.MouseEvent) => void;
 }
 
-export default function FooterLinkGroup({ title, links, className = '', align = 'left' }: FooterLinkGroupProps) {
+export default function FooterLinkGroup({ title, links, className = '', align = 'left', onClickItem }: FooterLinkGroupProps) {
   return (
     <div className={`flex flex-col gap-6 ${align === 'right' ? 'items-end text-right' : 'items-start text-left'} ${className}`}>
       <h4 className="footer-title text-[0.65rem] md:text-2xl font-bold tracking-[0.2em] text-primary uppercase font-mono">
@@ -23,13 +24,23 @@ export default function FooterLinkGroup({ title, links, className = '', align = 
       <ul className={`flex flex-col gap-3 ${align === 'right' ? 'items-end' : 'items-start'}`}>
         {links.map((link) => (
           <li key={link.label}>
-            <Link
-              href={link.href}
-              target='_blank'
-              className="footer-link text-sm md:text-xl text-primary hover:text-black transition-colors font-small"
-            >
-              {link.label}
-            </Link>
+            {onClickItem ? (
+              <span
+                onClick={(e) => onClickItem(link.label, e)}
+                data-cursor="link"
+                className="footer-link text-sm md:text-xl text-primary hover:text-black transition-colors font-small cursor-pointer"
+              >
+                {link.label}
+              </span>
+            ) : (
+              <Link
+                href={link.href}
+                target='_blank'
+                className="footer-link text-sm md:text-xl text-primary hover:text-black transition-colors font-small"
+              >
+                {link.label}
+              </Link>
+            )}
           </li>
         ))}
       </ul>

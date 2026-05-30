@@ -29,7 +29,7 @@ export default function BottomSectionWrapper({ children }: { children: React.Rea
       }
     });
 
-    tl.to([bottomSectionRef.current, document.body, document.documentElement], {
+    tl.to(document.body, {
       backgroundColor: '#ffffeb',
     }, 0);
 
@@ -39,7 +39,7 @@ export default function BottomSectionWrapper({ children }: { children: React.Rea
   return (
     <div
       ref={bottomSectionRef}
-      className="w-full bg-[#343434] relative z-10 transition-colors duration-150"
+      className="w-full bg-transparent relative z-10 transition-colors duration-150"
     >
       <div ref={marqueeSectionRef}>
         {/* We expect the first child to be the marquee content */}

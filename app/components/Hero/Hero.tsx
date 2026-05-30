@@ -37,6 +37,7 @@ const Hero = ({animateHero}: {animateHero: boolean}) => {
   return (
     <div 
       ref={container} 
+      id="hero"
       className='relative w-full h-screen overflow-hidden bg-background'
     >
       {/* Background Interactive Layer */}

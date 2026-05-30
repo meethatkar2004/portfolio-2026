@@ -2,11 +2,12 @@
 import { useRef } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { ScrollToPlugin } from 'gsap/ScrollToPlugin';
 import FooterLinkGroup from './FooterLinkGroup';
 import Screensaver from './Screensaver';
 import TextReveal from './TextReveal';
 
-gsap.registerPlugin(ScrollTrigger);
+gsap.registerPlugin(ScrollTrigger, ScrollToPlugin);
 
 import { useLoading } from '../../context/LoadingContext';
 
@@ -21,12 +22,22 @@ export default function Footer() {
   ];
 
   const navigateLinks = [
-    { label: 'Home', href: '#' },
-    { label: 'Projects', href: '#' },
-    { label: 'Skills', href: '#' },
-    { label: 'About', href: '#' },
-    { label: 'Contact', href: '#' },
+    { label: 'Home', href: '#hero' },
+    { label: 'Projects', href: '#projectList' },
+    { label: 'Skills', href: '#playful' },
+    { label: 'Contact', href: '#contact' },
   ];
+
+  const handleScroll = (label: string) => {
+    const link = navigateLinks.find((l) => l.label === label);
+    if (link) {
+      gsap.to(window, {
+        duration: 1.2,
+        scrollTo: { y: link.href, autoKill: true },
+        ease: 'power3.inOut'
+      });
+    }
+  };
 
   return (
     <footer
@@ -43,7 +54,12 @@ export default function Footer() {
           className="hidden md:flex w-[45vw] h-[45vh]"
         />
 
-        <FooterLinkGroup title="NAVIGATE" links={navigateLinks} align="right" />
+        <FooterLinkGroup 
+          title="NAVIGATE" 
+          links={navigateLinks} 
+          align="right" 
+          onClickItem={handleScroll}
+        />
       </div>
 
       {/* Big text */}

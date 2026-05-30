@@ -3,6 +3,9 @@ import React, { useRef } from 'react'
 import CircularText from '../../reactBitsComponents/circularText/CircularText'
 import gsap from 'gsap'
 import { useGSAP } from '@gsap/react'
+import { ScrollToPlugin } from 'gsap/ScrollToPlugin'
+
+gsap.registerPlugin(ScrollToPlugin);
 
 const Navbar = ({ animateHero = false }: { animateHero?: boolean }) => {
   const container = useRef<HTMLDivElement>(null);
@@ -20,21 +23,41 @@ const Navbar = ({ animateHero = false }: { animateHero?: boolean }) => {
     });
   }, { dependencies: [animateHero], scope: container });
 
+  const navItems = [
+    { label: 'PROJECTS', target: '#projectList' },
+    { label: 'CERTIFICATES', target: '#certificates' },
+    { label: 'SKILLS', target: '#playful' },
+    { label: 'CONTACT', target: '#contact' },
+  ];
+
+  const handleScroll = (target: string) => {
+    gsap.to(window, {
+      duration: 1.2,
+      scrollTo: { y: target, autoKill: true },
+      ease: 'power3.inOut'
+    });
+  };
+
   return (
     <div ref={container} className='w-full px-[3vw] py-6 flex items-center justify-between relative z-50 opacity-0'>
-      <div className='h-full flex justify-start font-heading'>
+      <div 
+        onClick={() => handleScroll('#hero')}
+        data-cursor="link"
+        className='h-full flex justify-start font-heading cursor-pointer'
+      >
         <span className='text-2xl font-extrabold text-primary uppercase tracking-tighter'>Meet</span>
       </div>
 
       {/* Navigation Links */}
       <div className='absolute left-1/2 -translate-x-1/2 hidden md:flex items-center gap-8 font-heading'>
-        {['PROJECTS', 'SKILLS', 'ABOUT', 'CONTACT'].map((item) => (
+        {navItems.map((item) => (
           <span
-            key={item}
+            key={item.label}
+            onClick={() => handleScroll(item.target)}
             data-cursor="link"
             className='text-lg font-bold text-heading cursor-pointer hover:text-primary transition-colors'
           >
-            {item}
+            {item.label}
           </span>
         ))}
       </div>
