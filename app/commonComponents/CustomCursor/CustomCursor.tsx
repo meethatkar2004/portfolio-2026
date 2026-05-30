@@ -2,7 +2,7 @@
 
 import React, { useEffect, useRef } from 'react';
 import gsap from 'gsap';
-import { useCursor } from '../../context/CursorContext';
+import { useCursor, CursorType } from '@/app/context/CursorContext';
 
 interface CustomCursorProps {
   innerSize?: number;
@@ -26,7 +26,8 @@ const CustomCursor: React.FC<CustomCursorProps> = ({
   const innerRef = useRef<HTMLDivElement>(null);
   const outerRef = useRef<HTMLDivElement>(null);
   const labelRef = useRef<HTMLDivElement>(null);
-  const { cursorType } = useCursor();
+  const { cursorType, setCursorType } = useCursor();
+  useCursor();
 
   useEffect(() => {
     if (!innerRef.current || !outerRef.current || !labelRef.current) return;
@@ -73,12 +74,27 @@ const CustomCursor: React.FC<CustomCursorProps> = ({
       yLabelTo(e.clientY);
     };
 
+    const handleMouseOver = (e: MouseEvent) => {
+      const target = e.target as HTMLElement;
+      if (target.tagName === 'CANVAS') return; // Allow canvas to handle its own events
+
+      const interactive = target.closest('a, button, [data-cursor]');
+      if (interactive) {
+        const type = interactive.getAttribute('data-cursor');
+        setCursorType((type as CursorType) || 'link');
+      } else {
+        setCursorType('default');
+      }
+    };
+
     window.addEventListener('mousemove', handleMouseMove);
+    window.addEventListener('mouseover', handleMouseOver);
 
     return () => {
       window.removeEventListener('mousemove', handleMouseMove);
+      window.removeEventListener('mouseover', handleMouseOver);
     };
-  }, [innerSpeed, outerSpeed]);
+  }, [innerSpeed, outerSpeed, setCursorType]);
 
   useEffect(() => {
     if (!innerRef.current || !outerRef.current || !labelRef.current) return;
@@ -130,12 +146,12 @@ const CustomCursor: React.FC<CustomCursorProps> = ({
         duration: 0.4,
         ease: 'power3.out'
       });
-      gsap.to(innerRef.current, { 
+      gsap.to(innerRef.current, {
         width: innerSize,
         height: innerSize,
-        scale: 1, 
-        opacity: 1, 
-        duration: 0.3 
+        scale: 1,
+        opacity: 1,
+        duration: 0.3
       });
       gsap.to(labelRef.current, { scale: 0, opacity: 0, duration: 0.3 });
     }
