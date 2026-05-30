@@ -57,3 +57,35 @@
 .child {
   display: block;
 }
+
+@layer base {
+  /* Custom Scrollbar */
+  html::-webkit-scrollbar,
+  body::-webkit-scrollbar {
+    width: 10px;
+  }
+
+  html::-webkit-scrollbar-track,
+  body::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  html::-webkit-scrollbar-thumb,
+  body::-webkit-scrollbar-thumb {
+    background-color: #facc15; /* yellow-400 */
+    border-radius: 10px;
+    border: 3px solid transparent; /* Transparent padding */
+    background-clip: padding-box;
+  }
+
+  html::-webkit-scrollbar-thumb:hover,
+  body::-webkit-scrollbar-thumb:hover {
+    background-color: #eab308; /* yellow-500 */
+  }
+
+  /* Standard scrollbar for Firefox */
+  html {
+    scrollbar-width: thin;
+    scrollbar-color: #facc15 transparent;
+  }
+}

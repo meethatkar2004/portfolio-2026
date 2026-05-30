@@ -47,7 +47,7 @@ const CertificateCard = () => {
   useGSAP(() => {
     if (isLoading || !containerRef.current) return;
 
-    gsap.to(document.body, {
+    gsap.to([document.body, document.documentElement], {
       backgroundColor: "#343434", // Deep black background for certificates section
       scrollTrigger: {
         trigger: containerRef.current,
