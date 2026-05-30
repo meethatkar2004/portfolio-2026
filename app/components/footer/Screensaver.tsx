@@ -34,14 +34,13 @@ export default function Screensaver({ textArr = DEFAULT_WORDS, className = '' }:
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const hudRef = useRef<HTMLDivElement>(null);
 
-  const [cornerHits, setCornerHits] = useState(0);
-
-  useEffect(() => {
-    const localVal = localStorage.getItem('corner_hits');
-    if (localVal) {
-      setCornerHits(parseInt(localVal, 10));
+  const [cornerHits, setCornerHits] = useState(() => {
+    if (typeof window !== 'undefined') {
+      const localVal = localStorage.getItem('corner_hits');
+      if (localVal) return parseInt(localVal, 10);
     }
-  }, []);
+    return 0;
+  });
   const [textIndex, setTextIndex] = useState(0);
 
   const posRef = useRef({ x: 0, y: 0 });
@@ -263,6 +262,7 @@ export default function Screensaver({ textArr = DEFAULT_WORDS, className = '' }:
 
       <div
         ref={hudRef}
+        suppressHydrationWarning
         className="absolute top-4 left-4 z-20 font-mono text-[20px] tracking-widest text-foreground/50 select-none transition-transform duration-100 ease-out origin-left"
       >
         HITS: {String(cornerHits).padStart(2, '0')}

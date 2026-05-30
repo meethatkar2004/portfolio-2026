@@ -88,12 +88,12 @@ const CertificateCard = () => {
             >
 
               <div
-                className='w-[370px] h-[560px] flex flex-col bg-background/82 rounded-[32px] overflow-hidden'
+                className='w-[370px] h-[560px] flex flex-col bg-background/25 rounded-[32px] overflow-hidden'
               >
                 {/* Card Content Wrapper */}
                 <div className="relative z-10 h-full w-full p-5 flex flex-col justify-between text-left">
                   {/* 1. Image Area (Aspect Square with black bg) */}
-                  <div className="w-full aspect-square bg-[#0c0f16] rounded-[24px] overflow-hidden mb-5 relative flex items-center justify-center">
+                  <div className="w-full aspect-square bg-transparent rounded-[24px] overflow-hidden mb-5 relative flex items-center justify-center">
                     <Image
                       src={certificate.image}
                       alt={certificate.title}
@@ -108,20 +108,20 @@ const CertificateCard = () => {
                     <div>
                       {/* Title & Date Row */}
                       <div className="flex justify-between items-baseline mb-2">
-                        <h2 className="text-2xl font-bold tracking-tight text-gray-900 font-heading">{certificate.title}</h2>
-                        <span className="text-sm font-mono text-gray-600 font-bold">{certificate.issueDate}</span>
+                        <h2 className="text-2xl font-bold tracking-tight text-gray-100 font-heading">{certificate.title}</h2>
+                        <span className="text-sm font-mono text-gray-300 font-bold">{certificate.issueDate}</span>
                       </div>
 
                       {/* Description */}
-                      <p className="text-sm text-gray-700 leading-relaxed line-clamp-3 mb-4 font-sans font-medium">
+                      <p className="text-sm text-gray-300 leading-relaxed line-clamp-3 mb-4 font-sans font-medium">
                         {certificate.description}
                       </p>
                     </div>
 
                     {/* 3. Issued By (Pushed to bottom) */}
                     <div className="border-t pt-3 border-gray-300/60 mt-auto">
-                      <p className="text-[10px] uppercase tracking-[0.2em] text-gray-500 font-semibold mb-1">Issued By</p>
-                      <p className="text-base font-bold text-[#d97706] font-heading">{certificate.issueBy}</p>
+                      <p className="text-[10px] uppercase tracking-[0.2em] text-gray-300 font-semibold mb-1">Issued By</p>
+                      <p className="text-base font-bold text-[#E0D09B] font-heading">{certificate.issueBy}</p>
                     </div>
                   </div>
                 </div>
