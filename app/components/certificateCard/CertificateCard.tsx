@@ -79,7 +79,6 @@ const CertificateCard = () => {
             <BorderGlow
               edgeSensitivity={30}
               glowColor="255 255 105"
-              backgroundColor="#FFFFFF"
               borderRadius={32}
               glowRadius={60}
               glowIntensity={5}
@@ -89,7 +88,7 @@ const CertificateCard = () => {
             >
 
               <div
-                className='w-[370px] h-[560px] flex flex-col bg-background rounded-[32px] overflow-hidden'
+                className='w-[370px] h-[560px] flex flex-col bg-background/82 rounded-[32px] overflow-hidden'
               >
                 {/* Card Content Wrapper */}
                 <div className="relative z-10 h-full w-full p-5 flex flex-col justify-between text-left">

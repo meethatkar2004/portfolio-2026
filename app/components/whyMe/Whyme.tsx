@@ -18,21 +18,23 @@ const Whyme = () => {
     "I build websites that don’t just look good x they feel interactive, modern, and unforgettable. With startup experience, 30+ landing pages, and 20+ animation-driven experiences, I focus on creating products that stand out in today’s web culture.";
 
   useGSAP(
-    
+
     () => {
-      if(isLoading) return false;
+      if (isLoading) return false;
       gsap.set(".reveal-word", {
-        opacity: 0.15,
-        scale: 0.9,
-        filter: "blur(10px)",
+        opacity: 0.03,
+        scaleX: 0.9, // Switched from 'scale' to 'scaleX' to avoid conflict with scaleY
+        y: "80%", // Using y translation instead of blur for a smooth, performant reveal
+        scaleY: -1
       });
 
       gsap.to(".reveal-word", {
         opacity: 1,
-        filter: "blur(0px)",
+        scaleX: 1,
+        y: 0,
         stagger: 0.08,
-        scale: 1,
-        ease: "none",
+        scaleY: 1,
+        ease: "power2.out", // A smoother ease
 
         scrollTrigger: {
           trigger: containerRef.current,
@@ -46,23 +48,23 @@ const Whyme = () => {
   );
 
   return (
-    <Header 
+    <Header
       title="Why Me ??!"
       titleClass="text-[5vmax] text-background"
     >
       <section
-      ref={containerRef}
-      className="pb-[5%] flex items-center justify-center px-6"
-    >
-      <h1 className="max-w-7xl text-background/80 font-heading text-4xl md:text-7xl leading-[1.4] font-medium flex flex-wrap justify-center gap-x-4">
-        {text.split(" ").map((word, index) => (
-          <span key={index} className="reveal-word">
-            {word}
-          </span>
-        ))}
-      </h1>
-    </section>
-      </Header>
+        ref={containerRef}
+        className="pb-[5%] flex items-center justify-center px-6"
+      >
+        <h1 className="max-w-7xl text-background/90 font-sans text-[clamp(3rem,5vw,6rem)] leading-[1.2] font-bold tracking-tight flex flex-wrap justify-center gap-x-3 md:gap-x-4">
+          {text.split(" ").map((word, index) => (
+            <span key={index} className="reveal-word inline-block will-change-[transform,opacity]">
+              {word}
+            </span>
+          ))}
+        </h1>
+      </section>
+    </Header>
   );
 };
 
