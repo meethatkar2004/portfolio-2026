@@ -39,7 +39,7 @@ const ProjectList = () => {
           setHoveredProject(null);
         }}
       >
-        <FloatingImage project={hoveredProject} />
+        <FloatingImage projects={projects} hoveredProjectName={hoveredProject?.name || null} />
 
         <div className="border-t border-black/30 flex flex-col">
           {projects.map((project, index) => (
@@ -47,7 +47,7 @@ const ProjectList = () => {
               key={index}
               data-index={index}
               data-cursor="project"
-              className="project-item group flex flex-col sm:flex-row sm:items-center justify-between py-6 sm:py-8 border-b border-b-gray-400 cursor-pointer relative hover:py-[2.5%] transition-[padding] ease-linear"
+              className="project-item group flex flex-col sm:flex-row sm:items-center justify-between py-6 sm:py-8 border-b border-b-gray-400 cursor-pointer relative hover:scale-[1.02] hover:-translate-y-1 transition-transform ease-out duration-300"
               onMouseEnter={() => {
                 setHoveredProject(project);
               }}
