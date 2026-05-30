@@ -3,7 +3,7 @@
 import React, { useState } from 'react';
 import FloatingImage from '../../commonComponents/floatingImage/FloatingImage';
 import Header from '../../commonComponents/Header/Header';
-import { useCursor } from '../../context/CursorContext';
+
 
 interface Project {
   name: string;
@@ -24,7 +24,6 @@ const projects = [
   { name: "Sidcup Family Golf", roles: "Sports Brand, Scroll Effects, UI/UX", image: "/projects/GolfSite.webp", link: "https://sidecup-family-golf-landing-page.netlify.app/" },
 ];
 const ProjectList = () => {
-  const { setCursorType } = useCursor();
   const [hoveredProject, setHoveredProject] = useState<Project | null>(null);
 
 
@@ -38,7 +37,6 @@ const ProjectList = () => {
         className='w-full relative'
         onMouseLeave={() => {
           setHoveredProject(null);
-          setCursorType('default');
         }}
       >
         <FloatingImage project={hoveredProject} />
@@ -48,10 +46,10 @@ const ProjectList = () => {
             <div
               key={index}
               data-index={index}
+              data-cursor="project"
               className="project-item group flex flex-col sm:flex-row sm:items-center justify-between py-6 sm:py-8 border-b border-b-gray-400 cursor-pointer relative hover:py-[2.5%] transition-[padding] ease-linear"
               onMouseEnter={() => {
                 setHoveredProject(project);
-                setCursorType('project');
               }}
               onClick={() => window.open(project.link, "_blank")}
             >

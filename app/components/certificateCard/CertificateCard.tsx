@@ -9,14 +9,12 @@ import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import { useGSAP } from '@gsap/react'
 
-import { useCursor } from '../../context/CursorContext'
 
 gsap.registerPlugin(ScrollTrigger);
 import { useLoading } from '../../context/LoadingContext';
 
 const CertificateCard = () => {
   const { isLoading } = useLoading();
-  const { setCursorType } = useCursor();
   const certificateData = [
     {
       title: "SEO",
@@ -74,8 +72,7 @@ const CertificateCard = () => {
         {certificateData.map((certificate, index) => (
           <div
             key={index}
-            onMouseEnter={() => setCursorType('view')}
-            onMouseLeave={() => setCursorType('default')}
+            data-cursor="view"
             onClick={() => window.open(certificate.link, "_blank")}
             className='mx-[1.5%] relative group cursor-pointer transition-all duration-500 ease-out origin-bottom transform-3d hover:transform-[perspective(1000px)_translateZ(-40px)_rotateX(-15deg)] hover:scale-y-90 rounded-[32px]'
           >

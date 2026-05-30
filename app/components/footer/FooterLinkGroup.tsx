@@ -1,7 +1,6 @@
 'use client';
 
 import Link from 'next/link';
-import { useCursor } from '../../context/CursorContext';
 
 interface LinkItem {
   label: string;
@@ -16,8 +15,6 @@ interface FooterLinkGroupProps {
 }
 
 export default function FooterLinkGroup({ title, links, className = '', align = 'left' }: FooterLinkGroupProps) {
-  const { setCursorType } = useCursor();
-
   return (
     <div className={`flex flex-col gap-6 ${align === 'right' ? 'items-end text-right' : 'items-start text-left'} ${className}`}>
       <h4 className="footer-title text-[0.65rem] md:text-2xl font-bold tracking-[0.2em] text-primary uppercase font-mono">
@@ -29,8 +26,6 @@ export default function FooterLinkGroup({ title, links, className = '', align = 
             <Link
               href={link.href}
               target='_blank'
-              onMouseEnter={() => setCursorType('link')}
-              onMouseLeave={() => setCursorType('default')}
               className="footer-link text-sm md:text-xl text-primary hover:text-black transition-colors font-small"
             >
               {link.label}
