@@ -161,7 +161,7 @@ const CustomCursor: React.FC<CustomCursorProps> = ({
       {/* Outer Circle */}
       <div
         ref={outerRef}
-        className="fixed top-0 left-0 pointer-events-none z-500 rounded-full transition-[background-color,border-color] mix-blend-difference backdrop-blur-[1.5px]"
+        className="fixed top-0 left-0 pointer-events-none z-500 rounded-full transition-[background-color,border-color] mix-blend-difference"
         style={{
           width: outerSize,
           height: outerSize,
