@@ -2,6 +2,7 @@
 
 import React, { useState } from 'react';
 import Header from '../../commonComponents/Header/Header';
+import { sendEmail } from '../../actions/sendEmail';
 
 export default function Contact() {
   const [formState, setFormState] = useState({
@@ -26,6 +27,8 @@ export default function Contact() {
 
   const [focusedField, setFocusedField] = useState<string | null>(null);
   const [isSubmitted, setIsSubmitted] = useState(false);
+  const [isSending, setIsSending] = useState(false);
+  const [errorMsg, setErrorMsg] = useState<string | null>(null);
 
   const handleFocus = (field: string) => setFocusedField(field);
   const handleBlur = (field: string, value: string) => {
@@ -41,14 +44,29 @@ export default function Contact() {
     });
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    // Simulate premium submit transition
-    setIsSubmitted(true);
-    setTimeout(() => {
-      setIsSubmitted(false);
+    setIsSending(true);
+    setErrorMsg(null);
+
+    try {
+      const result = await sendEmail(formState);
+
+      if (result.error) {
+        setErrorMsg(result.error);
+        return;
+      }
+
+      setIsSubmitted(true);
       setFormState({ name: '', email: '', subject: '', message: '' });
-    }, 4000);
+      setTimeout(() => {
+        setIsSubmitted(false);
+      }, 5000);
+    } catch (error) {
+      setErrorMsg('Failed to send email. Please try again.');
+    } finally {
+      setIsSending(false);
+    }
   };
 
   return (
@@ -190,15 +208,27 @@ export default function Contact() {
               />
             </div>
 
+            {/* Error Message */}
+            {errorMsg && (
+              <div className="text-right">
+                <span className="inline-block text-red-400 font-mono text-sm tracking-wide bg-red-950/20 border border-red-500/20 px-4 py-2 rounded-lg">
+                  ⚠️ {errorMsg}
+                </span>
+              </div>
+            )}
+
             {/* Submit Button */}
             <div className="flex justify-end pt-6">
               <button
                 type="submit"
+                disabled={isSending}
                 data-cursor="link"
-                className="relative overflow-hidden group border border-yellow-400/40 text-white hover:text-black font-heading tracking-widest uppercase font-bold text-xl px-12 py-5 rounded-full transition-colors duration-500 ease-out cursor-pointer"
+                className={`relative overflow-hidden group border border-yellow-400/40 text-white hover:text-black font-heading tracking-widest uppercase font-bold text-xl px-12 py-5 rounded-full transition-colors duration-500 ease-out cursor-pointer ${
+                  isSending ? 'opacity-50 pointer-events-none' : ''
+                }`}
               >
                 <span className="absolute inset-0 bg-yellow-600 transform -translate-x-full group-hover:translate-x-0 transition-transform duration-500 ease-out z-0" />
-                <span className="relative z-10">SEND MESSAGE</span>
+                <span className="relative z-10">{isSending ? 'SENDING...' : 'SEND MESSAGE'}</span>
               </button>
             </div>
           </form>
