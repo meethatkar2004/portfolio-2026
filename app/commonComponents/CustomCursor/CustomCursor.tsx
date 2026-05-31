@@ -161,7 +161,7 @@ const CustomCursor: React.FC<CustomCursorProps> = ({
       {/* Outer Circle */}
       <div
         ref={outerRef}
-        className="fixed top-0 left-0 pointer-events-none z-500 rounded-full transition-[background-color,border-color] mix-blend-difference"
+        className="fixed top-0 left-0 pointer-events-none z-[500] rounded-full transition-[background-color,border-color] mix-blend-difference will-change-transform"
         style={{
           width: outerSize,
           height: outerSize,
@@ -172,7 +172,7 @@ const CustomCursor: React.FC<CustomCursorProps> = ({
       {/* Inner Circle */}
       <div
         ref={innerRef}
-        className="fixed top-0 left-0 pointer-events-none z-500 rounded-full backdrop-invert"
+        className="fixed top-0 left-0 pointer-events-none z-[500] rounded-full bg-white mix-blend-difference will-change-transform"
         style={{
           width: innerSize,
           height: innerSize,
@@ -181,7 +181,7 @@ const CustomCursor: React.FC<CustomCursorProps> = ({
       {/* Label for Drag/View Text */}
       <div
         ref={labelRef}
-        className="fixed top-0 left-0 pointer-events-none z-500 flex items-center justify-center opacity-0 scale-0"
+        className="fixed top-0 left-0 pointer-events-none z-[500] flex items-center justify-center opacity-0 scale-0 will-change-transform"
       >
         <span className={`text-[10px] font-black tracking-[0.2em] uppercase drop-shadow-md ${cursorType === 'view' ? 'text-gray-400' : 'text-white'}`}>
           {cursorType === 'view' ? 'VIEW' : 'DRAG'}
