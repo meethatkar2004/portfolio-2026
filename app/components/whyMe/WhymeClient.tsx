@@ -38,8 +38,8 @@ export default function WhymeClient({ text }: WhymeClientProps) {
 
         scrollTrigger: {
           trigger: containerRef.current,
-          start: "top 90%",
-          end: "bottom 70%",
+          start: "top 80%",
+          end: "bottom 60%",
           scrub: 1,
         },
       });
