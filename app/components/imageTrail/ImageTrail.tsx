@@ -115,7 +115,7 @@ export default function ImageTrail({ enabled = true, threshold = 100 }: ImageTra
       const rect = parent.getBoundingClientRect();
       const localX = e.clientX - rect.left;
       const localY = e.clientY - rect.top;
-      
+
       mousePos.current = { x: localX, y: localY };
       cacheMousePos.current = { x: localX, y: localY };
       lastMousePos.current = { x: localX, y: localY };
@@ -154,7 +154,7 @@ export default function ImageTrail({ enabled = true, threshold = 100 }: ImageTra
   }, [enabled, threshold]);
 
   return (
-    <div ref={containerRef} className="pointer-events-none absolute inset-0 z-40 overflow-hidden" aria-hidden="true">
+    <div ref={containerRef} className="pointer-events-none absolute inset-0 z-80 overflow-hidden" aria-hidden="true">
       {skillImages.map((image, index) => (
         <div
           key={image.src}
