@@ -1,21 +1,6 @@
-// c:\Users\meeth\OneDrive\Desktop\portfolio_2026\app\components\certificateCard\CertificateCard.tsx
-"use client";
-import React from 'react'
+import CertificateCardClient from "./CertificateCardClient";
 
-import BorderGlow from '../../reactBitsComponents/borderGlow/BorderGlow'
-import Image from 'next/image'
-import Header from '../../commonComponents/Header/Header'
-import gsap from 'gsap'
-import { ScrollTrigger } from 'gsap/ScrollTrigger'
-import { useGSAP } from '@gsap/react'
-
-
-gsap.registerPlugin(ScrollTrigger);
-import { useLoading } from '../../context/LoadingContext';
-import FilmGrain from '../../commonComponents/FilmGrain/FilmGrain';
-
-const CertificateCard = () => {
-  const { isLoading } = useLoading();
+export default function CertificateCard() {
   const certificateData = [
     {
       title: "SEO",
@@ -41,101 +26,7 @@ const CertificateCard = () => {
       issueBy: "Github",
       link: "https://www.linkedin.com/learning/certificates/baa0c2c86b9e8cd9de83186e6afeade4b9aee2b7836779aeef54ef6f6504e6a1/?trk=share_certificate&lipi=urn%3Ali%3Apage%3Ad_flagship3_profile_view_base_certifications_details%3B6F1mzBjIR1muWDlrpc7YhA%3D%3D"
     }
-  ]
+  ];
 
-  const containerRef = React.useRef<HTMLDivElement>(null);
-
-  useGSAP(() => {
-    if (isLoading || !containerRef.current) return;
-
-    gsap.to([document.body, document.documentElement], {
-      backgroundColor: "#343434", // Deep black background for certificates section
-      scrollTrigger: {
-        trigger: containerRef.current,
-        start: "top 80%", // starts when the top of the certificates section enters the screen from the bottom
-        end: "top 30%",   // completes when the section reaches the upper-middle part of the viewport
-        toggleActions: "play reverse play reverse",
-        scrub: true,
-        // markers: true,
-      },
-    });
-  }, { dependencies: [isLoading], scope: containerRef });
-
-  return (
-    <div>
-      <FilmGrain zIndex={5} />
-      <Header
-        title="Proof of Skill, Built for Results"
-        description="Industry-recognized certifications in SEO, Three.js, and GitHub that sharpen my ability to build high-performing, visually engaging, and professionally managed digital experiences."
-        className='w-full'
-        titleClass='text-white!'
-        descClass='text-gray-100!'
-      >
-        <div ref={containerRef} className='w-full flex flex-wrap items-stretch gap-8 justify-center mt-10 pb-16 relative overflow-hidden'>
-          {certificateData.map((certificate, index) => (
-            <div
-              key={index}
-              data-cursor="view"
-              onClick={() => window.open(certificate.link, "_blank")}
-              className='mx-[1.5%] relative group cursor-pointer transition-all duration-500 ease-out origin-bottom transform-3d hover:transform-[perspective(1000px)_translateZ(-40px)_rotateX(-15deg)] hover:scale-y-90 rounded-[32px] z-10'
-            >
-              <BorderGlow
-                edgeSensitivity={30}
-                glowColor="255 255 105"
-                borderRadius={32}
-                glowRadius={60}
-                glowIntensity={5}
-                coneSpread={25}
-                animated={false}
-                colors={['#476afd', '#011257', '#a0b3ff']}
-              >
-
-                <div
-                  className='w-[370px] h-[560px] flex flex-col bg-background/25 rounded-[32px] overflow-hidden'
-                >
-                  {/* Card Content Wrapper */}
-                  <div className="relative z-10 h-full w-full p-5 flex flex-col justify-between text-left">
-                    {/* 1. Image Area (Aspect Square with black bg) */}
-                    <div className="w-full aspect-square bg-transparent rounded-[24px] overflow-hidden mb-5 relative flex items-center justify-center">
-                      <Image
-                        src={certificate.image}
-                        alt={certificate.title}
-                        className="w-full h-full object-cover"
-                        width={300}
-                        height={300}
-                      />
-                    </div>
-
-                    {/* 2. Text Content */}
-                    <div className='flex flex-col flex-grow justify-between text-left'>
-                      <div>
-                        {/* Title & Date Row */}
-                        <div className="flex justify-between items-baseline mb-2">
-                          <h2 className="text-2xl font-bold tracking-tight text-gray-100 font-heading">{certificate.title}</h2>
-                          <span className="text-sm font-mono text-gray-300 font-bold">{certificate.issueDate}</span>
-                        </div>
-
-                        {/* Description */}
-                        <p className="text-sm text-gray-300 leading-relaxed line-clamp-3 mb-4 font-sans font-medium">
-                          {certificate.description}
-                        </p>
-                      </div>
-
-                      {/* 3. Issued By (Pushed to bottom) */}
-                      <div className="border-t pt-3 border-gray-300/60 mt-auto">
-                        <p className="text-[10px] uppercase tracking-[0.2em] text-gray-300 font-semibold mb-1">Issued By</p>
-                        <p className="text-base font-bold text-[#E0D09B] font-heading">{certificate.issueBy}</p>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </BorderGlow>
-            </div>
-          ))}
-        </div>
-      </Header>
-    </div>
-  )
+  return <CertificateCardClient certificateData={certificateData} />;
 }
-
-export default CertificateCard;

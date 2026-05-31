@@ -19,25 +19,20 @@ const ProjectListClient = ({ projects }: ProjectListClientProps) => {
   const mouseCoordsRef = useRef({ x: 0, y: 0 });
 
   useEffect(() => {
+    let rafId: number | null = null;
+    let isScrolling = false;
+
     const handleMouseMove = (e: MouseEvent) => {
       mouseCoordsRef.current = { x: e.clientX, y: e.clientY };
     };
 
-    window.addEventListener('mousemove', handleMouseMove);
-    return () => {
-      window.removeEventListener('mousemove', handleMouseMove);
-    };
-  }, []);
-
-  useEffect(() => {
-    const handleScroll = () => {
+    const checkHoverState = () => {
       const { x, y } = mouseCoordsRef.current;
-      if (x === 0 && y === 0) return; // Mouse hasn't moved on the viewport yet
+      if (x === 0 && y === 0) return;
 
       const element = document.elementFromPoint(x, y);
-      if (!element) return;
-
-      const projectItem = element.closest('.project-item');
+      const projectItem = element?.closest('.project-item');
+      
       if (projectItem) {
         const indexAttr = projectItem.getAttribute('data-index');
         if (indexAttr !== null) {
@@ -50,16 +45,26 @@ const ProjectListClient = ({ projects }: ProjectListClientProps) => {
           });
         }
       } else {
-        setHoveredProject((prev) => {
-          if (prev === null) return prev;
-          return null;
-        });
+        setHoveredProject((prev) => (prev === null ? prev : null));
+      }
+      
+      isScrolling = false;
+    };
+
+    const handleScroll = () => {
+      if (!isScrolling) {
+        isScrolling = true;
+        rafId = requestAnimationFrame(checkHoverState);
       }
     };
 
+    window.addEventListener('mousemove', handleMouseMove, { passive: true });
     window.addEventListener('scroll', handleScroll, { passive: true });
+
     return () => {
+      window.removeEventListener('mousemove', handleMouseMove);
       window.removeEventListener('scroll', handleScroll);
+      if (rafId) cancelAnimationFrame(rafId);
     };
   }, [projects]);
 
