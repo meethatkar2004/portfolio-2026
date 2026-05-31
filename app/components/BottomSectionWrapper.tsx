@@ -29,7 +29,7 @@ export default function BottomSectionWrapper({ children }: { children: React.Rea
       }
     });
 
-    tl.to(document.body, {
+    tl.to([document.body, document.documentElement], {
       backgroundColor: '#ffffeb',
     }, 0);
 
