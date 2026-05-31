@@ -120,4 +120,68 @@
     transition: background-color 600000s ease-in-out 0s;
     caret-color: #ffffff !important;
   }
+
+  /* Optimized ProjectList styles for pure CSS hover states and buttery-smooth FPS */
+  .project-item {
+    transition: transform 0.35s cubic-bezier(0.25, 1, 0.5, 1), scale 0.35s cubic-bezier(0.25, 1, 0.5, 1);
+    will-change: transform, scale;
+  }
+
+  .project-title {
+    font-size: 1.125rem; /* text-lg */
+    color: var(--heading);
+    opacity: 0.3; /* text-heading/30 */
+    transition: font-size 0.4s cubic-bezier(0.25, 1, 0.5, 1), opacity 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+    will-change: font-size, opacity;
+  }
+
+  @media (min-width: 640px) {
+    .project-title {
+      font-size: 1.25rem; /* sm:text-xl */
+    }
+  }
+
+  .project-roles {
+    font-size: 0.875rem; /* text-sm */
+    color: var(--heading);
+    opacity: 0.5; /* text-heading/50 */
+    transition: opacity 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+    will-change: opacity;
+  }
+
+  @media (min-width: 640px) {
+    .project-roles {
+      font-size: 1rem; /* sm:text-base */
+    }
+  }
+
+  /* When the user hovers over the list wrapper, dim all list items */
+  .project-list-container:hover .project-item .project-title {
+    opacity: 0.5; /* text-heading/50 */
+  }
+
+  .project-list-container:hover .project-item .project-roles {
+    opacity: 0.5; /* text-heading/50 */
+  }
+
+  /* Overwrite styles for the specific hovered list item */
+  .project-list-container .project-item:hover {
+    transform: translateY(-4px);
+    scale: 1.02;
+  }
+
+  .project-list-container .project-item:hover .project-title {
+    font-size: 1.5rem; /* text-2xl */
+    opacity: 1; /* text-heading */
+  }
+
+  @media (min-width: 640px) {
+    .project-list-container .project-item:hover .project-title {
+      font-size: 3rem; /* sm:text-5xl */
+    }
+  }
+
+  .project-list-container .project-item:hover .project-roles {
+    opacity: 1; /* text-heading opacity-100 */
+  }
 }
