@@ -1,9 +1,5 @@
-'use client';
-
-import React, { useState } from 'react';
-import FloatingImage from '../../commonComponents/floatingImage/FloatingImage';
-import Header from '../../commonComponents/Header/Header';
-
+import React from 'react';
+import ProjectListClient from './ProjectListClient';
 
 interface Project {
   name: string;
@@ -12,7 +8,7 @@ interface Project {
   link: string;
 }
 
-const projects = [
+const projects: Project[] = [
   { name: "Cosmic Orbit", roles: "Three.js, WebGL, 3D Experience", image: "/projects/SolarSystem.webp", link: "https://the-solar-system-phi.vercel.app/" },
   { name: "Nova Labs", roles: "Experiments, WebGL, Creative Dev", image: "/projects/ThreeJS.webp", link: "https://three-js-challenge-list.vercel.app/" },
   { name: "Vision Pro", roles: "Product Landing, Premium UI, Animation", image: "/projects/AppleWebsite.webp", link: "https://vision-pro-landing-page.netlify.app/" },
@@ -23,59 +19,10 @@ const projects = [
   { name: "Duo Studio", roles: "Creative Agency, Branding, Motion", image: "/projects/DuoStudio.webp", link: "https://duo-studio-landing-page.netlify.app/" },
   { name: "Sidcup Family Golf", roles: "Sports Brand, Scroll Effects, UI/UX", image: "/projects/GolfSite.webp", link: "https://sidecup-family-golf-landing-page.netlify.app/" },
 ];
+
 const ProjectList = () => {
-  const [hoveredProject, setHoveredProject] = useState<Project | null>(null);
-
-
   return (
-    <Header
-      className="w-full p-[2%] px-[3%]"
-      title="Work That Speaks in Pixels"
-      description="A curated collection of modern websites and interactive experiences crafted to blend creativity, performance, and conversion-focused design."
-    >
-      <div
-        className='w-full relative'
-        onMouseLeave={() => {
-          setHoveredProject(null);
-        }}
-      >
-        <FloatingImage projects={projects} hoveredProjectName={hoveredProject?.name || null} />
-
-        <div className="border-t border-black/30 flex flex-col">
-          {projects.map((project, index) => (
-            <div
-              key={index}
-              data-index={index}
-              data-cursor="project"
-              className="project-item group flex flex-col sm:flex-row sm:items-center justify-between py-6 sm:py-8 border-b border-b-gray-400 cursor-pointer relative hover:scale-[1.02] hover:-translate-y-1 transition-transform ease-out duration-300"
-              onMouseEnter={() => {
-                setHoveredProject(project);
-              }}
-              onClick={() => window.open(project.link, "_blank")}
-            >
-              <h3 className={`font-semibold tracking-tight transition-all duration-500 origin-left ${
-                hoveredProject && hoveredProject.name === project.name 
-                  ? 'text-2xl sm:text-5xl text-heading' 
-                  : hoveredProject 
-                    ? 'text-lg sm:text-xl text-heading/50' 
-                    : 'text-lg sm:text-xl text-heading/30'
-              }`}>
-                {project.name}
-              </h3>
-              <p className={`text-sm sm:text-base font-medium transition-all duration-500 ${
-                hoveredProject && hoveredProject.name === project.name 
-                  ? 'text-heading opacity-100' 
-                  : hoveredProject 
-                    ? 'text-heading/50' 
-                    : 'text-heading/50'
-              }`}>
-                {project.roles}
-              </p>
-            </div>
-          ))}
-        </div>
-      </div>
-    </Header>
+    <ProjectListClient projects={projects} />
   );
 };
 
