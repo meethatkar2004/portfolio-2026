@@ -65,6 +65,19 @@ const CustomCursor: React.FC<CustomCursorProps> = ({
       ease: 'power3.out',
     });
 
+    const scaleXOuterTo = gsap.quickTo(outerRef.current, 'scaleX', {
+      duration: 0.15,
+      ease: 'power2.out',
+    });
+    const scaleYOuterTo = gsap.quickTo(outerRef.current, 'scaleY', {
+      duration: 0.15,
+      ease: 'power2.out',
+    });
+
+    let xPrev = 0;
+    let yPrev = 0;
+    let timeoutId: ReturnType<typeof setTimeout> | null = null;
+
     const handleMouseMove = (e: MouseEvent) => {
       xInnerTo(e.clientX);
       yInnerTo(e.clientY);
@@ -72,6 +85,25 @@ const CustomCursor: React.FC<CustomCursorProps> = ({
       yOuterTo(e.clientY);
       xLabelTo(e.clientX);
       yLabelTo(e.clientY);
+
+      // Squeeze & Squash calculations (ratio velocity-based)
+      const deltaX = e.clientX - xPrev;
+      const deltaY = e.clientY - yPrev;
+
+      const scaleX = gsap.utils.clamp(0.6, 1.4, 1 + Math.abs(deltaX) * 0.005 - Math.abs(deltaY) * 0.005);
+      const scaleY = gsap.utils.clamp(0.6, 1.4, 1 - Math.abs(deltaX) * 0.005 + Math.abs(deltaY) * 0.005);
+
+      scaleXOuterTo(scaleX);
+      scaleYOuterTo(scaleY);
+
+      xPrev = e.clientX;
+      yPrev = e.clientY;
+
+      if (timeoutId) clearTimeout(timeoutId);
+      timeoutId = setTimeout(() => {
+        scaleXOuterTo(1);
+        scaleYOuterTo(1);
+      }, 80);
     };
 
     const handleMouseOver = (e: MouseEvent) => {
@@ -92,6 +124,7 @@ const CustomCursor: React.FC<CustomCursorProps> = ({
     return () => {
       window.removeEventListener('mousemove', handleMouseMove);
       window.removeEventListener('mouseover', handleMouseOver);
+      if (timeoutId) clearTimeout(timeoutId);
     };
   }, [innerSpeed, outerSpeed, setCursorType]);
 
