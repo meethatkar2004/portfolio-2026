@@ -30,17 +30,12 @@ export default function Screensaver({ textArr = DEFAULT_WORDS, className = '' }:
   const words = textArr.length > 0 ? textArr : DEFAULT_WORDS;
 
   const containerRef = useRef<HTMLDivElement>(null);
+  const bgOverlayRef = useRef<HTMLDivElement>(null);
   const elementRef = useRef<HTMLDivElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const hudRef = useRef<HTMLDivElement>(null);
 
-  const [cornerHits, setCornerHits] = useState(() => {
-    if (typeof window !== 'undefined') {
-      const localVal = localStorage.getItem('corner_hits');
-      if (localVal) return parseInt(localVal, 10);
-    }
-    return 0;
-  });
+  const [cornerHits, setCornerHits] = useState(0);
   const [textIndex, setTextIndex] = useState(0);
 
   const posRef = useRef({ x: 0, y: 0 });
@@ -56,6 +51,15 @@ export default function Screensaver({ textArr = DEFAULT_WORDS, className = '' }:
       vx: Math.random() > 0.5 ? speed : -speed,
       vy: Math.random() > 0.5 ? speed : -speed,
     };
+
+    const loadInitialHits = () => {
+      const localVal = localStorage.getItem('corner_hits');
+      if (localVal) {
+        setCornerHits(parseInt(localVal, 10));
+      }
+    };
+
+    loadInitialHits();
   }, []);
 
   useEffect(() => {
@@ -122,6 +126,10 @@ export default function Screensaver({ textArr = DEFAULT_WORDS, className = '' }:
     };
 
     const updatePhysics = () => {
+      if (bgOverlayRef.current) {
+        bgOverlayRef.current.style.backgroundColor = document.body.style.backgroundColor || '#ffffeb';
+      }
+
       const { cw, ch, ew, eh } = dimensionsRef.current;
       if (cw === 0 || ch === 0 || ew === 0 || eh === 0) {
         animationFrameId = requestAnimationFrame(updatePhysics);
@@ -252,8 +260,10 @@ export default function Screensaver({ textArr = DEFAULT_WORDS, className = '' }:
       ref={containerRef}
       className={`relative overflow-hidden rounded-xl border border-foreground/10 bg-foreground/[0.7] flex select-none ${className}`}
     >
-      <div className="absolute inset-0 bg-background opacity-90 pointer-events-none" />
-
+      <div
+        ref={bgOverlayRef}
+        className="absolute inset-0 bg-background opacity-90 pointer-events-none"
+      />
       <canvas
         ref={canvasRef}
         className="absolute inset-0 pointer-events-none"
