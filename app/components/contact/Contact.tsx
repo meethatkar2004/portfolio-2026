@@ -145,7 +145,7 @@ export default function Contact() {
 
         setIsSubmitted(true);
         setFormState({ name: '', email: '', subject: '', message: '' });
-      } catch (error) {
+      } catch {
         setErrorMsg('Failed to send email. Please try again.');
       }
     });
