@@ -23,9 +23,46 @@ const projects = [
   { name: "Duo Studio", roles: "Creative Agency, Branding, Motion", image: "/projects/DuoStudio.webp", link: "https://duo-studio-landing-page.netlify.app/" },
   { name: "Sidcup Family Golf", roles: "Sports Brand, Scroll Effects, UI/UX", image: "/projects/GolfSite.webp", link: "https://sidecup-family-golf-landing-page.netlify.app/" },
 ];
+const ProjectItemsList = React.memo(({
+  projects,
+  onHover
+}: {
+  projects: Project[];
+  onHover: (project: Project | null) => void;
+}) => {
+  return (
+    <div className="border-t border-black/30 flex flex-col project-list-container">
+      {projects.map((project, index) => (
+        <div
+          key={index}
+          data-index={index}
+          data-cursor="project"
+          className="project-item group flex flex-col sm:flex-row sm:items-center justify-between py-6 sm:py-8 border-b border-b-gray-400 cursor-pointer relative ease-out duration-300"
+          onMouseEnter={() => {
+            onHover(project);
+          }}
+          onClick={() => window.open(project.link, "_blank")}
+        >
+          <h3 className="project-title font-semibold tracking-tight transition-all duration-500 origin-left">
+            {project.name}
+          </h3>
+          <p className="project-roles text-sm sm:text-base font-medium transition-all duration-500">
+            {project.roles}
+          </p>
+        </div>
+      ))}
+    </div>
+  );
+});
+
+ProjectItemsList.displayName = 'ProjectItemsList';
+
 const ProjectList = () => {
   const [hoveredProject, setHoveredProject] = useState<Project | null>(null);
 
+  const handleHover = React.useCallback((project: Project | null) => {
+    setHoveredProject(project);
+  }, []);
 
   return (
     <Header
@@ -34,46 +71,14 @@ const ProjectList = () => {
       description="A curated collection of modern websites and interactive experiences crafted to blend creativity, performance, and conversion-focused design."
     >
       <div
-        className='w-full relative'
+        className="w-full relative"
         onMouseLeave={() => {
           setHoveredProject(null);
         }}
       >
         <FloatingImage projects={projects} hoveredProjectName={hoveredProject?.name || null} />
 
-        <div className="border-t border-black/30 flex flex-col">
-          {projects.map((project, index) => (
-            <div
-              key={index}
-              data-index={index}
-              data-cursor="project"
-              className="project-item group flex flex-col sm:flex-row sm:items-center justify-between py-6 sm:py-8 border-b border-b-gray-400 cursor-pointer relative hover:scale-[1.02] hover:-translate-y-1 transition-transform ease-out duration-300"
-              onMouseEnter={() => {
-                setHoveredProject(project);
-              }}
-              onClick={() => window.open(project.link, "_blank")}
-            >
-              <h3 className={`font-semibold tracking-tight transition-all duration-500 origin-left ${
-                hoveredProject && hoveredProject.name === project.name 
-                  ? 'text-2xl sm:text-5xl text-heading' 
-                  : hoveredProject 
-                    ? 'text-lg sm:text-xl text-heading/50' 
-                    : 'text-lg sm:text-xl text-heading/30'
-              }`}>
-                {project.name}
-              </h3>
-              <p className={`text-sm sm:text-base font-medium transition-all duration-500 ${
-                hoveredProject && hoveredProject.name === project.name 
-                  ? 'text-heading opacity-100' 
-                  : hoveredProject 
-                    ? 'text-heading/50' 
-                    : 'text-heading/50'
-              }`}>
-                {project.roles}
-              </p>
-            </div>
-          ))}
-        </div>
+        <ProjectItemsList projects={projects} onHover={handleHover} />
       </div>
     </Header>
   );
