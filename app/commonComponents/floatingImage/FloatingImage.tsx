@@ -34,14 +34,28 @@ const FloatingImage = ({
 
     yTo.current = gsap.quickTo(imageRef.current, 'y', { duration: 0.4, ease: 'power3' });
 
+    let lastClientY = 0;
+
     const handleMouseMove = (e: MouseEvent) => {
+      lastClientY = e.clientY;
       if (yTo.current) {
         yTo.current(e.clientY);
       }
     };
 
+    const handleScroll = () => {
+      if (yTo.current) {
+        yTo.current(lastClientY);
+      }
+    };
+
     window.addEventListener('mousemove', handleMouseMove);
-    return () => window.removeEventListener('mousemove', handleMouseMove);
+    window.addEventListener('scroll', handleScroll, { passive: true });
+
+    return () => {
+      window.removeEventListener('mousemove', handleMouseMove);
+      window.removeEventListener('scroll', handleScroll);
+    };
   }, []);
 
   return (
@@ -49,7 +63,7 @@ const FloatingImage = ({
       ref={imageRef}
       className={`fixed top-0 left-1/2 -translate-x-1/2 h-[15vmax] w-[30vmax] pointer-events-none z-50 transition-opacity duration-300 rounded-xl overflow-hidden bg-transparent ${hoveredProjectName ? 'opacity-100' : 'opacity-0'}`}
     >
-      <div 
+      <div
         className="w-full h-full transition-transform duration-700 ease-[cubic-bezier(0.25,1,0.5,1)]"
         style={{ transform: `translateY(-${lastActiveIndex * 100}%)` }}
       >
