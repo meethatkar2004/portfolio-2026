@@ -29,6 +29,10 @@ const InitialLoad = ({ onComplete }: { onComplete: () => void }) => {
       { willChange: "transform, opacity" }
     );
 
+    // Initialize transitional layers as full-height and offset down to avoid layout shifts (CLS)
+    gsap.set(GreenDiv.current, { yPercent: 100, height: "100vh" });
+    gsap.set(heroBg.current, { yPercent: 100, height: "100vh" });
+
     const tl = gsap.timeline({
       onComplete: () => {
         gsap.set(
@@ -44,51 +48,51 @@ const InitialLoad = ({ onComplete }: { onComplete: () => void }) => {
     const movingWords = gsap.utils.toArray(".moving-word", container.current);
     const children = gsap.utils.toArray(".child", container.current);
 
-    // 1. Initial word-slide entry
+    // 1. Initial word-slide entry (optimized durations for better LCP)
     tl.from(movingWords, {
       xPercent: (index: number) => index * 10,
       opacity: 0.3,
-      stagger: 0.1,
-      duration: 1,
-      delay: 0.3,
-      ease: "expo.inOut",
+      stagger: 0.05,
+      duration: 0.6,
+      delay: 0.1,
+      ease: "expo.out",
       force3D: true,
     });
 
     // 2. Main reveal sequence
     tl.to(children, {
       yPercent: -100,
-      duration: 1,
+      duration: 0.6,
       ease: "power3.inOut",
       force3D: true,
     }, "reveal")
     .to(loader.current, {
       yPercent: -100,
-      duration: 1,
+      duration: 0.6,
       ease: "power3.inOut",
       force3D: true,
       lazy: false,
     }, "reveal");
 
-    // 3. Screen transitions
+    // 3. Screen transitions (using transform yPercent instead of height to achieve 0 CLS)
     tl.to(fullScreen.current, {
-      height: '0vh',
-      duration: 1.2,
-      ease: "expo.inOut",
+      yPercent: -100,
+      duration: 0.8,
+      ease: "power3.inOut",
       force3D: true,
-    }, "-=1")
+    }, "-=0.6")
     .to(GreenDiv.current, {
-      height: "100vh",
-      duration: 1.2,
-      ease: "expo.inOut",
+      yPercent: 0,
+      duration: 0.8,
+      ease: "power3.inOut",
       force3D: true,
-    }, "-=0.9")
+    }, "-=0.5")
     .to(heroBg.current, {
-      height: "100vh",
-      duration: 1.2,
-      ease: "expo.inOut",
+      yPercent: 0,
+      duration: 0.8,
+      ease: "power3.inOut",
       force3D: true,
-    }, "-=1");
+    }, "-=0.6");
 
     return () => {
       tl.kill();

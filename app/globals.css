@@ -92,4 +92,18 @@
     scrollbar-width: thin;
     scrollbar-color: #b99400 transparent;
   }
+
+  /* Prevent browser autofill from breaking dark input aesthetics */
+  input:-webkit-autofill,
+  input:-webkit-autofill:hover,
+  input:-webkit-autofill:focus,
+  textarea:-webkit-autofill,
+  textarea:-webkit-autofill:hover,
+  textarea:-webkit-autofill:focus {
+    -webkit-text-fill-color: #ffffff !important;
+    -webkit-box-shadow: 0 0 0px 1000px var(--primary) inset !important;
+    box-shadow: 0 0 0px 1000px var(--primary) inset !important;
+    transition: background-color 600000s ease-in-out 0s;
+    caret-color: #ffffff !important;
+  }
 }
