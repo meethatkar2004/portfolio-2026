@@ -60,7 +60,7 @@ const Hero = ({animateHero}: {animateHero: boolean}) => {
 
       {/* Hero Typography */}
       <div className='absolute left-[3vw] top-[45%] -translate-y-1/2 z-30 pointer-events-none'>
-        <h1 className='text-[10vmax] font-black leading-[0.8] tracking-tighter text-heading uppercase'>
+        <h1 className='text-[clamp(3.5rem,10vmax,10rem)] font-black leading-[0.8] tracking-tighter text-heading uppercase'>
           <span className="block overflow-hidden">
             <span className="hero-text block">WEBSITE</span>
           </span>
@@ -71,7 +71,7 @@ const Hero = ({animateHero}: {animateHero: boolean}) => {
           </span>
         </h1>
         <div className="overflow-hidden mt-6=[2%]">
-          <p className='hero-text text-sm md:text-xl text-primary ml-[8vw] md:ml-[50vw] font-bold tracking-widest uppercase opacity-80 block'>
+          <p className='hero-text text-[clamp(0.875rem,0.7rem+0.8vw,1.25rem)] text-primary ml-[8vw] md:ml-[50vw] font-bold tracking-widest uppercase opacity-80 block'>
             BASED IN MUMBAI
           </p>
         </div>

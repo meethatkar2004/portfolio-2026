@@ -64,13 +64,13 @@ export default function FooterClient({ connectLinks, navigateLinks }: FooterClie
         <TextReveal
           text="MEET HATKAR"
           isLoading={isLoading}
-          className="footer-big-text text-[14vw] md:text-[12.5vw] mx-auto whitespace-nowrap leading-none font-black font-heading tracking-tighter text-primary"
+          className="footer-big-text text-[clamp(3.5rem,13vw,13rem)] mx-auto whitespace-nowrap leading-none font-black font-heading tracking-tighter text-primary"
         />
       </div>
 
       {/* Bottom bar */}
       <div
-        className="footer-small-text flex flex-col md:flex-row justify-between items-center w-full mx-auto text-[0.55rem] md:text-[0.65rem] font-mono tracking-widest uppercase z-10 max-w-360 text-foreground/40 pb-[2%]"
+        className="footer-small-text flex flex-col md:flex-row justify-between items-center w-full mx-auto text-[clamp(0.55rem,0.5rem+0.2vw,0.65rem)] font-mono tracking-widest uppercase z-10 max-w-360 text-foreground/40 pb-[2%]"
       >
         <p>© 2026 PORTFOLIO. ALL RIGHTS RESERVED. DESIGNED WITH PRECISION.</p>
         <p className="mt-4 md:mt-0 flex gap-4">

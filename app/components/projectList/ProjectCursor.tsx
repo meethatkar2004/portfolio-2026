@@ -64,7 +64,7 @@ export default function ProjectCursor({ containerRef }: { containerRef: React.Re
       ref={cursorRef}
       className="pointer-events-none fixed top-0 left-0 z-50 flex items-center justify-center opacity-0 transition-opacity duration-300"
     >
-      <div className="bg-blue-700 text-white font-bold tracking-wider px-5 py-2 text-sm sm:text-base whitespace-nowrap shadow-lg">
+      <div className="bg-blue-700 text-white font-bold tracking-wider px-5 py-2 text-[clamp(0.875rem,0.8rem+0.3vw,1rem)] whitespace-nowrap shadow-lg">
         DISCOVER
       </div>
     </div>

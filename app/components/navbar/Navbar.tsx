@@ -45,7 +45,7 @@ const Navbar = ({ animateHero = false }: { animateHero?: boolean }) => {
         data-cursor="link"
         className='h-full flex justify-start font-heading cursor-pointer'
       >
-        <span className='text-2xl font-extrabold text-primary uppercase tracking-tighter'>Meet</span>
+        <span className='text-[clamp(1.25rem,1.1rem+0.6vw,1.5rem)] font-extrabold text-primary uppercase tracking-tighter'>Meet</span>
       </div>
 
       {/* Navigation Links */}
@@ -55,7 +55,7 @@ const Navbar = ({ animateHero = false }: { animateHero?: boolean }) => {
             key={item.label}
             onClick={() => handleScroll(item.target)}
             data-cursor="link"
-            className='text-lg font-bold text-heading cursor-pointer hover:text-primary transition-colors'
+            className='text-[clamp(1rem,0.9rem+0.4vw,1.125rem)] font-bold text-heading cursor-pointer hover:text-primary transition-colors'
           >
             {item.label}
           </span>
@@ -71,9 +71,9 @@ const Navbar = ({ animateHero = false }: { animateHero?: boolean }) => {
           text="CODE•DESIGN•BUILD•"
           onHover="speedUp"
           spinDuration={15}
-          className="text-[9px] md:text-[11px] font-heading font-black uppercase tracking-widest text-primary w-[64px] h-[64px] md:w-[70px] md:h-[70px]"
+          className="text-[clamp(9px,0.8vw,11px)] font-heading font-black uppercase tracking-widest text-primary w-[64px] h-[64px] md:w-[70px] md:h-[70px]"
         />
-        <span className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-3xl md:text-3xl leading-none opacity-50">
+        <span className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-[clamp(1.5rem,2vw,1.875rem)] leading-none opacity-50">
           🧿
         </span>
       </div>

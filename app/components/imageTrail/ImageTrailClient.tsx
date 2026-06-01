@@ -166,7 +166,7 @@ export default function ImageTrailClient({ skillImages, enabled = true, threshol
             className="h-full w-full scale-150 object-contain drop-shadow-[0_18px_28px_rgba(42,18,9,0.22)]"
             priority={index < 3}
           />
-          <p className="absolute -bottom-[50%] left-1/2 -translate-x-1/2 text-xs md:text-sm font-bold tracking-widest text-background drop-shadow-md whitespace-nowrap uppercase">
+          <p className="absolute -bottom-[50%] left-1/2 -translate-x-1/2 text-[clamp(0.75rem,0.7rem+0.25vw,0.875rem)] font-bold tracking-widest text-background drop-shadow-md whitespace-nowrap uppercase">
             {image.name}
           </p>
         </div>

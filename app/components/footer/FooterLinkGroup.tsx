@@ -18,7 +18,7 @@ interface FooterLinkGroupProps {
 export default function FooterLinkGroup({ title, links, className = '', align = 'left', onClickItem }: FooterLinkGroupProps) {
   return (
     <div className={`flex flex-col gap-6 ${align === 'right' ? 'items-end text-right' : 'items-start text-left'} ${className}`}>
-      <h4 className="footer-title text-[0.65rem] md:text-2xl font-bold tracking-[0.2em] text-primary uppercase font-mono">
+      <h4 className="footer-title text-[clamp(0.65rem,0.5rem+2vw,1.5rem)] font-bold tracking-[0.2em] text-primary uppercase font-mono">
         {title}
       </h4>
       <ul className={`flex flex-col gap-3 ${align === 'right' ? 'items-end' : 'items-start'}`}>
@@ -28,7 +28,7 @@ export default function FooterLinkGroup({ title, links, className = '', align = 
               <span
                 onClick={(e) => onClickItem(link.label, e)}
                 data-cursor="link"
-                className="footer-link text-sm md:text-xl text-primary hover:text-black transition-colors font-small cursor-pointer"
+                className="footer-link text-[clamp(0.875rem,0.75rem+1vw,1.25rem)] text-primary hover:text-black transition-colors font-small cursor-pointer"
               >
                 {link.label}
               </span>
@@ -36,7 +36,7 @@ export default function FooterLinkGroup({ title, links, className = '', align = 
               <Link
                 href={link.href}
                 target='_blank'
-                className="footer-link text-sm md:text-xl text-primary hover:text-black transition-colors font-small"
+                className="footer-link text-[clamp(0.875rem,0.75rem+1vw,1.25rem)] text-primary hover:text-black transition-colors font-small"
               >
                 {link.label}
               </Link>

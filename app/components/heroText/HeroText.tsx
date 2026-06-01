@@ -65,7 +65,7 @@ const HeroText = forwardRef<HTMLDivElement, HeroTextProps>(
         <div ref={containerRef} className="w-full overflow-hidden flex whitespace-nowrap">
           <div ref={trackRef} className="flex items-center whitespace-nowrap shrink-0 will-change-transform">
             {repeatedItems.map((text, idx) => (
-              <div key={`track-${idx}`} className="flex items-center text-[12vmax] font-heading font-black leading-none tracking-tighter text-background uppercase">
+              <div key={`track-${idx}`} className="flex items-center text-[clamp(4.5rem,12vmax,12rem)] font-heading font-black leading-none tracking-tighter text-background uppercase">
                 <span>{text}</span>
                 <span className="text-background px-[2vw]">•</span>
               </div>
@@ -73,7 +73,7 @@ const HeroText = forwardRef<HTMLDivElement, HeroTextProps>(
           </div>
           <div ref={trackDupRef} className="flex items-center whitespace-nowrap shrink-0 will-change-transform" aria-hidden="true">
             {repeatedItems.map((text, idx) => (
-              <div key={`track-dup-${idx}`} className="flex items-center text-[12vmax] font-heading font-black leading-none tracking-tighter text-background uppercase">
+              <div key={`track-dup-${idx}`} className="flex items-center text-[clamp(4.5rem,12vmax,12rem)] font-heading font-black leading-none tracking-tighter text-background uppercase">
                 <span>{text}</span>
                 <span className="text-background px-[2vw]">•</span>
               </div>
