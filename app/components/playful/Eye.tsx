@@ -41,7 +41,7 @@ const Eye = ({ key_val }: EyeProps) => {
       // Shift the black inner circle slightly following the mouse relative to its own size
       const pctX = deltaX / (window.innerWidth / 2);
       const pctY = deltaY / (window.innerHeight / 2);
-      
+
       // Clamp values between -1 and 1 to prevent excessive shifts
       const clampedPctX = Math.max(-1, Math.min(1, pctX));
       const clampedPctY = Math.max(-1, Math.min(1, pctY));
@@ -59,13 +59,13 @@ const Eye = ({ key_val }: EyeProps) => {
   }, [isInView]);
 
   return (
-    <div 
-      ref={eyeRef} 
-      id={`eyes-wrapper-1-${key_val}`} 
+    <div
+      ref={eyeRef}
+      id={`eyes-wrapper-1-${key_val}`}
       className='w-[13vmax] h-[13vmax] rounded-full bg-white flex items-center justify-center'
     >
-      <div 
-        id="eyes-wrapper-2" 
+      <div
+        id="eyes-wrapper-2"
         className='w-2/3 h-2/3 bg-black rounded-full relative'
         style={{ transform: `translate(${eyeOffset.x}vmax, ${eyeOffset.y}vmax)` }}
       >
