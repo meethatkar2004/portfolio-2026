@@ -22,7 +22,7 @@ export default function HorizontalText() {
 
       // 1. Horizontal scroll layout calculation with dynamic functions
       // This ensures that when fonts load or window is resized, GSAP dynamically recalculates the exact scroll widths!
-      const horizontalTween = gsap.to(scrollRef.current, {
+      gsap.to(scrollRef.current, {
         x: () => {
           if (!scrollRef.current || !containerRef.current) return 0;
           const scrollWidth = scrollRef.current.scrollWidth;

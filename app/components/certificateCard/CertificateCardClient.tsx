@@ -6,8 +6,6 @@ import Image from 'next/image';
 import Header from '../../commonComponents/Header/Header';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import { useGSAP } from '@gsap/react';
-import { useLoading } from '../../context/LoadingContext';
 import FilmGrain from '../../commonComponents/FilmGrain/FilmGrain';
 
 gsap.registerPlugin(ScrollTrigger);
@@ -26,11 +24,7 @@ interface CertificateCardClientProps {
 }
 
 export default function CertificateCardClient({ certificateData }: CertificateCardClientProps) {
-  const { isLoading } = useLoading();
   const containerRef = React.useRef<HTMLDivElement>(null);
-
-  
-
 
   return (
     <div>
