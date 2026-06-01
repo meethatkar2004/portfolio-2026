@@ -26,25 +26,23 @@ interface LanyardProps {
   gravity?: [number, number, number];
   fov?: number;
   transparent?: boolean;
+  isMobile?: boolean;
 }
 
 export default function Lanyard({
   position = [0, 0, 30],
   gravity = [0, -40, 0],
   fov = 20,
-  transparent = true
+  transparent = true,
+  isMobile = false
 }: LanyardProps) {
-  const [isMobile, setIsMobile] = useState<boolean>(() => 
-    typeof window !== 'undefined' && window.innerWidth < 768
-  );
+  const [isClient, setIsClient] = useState(false);
 
   const containerRef = useRef<HTMLDivElement>(null);
   const [isVisible, setIsVisible] = useState(true);
 
   useEffect(() => {
-    const handleResize = (): void => setIsMobile(window.innerWidth < 768);
-    window.addEventListener('resize', handleResize);
-    return () => window.removeEventListener('resize', handleResize);
+    setIsClient(true);
   }, []);
 
   useEffect(() => {
@@ -59,49 +57,52 @@ export default function Lanyard({
   }, []);
 
   return (
-    <div ref={containerRef} className="relative z-0 w-screen h-full flex justify-self-end items-end">
-      <Canvas
-        frameloop={isVisible ? 'always' : 'never'}
-        camera={{ position, fov }}
-        dpr={[1, isMobile ? 1.5 : 2]}
-        gl={{ alpha: transparent }}
-        onCreated={({ gl }) => gl.setClearColor(new THREE.Color(0xC0C0C0), transparent ? 0 : 1)}
-      >
-        <ambientLight intensity={Math.PI} />
-        <Physics gravity={gravity} timeStep={isMobile ? 1 / 30 : 1 / 60}>
-          <Band isMobile={isMobile} />
-        </Physics>
-        <Environment blur={0.75}>
-          <Lightformer
-            intensity={2}
-            color="white"
-            position={[0, -1, 5]}
-            rotation={[0, 0, Math.PI / 3]}
-            scale={[100, 0.1, 1]}
-          />
-          <Lightformer
-            intensity={3}
-            color="white"
-            position={[-1, -1, 1]}
-            rotation={[0, 0, Math.PI / 3]}
-            scale={[100, 0.1, 1]}
-          />
-          <Lightformer
-            intensity={3}
-            color="white"
-            position={[1, 1, 1]}
-            rotation={[0, 0, Math.PI / 3]}
-            scale={[100, 0.1, 1]}
-          />
-          <Lightformer
-            intensity={10}
-            color="white"
-            position={[-10, 0, 14]}
-            rotation={[0, Math.PI / 2, Math.PI / 3]}
-            scale={[100, 10, 1]}
-          />
-        </Environment>
-      </Canvas>
+    <div ref={containerRef} className="relative z-0 w-full h-full flex justify-self-end items-end">
+      {isClient && (
+        <Canvas
+          key={position.join(',')}
+          frameloop={isVisible ? 'always' : 'never'}
+          camera={{ position, fov }}
+          dpr={[1, isMobile ? 1.5 : 2]}
+          gl={{ alpha: transparent }}
+          onCreated={({ gl }) => gl.setClearColor(new THREE.Color(0xC0C0C0), transparent ? 0 : 1)}
+        >
+          <ambientLight intensity={Math.PI} />
+          <Physics gravity={gravity} timeStep={isMobile ? 1 / 30 : 1 / 60}>
+            <Band isMobile={isMobile} />
+          </Physics>
+          <Environment blur={0.75}>
+            <Lightformer
+              intensity={2}
+              color="white"
+              position={[0, -1, 5]}
+              rotation={[0, 0, Math.PI / 3]}
+              scale={[100, 0.1, 1]}
+            />
+            <Lightformer
+              intensity={3}
+              color="white"
+              position={[-1, -1, 1]}
+              rotation={[0, 0, Math.PI / 3]}
+              scale={[100, 0.1, 1]}
+            />
+            <Lightformer
+              intensity={3}
+              color="white"
+              position={[1, 1, 1]}
+              rotation={[0, 0, Math.PI / 3]}
+              scale={[100, 0.1, 1]}
+            />
+            <Lightformer
+              intensity={10}
+              color="white"
+              position={[-10, 0, 14]}
+              rotation={[0, Math.PI / 2, Math.PI / 3]}
+              scale={[100, 10, 1]}
+            />
+          </Environment>
+        </Canvas>
+      )}
     </div>
   );
 }
@@ -173,22 +174,17 @@ function Band({ maxSpeed = 50, minSpeed = 0, isMobile = false }: BandProps) {
     ]);
     c.curveType = 'chordal';
     return c;
-  });
-
-  const [dragged, drag] = useState<false | THREE.Vector3>(false);
+  }); const [dragged, drag] = useState<false | THREE.Vector3>(false);
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [hovered, hover] = useState(false);
 
-  useRopeJoint(fixed, j1, [[0, 0, 0], [0, 0, 0], 1]);
-  useRopeJoint(j1, j2, [[0, 0, 0], [0, 0, 0], 1]);
-  useRopeJoint(j2, j3, [[0, 0, 0], [0, 0, 0], 1]);
+  useRopeJoint(fixed, j1, [[0, 0, 0], [0, 0, 0], isMobile ? 2.4 : 1]);
+  useRopeJoint(j1, j2, [[0, 0, 0], [0, 0, 0], isMobile ? 2.4 : 1]);
+  useRopeJoint(j2, j3, [[0, 0, 0], [0, 0, 0], isMobile ? 2.4 : 1]);
   useSphericalJoint(j3, card, [
     [0, 0, 0],
     [0, 1.45, 0]
   ]);
-
-
-
   useFrame((state, delta) => {
     if (dragged && typeof dragged !== 'boolean') {
       vec.set(state.pointer.x, state.pointer.y, 0.5).unproject(state.camera);
@@ -212,7 +208,7 @@ function Band({ maxSpeed = 50, minSpeed = 0, isMobile = false }: BandProps) {
         const lerpedVec = (ref.current as any).lerped as THREE.Vector3;
         const target = ref.current.translation();
         const dist = lerpedVec.distanceTo(target);
-        
+
         if (dist > 0.005) {
           needsUpdate = true;
           const clampedDistance = Math.max(0.1, Math.min(1, dist));
@@ -226,7 +222,7 @@ function Band({ maxSpeed = 50, minSpeed = 0, isMobile = false }: BandProps) {
       if (curve.points[0].distanceTo(j3Pos as unknown as THREE.Vector3) > 0.005) {
         needsUpdate = true;
       }
-      
+
       const fixedPos = fixed.current.translation();
       if (curve.points[3].distanceTo(fixedPos as unknown as THREE.Vector3) > 0.005) {
         needsUpdate = true;
@@ -254,19 +250,19 @@ function Band({ maxSpeed = 50, minSpeed = 0, isMobile = false }: BandProps) {
 
   return (
     <>
-      <group position={[2, 4, 0]}>
+      <group position={isMobile ? [0, 8, 0] : [2, 4, 0]}>
         <RigidBody ref={fixed} {...segmentProps} type="fixed" />
-        <RigidBody position={[0.5, 0, 0]} ref={j1} {...segmentProps} type="dynamic">
+        <RigidBody position={isMobile ? [0, 0, 0] : [0.5, 0, 0]} ref={j1} {...segmentProps} type="dynamic">
           <BallCollider args={[0.1]} />
         </RigidBody>
-        <RigidBody position={[1, 0, 0]} ref={j2} {...segmentProps} type="dynamic">
+        <RigidBody position={isMobile ? [0, 0, 0] : [1, 0, 0]} ref={j2} {...segmentProps} type="dynamic">
           <BallCollider args={[0.1]} />
         </RigidBody>
-        <RigidBody position={[1.5, 0, 0]} ref={j3} {...segmentProps} type="dynamic">
+        <RigidBody position={isMobile ? [0, 0, 0] : [1.5, 0, 0]} ref={j3} {...segmentProps} type="dynamic">
           <BallCollider args={[0.1]} />
         </RigidBody>
         <RigidBody
-          position={[2, 0, 0]}
+          position={isMobile ? [0, 0, 0] : [2, 0, 0]}
           ref={card}
           {...segmentProps}
           type={dragged ? 'kinematicPosition' : 'dynamic'}
@@ -332,7 +328,7 @@ function Band({ maxSpeed = 50, minSpeed = 0, isMobile = false }: BandProps) {
           </group>
         </RigidBody>
       </group>
-      <mesh 
+      <mesh
         ref={band}
         onPointerEnter={(e) => {
           e.stopPropagation();

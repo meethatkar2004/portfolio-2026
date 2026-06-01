@@ -32,6 +32,12 @@ const CustomCursor: React.FC<CustomCursorProps> = ({
   useEffect(() => {
     if (!innerRef.current || !outerRef.current || !labelRef.current) return;
 
+    const isTouchOrMobile = window.matchMedia('(pointer: coarse)').matches || window.innerWidth < 1024;
+    if (isTouchOrMobile) {
+      gsap.set([innerRef.current, outerRef.current, labelRef.current], { display: 'none' });
+      return;
+    }
+
     // Set initial positions
     gsap.set([innerRef.current, outerRef.current, labelRef.current], {
       xPercent: -50,
@@ -131,6 +137,9 @@ const CustomCursor: React.FC<CustomCursorProps> = ({
   useEffect(() => {
     if (!innerRef.current || !outerRef.current || !labelRef.current) return;
 
+    const isTouchOrMobile = window.matchMedia('(pointer: coarse)').matches || window.innerWidth < 1024;
+    if (isTouchOrMobile) return;
+
     if (cursorType === 'drag' || cursorType === 'view') {
       gsap.to(outerRef.current, {
         width: 80,
@@ -194,7 +203,7 @@ const CustomCursor: React.FC<CustomCursorProps> = ({
       {/* Outer Circle */}
       <div
         ref={outerRef}
-        className="fixed top-0 left-0 pointer-events-none z-100 rounded-full transition-[background-color,border-color] mix-blend-difference"
+        className="fixed top-0 left-0 pointer-events-none z-100 rounded-full transition-[background-color,border-color] mix-blend-difference hidden lg:block"
         style={{
           width: outerSize,
           height: outerSize,
@@ -205,7 +214,7 @@ const CustomCursor: React.FC<CustomCursorProps> = ({
       {/* Inner Circle */}
       <div
         ref={innerRef}
-        className="fixed top-0 left-0 pointer-events-none z-100 rounded-full backdrop-invert"
+        className="fixed top-0 left-0 pointer-events-none z-100 rounded-full backdrop-invert hidden lg:block"
         style={{
           width: innerSize,
           height: innerSize,
@@ -214,7 +223,7 @@ const CustomCursor: React.FC<CustomCursorProps> = ({
       {/* Label for Drag/View Text */}
       <div
         ref={labelRef}
-        className="fixed top-0 left-0 pointer-events-none z-100 flex items-center justify-center opacity-0 scale-0"
+        className="fixed top-0 left-0 pointer-events-none z-100 items-center justify-center opacity-0 scale-0 hidden lg:flex"
       >
         <span className={`text-[10px] font-black tracking-[0.2em] uppercase drop-shadow-md ${cursorType === 'view' ? 'text-gray-400' : 'text-white'}`}>
           {cursorType === 'view' ? 'VIEW' : 'DRAG'}
