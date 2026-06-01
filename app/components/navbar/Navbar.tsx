@@ -64,7 +64,7 @@ const Navbar = ({ animateHero = false }: { animateHero?: boolean }) => {
 
       {/* Interactive Circular Text Badge */}
       <div
-        className='relative pointer-events-auto select-none cursor-pointer flex items-center justify-center ml-2'
+        className='relative pointer-events-auto select-none cursor-pointer flex items-center justify-center ml-2 scale-75 md:scale-100 origin-center'
         data-cursor="link"
       >
         <CircularText

@@ -51,16 +51,16 @@ export default function FooterClient({ connectLinks, navigateLinks }: FooterClie
           className="hidden md:flex w-[45vw] h-[45vh]"
         />
 
-        <FooterLinkGroup 
-          title="NAVIGATE" 
-          links={navigateLinks} 
-          align="right" 
+        <FooterLinkGroup
+          title="NAVIGATE"
+          links={navigateLinks}
+          align="right"
           onClickItem={handleScroll}
         />
       </div>
 
       {/* Big text */}
-      <div className="w-full flex justify-center mt-[3%] pt-[5%] z-10">
+      <div className="w-full flex justify-center mt-[3%] pt-[5%] z-10 overflow-hidden">
         <TextReveal
           text="MEET HATKAR"
           isLoading={isLoading}
