@@ -89,18 +89,18 @@ export default function CertificateCardClient({ certificateData }: CertificateCa
                     <div className='flex flex-col flex-grow justify-between text-left'>
                       <div>
                         <div className="flex justify-between items-baseline mb-2">
-                          <h2 className="text-2xl font-bold tracking-tight text-gray-100 font-heading">{certificate.title}</h2>
-                          <span className="text-sm font-mono text-gray-300 font-bold">{certificate.issueDate}</span>
+                          <h2 className="text-[clamp(1.25rem,1.5vw,1.5rem)] font-bold tracking-tight text-gray-100 font-heading">{certificate.title}</h2>
+                          <span className="text-[clamp(0.75rem,1vw,0.875rem)] font-mono text-gray-300 font-bold">{certificate.issueDate}</span>
                         </div>
 
-                        <p className="text-sm text-gray-300 leading-relaxed line-clamp-3 mb-4 font-sans font-medium">
+                        <p className="text-[clamp(0.8rem,1vw,0.875rem)] text-gray-300 leading-relaxed line-clamp-3 mb-4 font-sans font-medium">
                           {certificate.description}
                         </p>
                       </div>
 
                       <div className="border-t pt-3 border-gray-300/60 mt-auto">
-                        <p className="text-[10px] uppercase tracking-[0.2em] text-gray-300 font-semibold mb-1">Issued By</p>
-                        <p className="text-base font-bold text-[#E0D09B] font-heading">{certificate.issueBy}</p>
+                        <p className="text-[clamp(9px,0.8vw,11px)] uppercase tracking-[0.2em] text-gray-300 font-semibold mb-1">Issued By</p>
+                        <p className="text-[clamp(0.875rem,1.2vw,1rem)] font-bold text-[#E0D09B] font-heading">{certificate.issueBy}</p>
                       </div>
                     </div>
                   </div>

@@ -50,7 +50,7 @@ export default function WhymeClient({ text }: WhymeClientProps) {
   return (
     <Header
       title="Why Me ?!"
-      titleClass="text-[5vmax] text-background"
+      titleClass="text-[clamp(2.5rem,5vmax,5.5rem)] text-background"
     >
       <section
         ref={containerRef}

@@ -273,7 +273,7 @@ export default function Screensaver({ textArr = DEFAULT_WORDS, className = '' }:
       <div
         ref={hudRef}
         suppressHydrationWarning
-        className="absolute top-4 left-4 z-20 font-mono text-[20px] tracking-widest text-foreground/50 select-none transition-transform duration-100 ease-out origin-left"
+        className="absolute top-4 left-4 z-20 font-mono text-[clamp(14px,1.5vw,20px)] tracking-widest text-foreground/50 select-none transition-transform duration-100 ease-out origin-left"
       >
         HITS: {String(cornerHits).padStart(2, '0')}
       </div>
@@ -284,7 +284,7 @@ export default function Screensaver({ textArr = DEFAULT_WORDS, className = '' }:
 
       <div
         ref={elementRef}
-        className="absolute top-0 left-0 font-heading font-black tracking-widest text-4xl uppercase select-none pointer-events-none will-change-transform whitespace-nowrap text-foreground/80 origin-center"
+        className="absolute top-0 left-0 font-heading font-black tracking-widest text-[clamp(1.75rem,3.5vw,2.25rem)] uppercase select-none pointer-events-none will-change-transform whitespace-nowrap text-foreground/80 origin-center"
         style={{
           lineHeight: 'normal',
           padding: '6px 12px',

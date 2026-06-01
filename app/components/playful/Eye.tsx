@@ -73,7 +73,7 @@ const Eye = ({ key_val }: EyeProps) => {
           <div id="pupil" className='w-9 h-9 bg-white rounded-full'>
           </div>
         </div>
-        <p className="play absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 font-black text-gray-400 text-[0.6vmax] text-center tracking-widest">HOVER TO REVEAL SKILLS</p>
+        <p className="play absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 font-black text-gray-400 text-[clamp(8px,0.6vmax,12px)] text-center tracking-widest">HOVER TO REVEAL SKILLS</p>
       </div>
     </div>
   )

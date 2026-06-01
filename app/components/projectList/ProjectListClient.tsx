@@ -95,14 +95,14 @@ const ProjectListClient = ({ projects }: ProjectListClientProps) => {
               onClick={() => window.open(project.link, "_blank")}
             >
               <h3 className={`font-semibold tracking-tight transition-all duration-500 origin-left ${hoveredProject && hoveredProject.name === project.name
-                ? 'text-2xl sm:text-5xl text-heading'
+                ? 'text-[clamp(1.5rem,1rem+3vw,3rem)] text-heading'
                 : hoveredProject
-                  ? 'text-lg sm:text-xl text-heading/50'
-                  : 'text-lg sm:text-xl text-heading/30'
+                  ? 'text-[clamp(1.125rem,1rem+0.5vw,1.25rem)] text-heading/50'
+                  : 'text-[clamp(1.125rem,1rem+0.5vw,1.25rem)] text-heading/30'
                 }`}>
                 {project.name}
               </h3>
-              <p className={`text-sm sm:text-base font-medium transition-all duration-500 ${hoveredProject && hoveredProject.name === project.name
+              <p className={`text-[clamp(0.875rem,0.8rem+0.3vw,1rem)] font-medium transition-all duration-500 ${hoveredProject && hoveredProject.name === project.name
                 ? 'text-heading opacity-100'
                 : hoveredProject
                   ? 'text-heading/50'
