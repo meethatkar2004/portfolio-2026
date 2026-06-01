@@ -21,6 +21,8 @@ function useInterval(callback: () => void, delay: number | null) {
   }, [delay]);
 }
 
+const SCRAMBLE_CHARS = '!@#$%^&*()_+{}:"<>?,./;[]\\-';
+
 // Scrambling Text Component
 const ScramblingText = ({ texts }: { texts: string[] }) => {
   const [textIndex, setTextIndex] = useState(0);
@@ -43,7 +45,6 @@ const ScramblingText = ({ texts }: { texts: string[] }) => {
   }, []);
 
   const scrambleText = (newText: string) => {
-    const chars = '!@#$%^&*()_+{}:"<>?,./;[]\\-';
     const scrambleDuration = 1000;
     const intervalTime = 30;
     const totalFrames = scrambleDuration / intervalTime;
@@ -58,7 +59,7 @@ const ScramblingText = ({ texts }: { texts: string[] }) => {
         .map((char, index) => {
           if (char === ' ') return ' ';
           if (index / newText.length < progress) return char;
-          return chars[Math.floor(Math.random() * chars.length)];
+          return SCRAMBLE_CHARS[Math.floor(Math.random() * SCRAMBLE_CHARS.length)];
         })
         .join('');
 
