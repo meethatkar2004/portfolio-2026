@@ -42,7 +42,10 @@ export default function Lanyard({
   const [isVisible, setIsVisible] = useState(true);
 
   useEffect(() => {
+    const setClient = ()=>{
     setIsClient(true);
+    }
+    setClient();
   }, []);
 
   useEffect(() => {
