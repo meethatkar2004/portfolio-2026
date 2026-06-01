@@ -275,55 +275,58 @@ function Band({ maxSpeed = 50, minSpeed = 0, isMobile = false }: BandProps) {
           <group
             scale={1.7}
             position={[0, -0.62, -0.05]}
-            onPointerEnter={(e) => {
-              e.stopPropagation();
-              hover(true);
-              setCursorType('drag');
-            }}
-            onPointerLeave={() => {
-              hover(false);
-              setCursorType('default');
-            }}
-            onPointerUp={(e: ThreeEvent<PointerEvent>) => {
-              const target = e.target as any;
-              if (target?.releasePointerCapture) {
-                target.releasePointerCapture(e.pointerId);
-              }
-              drag(false);
-              hover(false);
-              setCursorType('default');
-            }}
-            onPointerDown={(e: ThreeEvent<PointerEvent>) => {
-              e.stopPropagation();
-              const target = e.target as any;
-              if (target?.setPointerCapture) {
-                target.setPointerCapture(e.pointerId);
-              }
-              drag(new THREE.Vector3().copy(e.point).sub(vec.copy(card.current.translation())));
-              setCursorType('dragging');
-            }}
           >
-            <mesh geometry={nodes.card.geometry}>
-              <meshPhysicalMaterial
-                map={frontTexture}
-                map-anisotropy={16}
-                clearcoat={isMobile ? 0 : 1}
-                clearcoatRoughness={0.15}
-                roughness={0.9}
-                metalness={0.8}
-              />
-            </mesh>
-            <mesh geometry={nodes.card.geometry} rotation={[0, Math.PI, 0]}>
-              <meshPhysicalMaterial
-                map={backTexture}
-                map-anisotropy={16}
-                clearcoat={isMobile ? 0 : 1}
-                clearcoatRoughness={0.15}
-                roughness={0.9}
-                metalness={0.8}
-                color="white"
-              />
-            </mesh>
+            <group
+              onPointerEnter={(e) => {
+                e.stopPropagation();
+                hover(true);
+                setCursorType('drag');
+              }}
+              onPointerLeave={() => {
+                hover(false);
+                setCursorType('default');
+              }}
+              onPointerUp={(e: ThreeEvent<PointerEvent>) => {
+                const target = e.target as any;
+                if (target?.releasePointerCapture) {
+                  target.releasePointerCapture(e.pointerId);
+                }
+                drag(false);
+                hover(false);
+                setCursorType('default');
+              }}
+              onPointerDown={(e: ThreeEvent<PointerEvent>) => {
+                e.stopPropagation();
+                const target = e.target as any;
+                if (target?.setPointerCapture) {
+                  target.setPointerCapture(e.pointerId);
+                }
+                drag(new THREE.Vector3().copy(e.point).sub(vec.copy(card.current.translation())));
+                setCursorType('dragging');
+              }}
+            >
+              <mesh geometry={nodes.card.geometry}>
+                <meshPhysicalMaterial
+                  map={frontTexture}
+                  map-anisotropy={16}
+                  clearcoat={isMobile ? 0 : 1}
+                  clearcoatRoughness={0.15}
+                  roughness={0.9}
+                  metalness={0.8}
+                />
+              </mesh>
+              <mesh geometry={nodes.card.geometry} rotation={[0, Math.PI, 0]}>
+                <meshPhysicalMaterial
+                  map={backTexture}
+                  map-anisotropy={16}
+                  clearcoat={isMobile ? 0 : 1}
+                  clearcoatRoughness={0.15}
+                  roughness={0.9}
+                  metalness={0.8}
+                  color="white"
+                />
+              </mesh>
+            </group>
             <mesh geometry={nodes.clip.geometry} material={materials.metal} material-roughness={0.3} />
             <mesh geometry={nodes.clamp.geometry} material={materials.metal} />
           </group>
