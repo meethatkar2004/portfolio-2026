@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 interface FilmGrainProps {
   opacity?: number;
@@ -11,13 +11,38 @@ interface FilmGrainProps {
  * FilmGrain — Generates a noise tile on an off-screen canvas,
  * converts it to a data-URL, and tiles it across a full-size overlay div.
  * Drop this inside any section wrapper with `position: relative`.
+ * Uses IntersectionObserver to dynamically enable/disable the compositing layer
+ * only when the section is in the viewport, preventing GPU rendering overhead.
  */
 export default function FilmGrain({ opacity = 0.75, zIndex = 10 }: FilmGrainProps) {
   const overlayRef = useRef<HTMLDivElement>(null);
+  const [isVisible, setIsVisible] = useState(false);
 
   useEffect(() => {
     const overlay = overlayRef.current;
     if (!overlay) return;
+
+    // Monitor section visibility in the viewport
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        setIsVisible(entry.isIntersecting);
+      },
+      {
+        rootMargin: '150px', // Buffer to seamlessly generate noise before element enters view
+        threshold: 0,
+      }
+    );
+
+    observer.observe(overlay);
+
+    return () => {
+      observer.disconnect();
+    };
+  }, []);
+
+  useEffect(() => {
+    const overlay = overlayRef.current;
+    if (!overlay || !isVisible) return;
 
     // Create a small off-screen canvas to generate the noise tile
     const size = 150;
@@ -45,7 +70,7 @@ export default function FilmGrain({ opacity = 0.75, zIndex = 10 }: FilmGrainProp
     overlay.style.backgroundImage = `url(${dataUrl})`;
     overlay.style.backgroundRepeat = 'repeat';
     overlay.style.backgroundSize = `${size}px ${size}px`;
-  }, []);
+  }, [isVisible]);
 
   return (
     <div
@@ -58,7 +83,8 @@ export default function FilmGrain({ opacity = 0.75, zIndex = 10 }: FilmGrainProp
         height: '100%',
         pointerEvents: 'none',
         zIndex,
-        opacity,
+        opacity: isVisible ? opacity : 0,
+        display: isVisible ? 'block' : 'none',
         mixBlendMode: 'soft-light',
       }}
     />
