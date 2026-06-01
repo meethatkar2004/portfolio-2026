@@ -89,7 +89,7 @@
     background-color: #b99400;
     /* yellow-400 */
     border-radius: 10px;
-    border: 3px solid transparent;
+    /* border: 3px solid transparent; */
     /* Transparent padding */
     background-clip: padding-box;
   }
@@ -116,7 +116,6 @@
   textarea:-webkit-autofill:focus {
     -webkit-text-fill-color: #ffffff !important;
     -webkit-box-shadow: 0 0 0px 1000px var(--primary) inset !important;
-    box-shadow: 0 0 0px 1000px var(--primary) inset !important;
     transition: background-color 600000s ease-in-out 0s;
     caret-color: #ffffff !important;
   }

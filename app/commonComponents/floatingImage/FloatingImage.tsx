@@ -29,6 +29,11 @@ const FloatingImage = ({
   }
 
   useGSAP(() => {
+    // Only register listeners on desktop viewports
+    if (typeof window !== 'undefined' && window.innerWidth < 1024) {
+      return;
+    }
+
     // Center the image relative to the cursor
     gsap.set(imageRef.current, { yPercent: -50 });
 
