@@ -5,6 +5,7 @@ import HeroText from "./components/heroText/HeroText";
 import Whyme from "./components/whyMe/Whyme";
 import Contact from "./components/contact/Contact";
 import Footer from "./components/footer/Footer";
+import HorizontalText from "./components/horizontalText/HorizontalText";
 
 import PageWrapper from "./components/PageWrapper";
 import BottomSectionWrapper from "./components/BottomSectionWrapper";
@@ -14,6 +15,9 @@ export default function Home() {
     <PageWrapper>
       <div id="projectList" className="w-full">
         <ProjectList />
+      </div>
+      <div id="memorable" className="w-full">
+        <HorizontalText />
       </div>
       <div id="certificates" className="w-full">
         <CertificateCard />
@@ -31,20 +35,9 @@ export default function Home() {
       <BottomSectionWrapper>
         <div className="relative w-full py-[12vh] md:py-[15vh] overflow-hidden flex flex-col gap-6 md:gap-12 justify-center select-none md:pb-[20%]">
           <HeroText
-            speed={10}
+            speed={5}
             direction="left"
-            textArray={[
-              "FORGET NORMAL CREATE IMPACT",
-              "BREAK THE ORDINARY BUILD THE UNFORGETTABLE"
-            ]}
-          />
-          <HeroText
-            speed={10}
-            direction="right"
-            textArray={[
-              "KING IS EXPERIENCE DEAD IS ORIDNARY",
-              "OBSESSION TURN CLICK INTO OBSESSION",
-            ]}
+            textArray={["CREATIVE • CODE • CULTURE"]}
           />
         </div>
         <Footer />

@@ -29,20 +29,8 @@ export default function CertificateCardClient({ certificateData }: CertificateCa
   const { isLoading } = useLoading();
   const containerRef = React.useRef<HTMLDivElement>(null);
 
-  useGSAP(() => {
-    if (isLoading || !containerRef.current) return;
+  
 
-    gsap.to([document.body, document.documentElement], {
-      backgroundColor: "#343434",
-      scrollTrigger: {
-        trigger: containerRef.current,
-        start: "top 80%",
-        end: "top 30%",
-        toggleActions: "play reverse play reverse",
-        scrub: true,
-      },
-    });
-  }, { dependencies: [isLoading], scope: containerRef });
 
   return (
     <div>
@@ -50,11 +38,11 @@ export default function CertificateCardClient({ certificateData }: CertificateCa
       <Header
         title="Proof of Skill, Built for Results"
         description="Industry-recognized certifications in SEO, Three.js, and GitHub that sharpen my ability to build high-performing, visually engaging, and professionally managed digital experiences."
-        className='w-full'
+        className='w-full relative z-5'
         titleClass='text-white!'
         descClass='text-gray-100!'
       >
-        <div ref={containerRef} className='w-full flex flex-wrap items-stretch gap-8 justify-center mt-10 pb-16 relative overflow-hidden'>
+        <div ref={containerRef} className='w-full flex flex-wrap items-stretch gap-8 justify-center mt-10 pb-16 relative overflow-visible'>
           {certificateData.map((certificate, index) => (
             <div
               key={index}
