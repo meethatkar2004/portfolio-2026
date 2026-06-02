@@ -38,7 +38,7 @@ const ProjectListClient = ({ projects }: ProjectListClientProps) => {
 
       const element = document.elementFromPoint(x, y);
       const projectItem = element?.closest('.project-item');
-      
+
       if (projectItem) {
         const indexAttr = projectItem.getAttribute('data-index');
         if (indexAttr !== null) {
@@ -53,7 +53,7 @@ const ProjectListClient = ({ projects }: ProjectListClientProps) => {
       } else {
         setHoveredProject((prev) => (prev === null ? prev : null));
       }
-      
+
       isScrolling = false;
     };
 
@@ -106,6 +106,15 @@ const ProjectListClient = ({ projects }: ProjectListClientProps) => {
             >
               {/* Text details container */}
               <div className="flex flex-col sm:flex-row sm:items-center justify-between w-full pr-4 sm:pr-0">
+                <div className="block sm:hidden shrink-0 w-full h-[22vmax] rounded-xl overflow-hidden relative border border-black/10">
+                  <Image
+                    src={project.image}
+                    alt={project.name}
+                    fill
+                    sizes="112px"
+                    className="object-fit"
+                  />
+                </div>
                 <h3 className={`font-semibold tracking-tight transition-all duration-500 origin-left text-left ${hoveredProject && hoveredProject.name === project.name
                   ? 'text-[clamp(1.95rem,1.3rem+3.9vw,3.9rem)] text-heading'
                   : hoveredProject
@@ -125,15 +134,6 @@ const ProjectListClient = ({ projects }: ProjectListClientProps) => {
               </div>
 
               {/* Inline Mobile Thumbnail */}
-              <div className="block sm:hidden shrink-0 max-w-46 w-[40vmax] h-[15vmax] rounded-xl overflow-hidden relative border border-black/10">
-                <Image
-                  src={project.image}
-                  alt={project.name}
-                  fill
-                  sizes="112px"
-                  className="object-fit"
-                />
-              </div>
             </div>
           ))}
         </div>

@@ -26,7 +26,7 @@ const Navbar = ({ animateHero = false }: { animateHero?: boolean }) => {
   const navItems = [
     { label: 'PROJECTS', target: '#projectList' },
     { label: 'CERTIFICATES', target: '#certificates' },
-    { label: 'SKILLS', target: '#playful' },
+    { label: 'SKILLS', target: '#skills' },
     { label: 'CONTACT', target: '#contact' },
   ];
 
