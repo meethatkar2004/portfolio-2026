@@ -9,7 +9,7 @@ const connectLinks = [
 const navigateLinks = [
   { label: 'Home', href: '#hero' },
   { label: 'Projects', href: '#projectList' },
-  { label: 'Skills', href: '#playful' },
+  { label: 'Skills', href: '#skills' },
   { label: 'Contact', href: '#contact' },
 ];
 

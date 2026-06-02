@@ -1,6 +1,6 @@
 import CertificateCard from "./components/certificateCard/CertificateCard";
 import ProjectList from "./components/projectList/ProjectList";
-import Playful from "./components/playful/Playful";
+import Skills from "./components/skills/Skills";
 import HeroText from "./components/heroText/HeroText";
 import Whyme from "./components/whyMe/Whyme";
 import Contact from "./components/contact/Contact";
@@ -25,8 +25,8 @@ export default function Home() {
       <div id="whyme" className="w-full">
         <Whyme />
       </div>
-      <div id="playful" className="w-full">
-        <Playful />
+      <div id="skills" className="w-full">
+        <Skills />
       </div>
       <div id="contact" className="w-full">
         <Contact />
