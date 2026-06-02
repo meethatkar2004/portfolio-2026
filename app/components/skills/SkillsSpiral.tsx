@@ -70,12 +70,16 @@ const SkillsSpiral: React.FC<SkillsSpiralProps> = ({ skills }) => {
     return () => observer.disconnect();
   }, []);
 
-  // Animation Loop
+  // Animation Loop with Viewport Optimization
   useEffect(() => {
     let animationFrameId: number;
     let lastTime = performance.now();
+    let isVisible = false;
 
     const animate = (time: number) => {
+      // 1. Instantly kill the loop if off-screen
+      if (!isVisible) return; 
+
       const delta = (time - lastTime) / 1000;
       lastTime = time;
 
@@ -96,7 +100,7 @@ const SkillsSpiral: React.FC<SkillsSpiralProps> = ({ skills }) => {
 
           if (!slot || !img) continue;
 
-          // Space the 5 slots equally
+          // Space the slots equally
           const baseP = i / ACTIVE_SLOTS;
           let p = (baseP + offsetRef.current) % 1.0;
           if (p < 0) p += 1.0;
@@ -104,7 +108,6 @@ const SkillsSpiral: React.FC<SkillsSpiralProps> = ({ skills }) => {
           // Wrap-around detection: when progress rolls over from < 0.15 to > 0.85
           const prevP = prevProgressRef.current[i];
           if (prevP < 0.15 && p > 0.85) {
-            // Swap to the next skill image in the array
             const nextSkill = skills[nextSkillIndexRef.current];
             if (nextSkill) {
               img.src = nextSkill.src;
@@ -145,12 +148,35 @@ const SkillsSpiral: React.FC<SkillsSpiralProps> = ({ skills }) => {
       animationFrameId = requestAnimationFrame(animate);
     };
 
-    animationFrameId = requestAnimationFrame(animate);
+    // 2. Setup the Intersection Observer
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            // Spiral entered viewport: Reset time and start loop
+            isVisible = true;
+            lastTime = performance.now(); 
+            animationFrameId = requestAnimationFrame(animate);
+          } else {
+            // Spiral left viewport: Stop loop
+            isVisible = false;
+            cancelAnimationFrame(animationFrameId);
+          }
+        });
+      },
+      // Trigger as soon as even 1 pixel is on/off screen
+      { threshold: 0 } 
+    );
+
+    if (containerRef.current) {
+      observer.observe(containerRef.current);
+    }
 
     return () => {
+      observer.disconnect();
       cancelAnimationFrame(animationFrameId);
     };
-  }, []);
+  }, [skills]);
 
   return (
     <div className="flex flex-col items-center justify-center w-full min-h-[50vh] px-4 py-8 bg-transparent select-none overflow-hidden relative">
