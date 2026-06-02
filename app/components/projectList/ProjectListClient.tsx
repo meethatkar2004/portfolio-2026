@@ -111,8 +111,7 @@ const ProjectListClient = ({ projects }: ProjectListClientProps) => {
                     src={project.image}
                     alt={project.name}
                     fill
-                    sizes="112px"
-                    className="object-fit"
+                    className="object-cover"
                   />
                 </div>
                 <h3 className={`font-semibold tracking-tight transition-all duration-500 origin-left text-left ${hoveredProject && hoveredProject.name === project.name
