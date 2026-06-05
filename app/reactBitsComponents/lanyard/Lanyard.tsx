@@ -42,8 +42,8 @@ export default function Lanyard({
   const [isVisible, setIsVisible] = useState(true);
 
   useEffect(() => {
-    const setClient = ()=>{
-    setIsClient(true);
+    const setClient = () => {
+      setIsClient(true);
     }
     setClient();
   }, []);
@@ -144,8 +144,9 @@ function Band({ maxSpeed = 50, minSpeed = 0, isMobile = false }: BandProps) {
 
   const { nodes, materials } = useGLTF(cardGLB) as any;
   const tLanyard = useTexture(lanyardTexturePath);
-  const tFront = useTexture('/profile-normal.png');
-  const tBack = useTexture('/profile-black.png');
+  // const tFront = useTexture('/profile-normal.png');
+  const tFront = useTexture('/lanray-back-image.png');
+  const tBack = useTexture('/lanray-back-image.png');
 
   const texture = useMemo(() => {
     const l = tLanyard.clone();
@@ -157,7 +158,7 @@ function Band({ maxSpeed = 50, minSpeed = 0, isMobile = false }: BandProps) {
   const frontTexture = useMemo(() => {
     const f = tFront.clone();
     f.center.set(0.38, 0.5);
-    f.rotation = -Math.PI;
+    f.rotation = Math.PI;
     return f;
   }, [tFront]);
 

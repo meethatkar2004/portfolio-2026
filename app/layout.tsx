@@ -26,6 +26,9 @@ const anton = Anton_SC({
 export const metadata: Metadata = {
   title: "Meet Portfolio 2026",
   description: "Created by Meet",
+  icons: {
+    icon: "/logo.png",
+  },
 };
 
 export default function RootLayout({

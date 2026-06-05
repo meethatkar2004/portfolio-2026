@@ -151,7 +151,7 @@ export default function ContactClient({ textArr }: ContactClientProps) {
         titleClass="text-white! text-[clamp(2rem,5vmax,4.5rem)]"
         descClass="text-gray-300! text-[clamp(2rem,2vmax,3rem)]"
       >
-        <div className="w-full max-w-4xl mx-auto p-[3%] mt-12 text-left bg-yellow-700/5 backdrop-blur-md rounded-2xl border border-yellow-300/10 relative z-30">
+        <div className="w-full mt-[10%] max-w-4xl mx-auto p-[3%] mt-12 text-left bg-yellow-700/5 backdrop-blur-md rounded-2xl border border-yellow-300/10 relative z-30">
           {isSubmitted ? (
             <div className="flex flex-col items-center justify-center py-16 text-center transition-all duration-500 ease-out">
               <div className="w-20 h-20 rounded-full border border-yellow-400/30 flex items-center justify-center mb-6 animate-pulse">
