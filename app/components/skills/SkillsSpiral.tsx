@@ -63,7 +63,7 @@ const SkillsSpiral: React.FC<SkillsSpiralProps> = ({ skills }) => {
     });
 
     observer.observe(containerRef.current);
-    
+
     // Set initial size
     containerWidthRef.current = containerRef.current.getBoundingClientRect().width;
 
@@ -78,7 +78,7 @@ const SkillsSpiral: React.FC<SkillsSpiralProps> = ({ skills }) => {
 
     const animate = (time: number) => {
       // 1. Instantly kill the loop if off-screen
-      if (!isVisible) return; 
+      if (!isVisible) return;
 
       const delta = (time - lastTime) / 1000;
       lastTime = time;
@@ -113,7 +113,7 @@ const SkillsSpiral: React.FC<SkillsSpiralProps> = ({ skills }) => {
               img.src = nextSkill.src;
               img.alt = nextSkill.alt;
               if (nameEl) nameEl.textContent = nextSkill.name;
-              
+
               // Increment index circular queue
               nextSkillIndexRef.current = (nextSkillIndexRef.current + 1) % skills.length;
             }
@@ -139,7 +139,7 @@ const SkillsSpiral: React.FC<SkillsSpiralProps> = ({ skills }) => {
           // Apply high-performance translation and scaling
           const x = point.x * scaleFactor;
           const y = point.y * scaleFactor;
-          
+
           slot.style.transform = `translate3d(${x}px, ${y}px, 0) translate(-50%, -50%) scale(${scale})`;
           slot.style.opacity = `${opacity}`;
         }
@@ -155,7 +155,7 @@ const SkillsSpiral: React.FC<SkillsSpiralProps> = ({ skills }) => {
           if (entry.isIntersecting) {
             // Spiral entered viewport: Reset time and start loop
             isVisible = true;
-            lastTime = performance.now(); 
+            lastTime = performance.now();
             animationFrameId = requestAnimationFrame(animate);
           } else {
             // Spiral left viewport: Stop loop
@@ -165,7 +165,7 @@ const SkillsSpiral: React.FC<SkillsSpiralProps> = ({ skills }) => {
         });
       },
       // Trigger as soon as even 1 pixel is on/off screen
-      { threshold: 0 } 
+      { threshold: 0 }
     );
 
     if (containerRef.current) {
@@ -183,11 +183,11 @@ const SkillsSpiral: React.FC<SkillsSpiralProps> = ({ skills }) => {
       {/* Title block for SEO/Semantic HTML */}
       <div className="text-center mb-6 z-10">
         <h2 className="text-2xl font-bold tracking-wider text-white uppercase sm:text-3xl">
-          Core Technologies
+          Skills & Technologies
         </h2>
-        <p className="text-xs text-gray-400 mt-1 uppercase tracking-widest">
+        {/* <p className="text-xs text-gray-400 mt-1 uppercase tracking-widest">
           A continuous loop of my stack
-        </p>
+        </p> */}
       </div>
 
       {/* Spiral Container */}
