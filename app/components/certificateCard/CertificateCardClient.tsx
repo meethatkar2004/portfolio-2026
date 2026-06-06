@@ -32,9 +32,9 @@ export default function CertificateCardClient({ certificateData }: CertificateCa
       <Header
         title="Proof of Skill, Built for Results"
         description="Industry-recognized certifications in SEO, Three.js, and GitHub that sharpen my ability to build high-performing, visually engaging, and professionally managed digital experiences."
-        className='w-full relative z-5'
-        titleClass='text-white!'
-        descClass='text-gray-100!'
+        className="w-full relative z-5"
+        titleClass="text-white! text-4xl sm:text-5xl md:text-6xl leading-[0.95] tracking-tight w-full mx-auto"
+        descClass="text-gray-100! text-sm sm:text-base md:text-lg w-9/12 max-w-xl md:max-w-2xl mx-auto leading-relaxed"
       >
         {/* FIXED: Changed from 'grid' to 'flex flex-wrap justify-center' so items perfectly align centrally on wide screens */}
         <div
