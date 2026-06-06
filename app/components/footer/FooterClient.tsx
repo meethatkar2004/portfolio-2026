@@ -39,10 +39,10 @@ export default function FooterClient({ connectLinks, navigateLinks }: FooterClie
   return (
     <footer
       ref={footerRef}
-      className="w-full pt-20 px-8 md:px-16 flex flex-col relative z-20 bg-transparent"
+      className="w-full pt-20 flex flex-col relative z-20 bg-transparent"
     >
       {/* Top Section */}
-      <div className="flex justify-between items-start w-full mx-auto z-10 max-w-360">
+      <div className="flex justify-between items-start px-4 w-full mx-auto z-10 max-w-360">
         <FooterLinkGroup title="CONNECT" links={connectLinks} />
 
         {/* Center screensaver element */}
@@ -60,17 +60,17 @@ export default function FooterClient({ connectLinks, navigateLinks }: FooterClie
       </div>
 
       {/* Big text */}
-      <div className="w-full flex justify-center mt-[3%] pt-[5%] z-10 overflow-hidden">
+      <div className="w-full flex justify-center pt-[7%] z-10 overflow-y-hidden">
         <TextReveal
           text="MEET HATKAR"
           isLoading={isLoading}
-          className="footer-big-text text-[clamp(3.5rem,13vw,13rem)] mx-auto whitespace-nowrap leading-none font-black font-heading tracking-tighter text-primary"
+          className="footer-big-text lg:text-[clamp(3.5rem,12vw,13rem)] mx-auto whitespace-nowrap leading-none font-black font-heading tracking-tighter text-primary"
         />
       </div>
 
       {/* Bottom bar */}
       <div
-        className="footer-small-text flex flex-col md:flex-row justify-between items-center w-full mx-auto text-[clamp(0.55rem,0.5rem+0.2vw,0.65rem)] font-mono tracking-widest uppercase z-10 max-w-360 text-foreground/40 pb-[2%]"
+        className="footer-small-text px-4 flex flex-col md:flex-row justify-between items-center w-full mx-auto text-[clamp(0.55rem,0.5rem+0.2vw,0.65rem)] font-mono tracking-widest uppercase z-10 max-w-360 text-foreground/40 pb-[2%]"
       >
         <p>© 2026 PORTFOLIO. ALL RIGHTS RESERVED. DESIGNED WITH PRECISION.</p>
         <p className="mt-4 md:mt-0 flex gap-4">
