@@ -66,13 +66,13 @@ const InitialLoad = ({ onComplete }: { onComplete: () => void }) => {
       ease: "power3.inOut",
       force3D: true,
     }, "reveal")
-    .to(loader.current, {
-      yPercent: -100,
-      duration: 0.6,
-      ease: "power3.inOut",
-      force3D: true,
-      lazy: false,
-    }, "reveal");
+      .to(loader.current, {
+        yPercent: -100,
+        duration: 0.6,
+        ease: "power3.inOut",
+        force3D: true,
+        lazy: false,
+      }, "reveal");
 
     // 3. Screen transitions (using transform yPercent instead of height to achieve 0 CLS)
     tl.to(fullScreen.current, {
@@ -81,18 +81,18 @@ const InitialLoad = ({ onComplete }: { onComplete: () => void }) => {
       ease: "power3.inOut",
       force3D: true,
     }, "-=0.6")
-    .to(GreenDiv.current, {
-      yPercent: 0,
-      duration: 0.8,
-      ease: "power3.inOut",
-      force3D: true,
-    }, "-=0.5")
-    .to(heroBg.current, {
-      yPercent: 0,
-      duration: 0.8,
-      ease: "power3.inOut",
-      force3D: true,
-    }, "-=0.6");
+      .to(GreenDiv.current, {
+        yPercent: 0,
+        duration: 0.8,
+        ease: "power3.inOut",
+        force3D: true,
+      }, "-=0.5")
+      .to(heroBg.current, {
+        yPercent: 0,
+        duration: 0.8,
+        ease: "power3.inOut",
+        force3D: true,
+      }, "-=0.6");
 
     return () => {
       tl.kill();
@@ -122,14 +122,14 @@ const InitialLoad = ({ onComplete }: { onComplete: () => void }) => {
       </div>
 
       {/* Transitional Green Layer */}
-      <div ref={GreenDiv} className={`absolute bottom-0 left-0 w-full h-0 bg-primary z-20 contain-layout contain-paint ${isFixed ? 'pointer-events-none' : ''}`} />
+      <div ref={GreenDiv} className={`absolute bottom-0 left-0 w-full h-0 bg-primary z-40 contain-layout contain-paint ${isFixed ? 'pointer-events-none' : ''}`} />
 
       {/* Main Hero Background Layer */}
-      <div ref={heroBg} className={`absolute bottom-0 left-0 w-full h-0 bg-background z-30 contain-layout contain-paint ${isFixed ? 'pointer-events-none' : ''}`}>
+      <div ref={heroBg} className={`absolute bottom-0 left-0 w-full h-0 bg-background z-50 contain-layout contain-paint ${isFixed ? 'pointer-events-none' : ''}`}>
         <div className='absolute top-0 w-full'>
-            <Navbar animateHero={animateHero} />
+          <Navbar animateHero={animateHero} />
         </div>
-        <Hero animateHero={animateHero}/>
+        <Hero animateHero={animateHero} />
       </div>
     </div>
   )

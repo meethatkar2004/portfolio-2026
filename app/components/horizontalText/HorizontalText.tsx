@@ -75,10 +75,10 @@ export default function HorizontalText() {
   return (
     <section
       ref={containerRef}
-      className="w-full min-h-screen flex flex-col justify-center bg-transparent relative overflow-hidden py-32 select-none"
+      className="w-full mt-[20%] min-h-screen flex flex-col justify-center bg-transparent relative overflow-hidden py-32 select-none"
     >
       <FilmGrain opacity={0.15} zIndex={1} />
-      
+
       {/* Dynamic atmospheric ambient glows */}
       <div className="absolute top-[10%] left-[-15%] w-[60vw] h-[60vw] rounded-full blur-[160px] pointer-events-none z-0 animate-pulse" style={{ animationDuration: '10s' }} />
       <div className="absolute bottom-[10%] right-[-15%] w-[60vw] h-[60vw] rounded-full blur-[160px] pointer-events-none z-0 animate-pulse" style={{ animationDuration: '14s' }} />

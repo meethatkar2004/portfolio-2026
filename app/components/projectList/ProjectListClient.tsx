@@ -76,7 +76,7 @@ const ProjectListClient = ({ projects }: ProjectListClientProps) => {
 
   return (
     <Header
-      className="w-full p-[2%] px-[3%]"
+      className="w-full p-[2%] px-[3%] mb-[30%]"
       title="Work That Speaks in Pixels"
       description="A curated collection of modern websites and interactive experiences crafted to blend creativity, performance, and conversion-focused design."
     >
