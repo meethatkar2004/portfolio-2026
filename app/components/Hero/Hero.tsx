@@ -71,6 +71,7 @@ const Hero = ({ animateHero }: { animateHero: boolean }) => {
       {/* Hero Typography */}
       <div className='absolute left-[3vw] bottom-[10%] md:bottom-auto md:top-[45%] -translate-y-0 md:-translate-y-1/2 z-30 pointer-events-none'>
         <h1 className='text-[clamp(1.6rem,7vmax,10rem)] md:text-[clamp(2.2rem,10vmax,10rem)] font-black leading-[0.95] md:leading-[0.8] tracking-tighter text-heading uppercase'>
+          <span className="sr-only">Meet Hatkar — Creative Website Designer & Developer Based in Mumbai</span>
           <span className="block overflow-hidden">
             <span className="hero-text block">WEBSITE</span>
           </span>

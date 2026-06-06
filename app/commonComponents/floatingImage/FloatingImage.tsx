@@ -76,7 +76,7 @@ const FloatingImage = ({
           <div key={proj.name} className="w-full h-full">
             <Image
               src={proj.image}
-              alt={proj.name}
+              alt={`Preview of ${proj.name} project`}
               width={400}
               height={400}
               className="object-cover h-full w-full"

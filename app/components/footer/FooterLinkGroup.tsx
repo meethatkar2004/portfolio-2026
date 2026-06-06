@@ -36,6 +36,8 @@ export default function FooterLinkGroup({ title, links, className = '', align = 
               <Link
                 href={link.href}
                 target='_blank'
+                rel='noopener noreferrer'
+                // rel='noopener noreferrer' IMP for security, when opned in new window, can't get access to parent site.
                 className="footer-link text-[clamp(0.875rem,0.75rem+1vw,1.25rem)] text-primary hover:text-black transition-colors font-small"
               >
                 {link.label}

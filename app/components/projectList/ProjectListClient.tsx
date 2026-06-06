@@ -109,7 +109,7 @@ const ProjectListClient = ({ projects }: ProjectListClientProps) => {
                 <div className="block sm:hidden shrink-0 w-full h-[22vmax] rounded-xl overflow-hidden relative border border-black/10">
                   <Image
                     src={project.image}
-                    alt={project.name}
+                    alt={`Screenshot of ${project.name} — ${project.roles}`}
                     fill
                     className="object-cover"
                   />
