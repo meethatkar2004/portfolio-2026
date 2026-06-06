@@ -205,12 +205,20 @@ function Band({ maxSpeed = 50, minSpeed = 0, isMobile = false }: BandProps) {
     if (fixed.current) {
       let needsUpdate = false;
 
+      // Helper to check if a translation has valid (non-NaN) values
+      const isValidVec = (v: { x: number; y: number; z: number }) =>
+        Number.isFinite(v.x) && Number.isFinite(v.y) && Number.isFinite(v.z);
+
       [j1, j2].forEach(ref => {
         if (!(ref.current as any).lerped) {
           (ref.current as any).lerped = new THREE.Vector3().copy(ref.current.translation());
         }
         const lerpedVec = (ref.current as any).lerped as THREE.Vector3;
         const target = ref.current.translation();
+
+        // Skip if physics returned NaN
+        if (!isValidVec(target)) return;
+
         const dist = lerpedVec.distanceTo(target);
 
         if (dist > 0.005) {
@@ -223,19 +231,28 @@ function Band({ maxSpeed = 50, minSpeed = 0, isMobile = false }: BandProps) {
       });
 
       const j3Pos = j3.current.translation();
+      const fixedPos = fixed.current.translation();
+
+      // Bail out entirely if any position is NaN
+      if (!isValidVec(j3Pos) || !isValidVec(fixedPos)) return;
+
       if (curve.points[0].distanceTo(j3Pos as unknown as THREE.Vector3) > 0.005) {
         needsUpdate = true;
       }
 
-      const fixedPos = fixed.current.translation();
       if (curve.points[3].distanceTo(fixedPos as unknown as THREE.Vector3) > 0.005) {
         needsUpdate = true;
       }
 
       if (needsUpdate) {
+        // Verify lerped values are also valid before updating
+        const j1Lerped = (j1.current as any).lerped as THREE.Vector3;
+        const j2Lerped = (j2.current as any).lerped as THREE.Vector3;
+        if (!isValidVec(j1Lerped) || !isValidVec(j2Lerped)) return;
+
         curve.points[0].copy(j3Pos as unknown as THREE.Vector3);
-        curve.points[1].copy((j2.current as any).lerped);
-        curve.points[2].copy((j1.current as any).lerped);
+        curve.points[1].copy(j2Lerped);
+        curve.points[2].copy(j1Lerped);
         curve.points[3].copy(fixedPos as unknown as THREE.Vector3);
 
         if (band.current?.geometry) {

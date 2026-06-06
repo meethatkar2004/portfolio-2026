@@ -64,7 +64,7 @@ export default function FooterClient({ connectLinks, navigateLinks }: FooterClie
         <TextReveal
           text="MEET HATKAR"
           isLoading={isLoading}
-          className="footer-big-text lg:text-[clamp(3.5rem,12vw,13rem)] mx-auto whitespace-nowrap leading-none font-black font-heading tracking-tighter text-primary"
+          className="footer-big-text text-[clamp(3.5rem,12vw,13rem)] mx-auto whitespace-nowrap leading-none font-black font-heading tracking-tighter text-primary"
         />
       </div>
 
