@@ -1,9 +1,10 @@
 import FooterClient from './FooterClient';
 
 const connectLinks = [
-  { label: 'Whatsup', href: 'https://wa.me/8355959889' },
+  { label: 'Github', href: 'https://github.com/meethatkar' },
   { label: 'LinkedIn', href: 'https://www.linkedin.com/in/meethatkar/' },
   { label: 'Instagram', href: 'https://www.instagram.com/hatkarmeet/' },
+  { label: 'Whatsup', href: 'https://wa.me/8355959889' },
 ];
 
 const navigateLinks = [

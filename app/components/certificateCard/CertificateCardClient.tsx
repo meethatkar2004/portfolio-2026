@@ -61,7 +61,7 @@ export default function CertificateCardClient({ certificateData }: CertificateCa
                     <div className="w-full aspect-square bg-transparent rounded-[24px] overflow-hidden mb-5 relative flex items-center justify-center">
                       <Image
                         src={certificate.image}
-                        alt={certificate.title}
+                        alt={`${certificate.title} certificate issued by ${certificate.issueBy}`}
                         className="w-full h-full object-cover"
                         width={300}
                         height={300}

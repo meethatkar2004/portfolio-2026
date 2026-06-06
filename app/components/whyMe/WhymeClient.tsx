@@ -57,13 +57,13 @@ export default function WhymeClient({ text }: WhymeClientProps) {
         className="pb-[5%] flex items-center justify-center px-6 relative overflow-hidden"
       >
         <FilmGrain />
-        <h1 className="max-w-7xl text-background/90 font-sans text-[clamp(3rem,5vw,6rem)] leading-[1.2] font-bold tracking-tight flex flex-wrap justify-center gap-x-3 md:gap-x-4 relative z-10">
+        <p className="max-w-7xl text-background/90 font-sans text-[clamp(3rem,5vw,6rem)] leading-[1.2] font-bold tracking-tight flex flex-wrap justify-center gap-x-3 md:gap-x-4 relative z-10">
           {text.split(" ").map((word, index) => (
             <span key={index} className="reveal-word inline-block will-change-[transform,opacity]">
               {word}
             </span>
           ))}
-        </h1>
+        </p>
       </section>
     </Header>
   );

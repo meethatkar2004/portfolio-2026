@@ -24,10 +24,57 @@ const anton = Anton_SC({
 });
 
 export const metadata: Metadata = {
-  title: "Meet Portfolio 2026",
-  description: "Created by Meet",
+  metadataBase: new URL("https://meethatkar.dev"),
+  title: {
+    default: "Meet Hatkar — Website Designer & Creative Developer",
+    template: "%s | Meet Hatkar",
+  },
+  description:
+    "Meet Hatkar is a website designer and creative developer based in Mumbai, specializing in interactive web experiences with Next.js, Three.js, GSAP, and TypeScript.",
+  keywords: [
+    "Meet Hatkar",
+    "website designer",
+    "creative developer",
+    "portfolio",
+    "Next.js developer",
+    "Three.js",
+    "GSAP animations",
+    "interactive web experiences",
+    "Mumbai web developer",
+    "frontend developer",
+  ],
+  authors: [{ name: "Meet Hatkar", url: "https://meethatkar.dev" }],
+  creator: "Meet Hatkar",
+  publisher: "Meet Hatkar",
   icons: {
     icon: "/logo.png",
+  },
+  openGraph: {
+    type: "website",
+    locale: "en_US",
+    url: "https://meethatkar.dev",
+    siteName: "Meet Hatkar Portfolio",
+    title: "Meet Hatkar — Website Designer & Creative Developer",
+    description:
+      "Explore the portfolio of Meet Hatkar — a creative developer crafting interactive, animation-driven web experiences with Next.js, Three.js, and GSAP.",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Meet Hatkar — Website Designer & Creative Developer",
+    description:
+      "Creative developer crafting interactive web experiences with Next.js, Three.js, and GSAP. Based in Mumbai.",
+    creator: "@meethatkar",
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      "max-video-preview": -1,
+      "max-image-preview": "large",
+      "max-snippet": -1,
+    },
   },
 };
 

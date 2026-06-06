@@ -104,17 +104,17 @@ const InitialLoad = ({ onComplete }: { onComplete: () => void }) => {
       {/* Intro Black Screen */}
       <div ref={fullScreen} className={`absolute inset-0 flex flex-col justify-center items-center bg-background z-10 overflow-hidden contain-layout contain-paint ${isFixed ? 'pointer-events-none' : ''}`}>
         <div className='absolute top-[5%] left-1/2 -translate-x-1/2 text-center uppercase w-full font-bold tracking-widest text-xs opacity-50'>
-          <h1><RevealText>PORTFOLIO</RevealText></h1>
-          <h1><RevealText>&copy; 2026</RevealText></h1>
+          <p><RevealText>PORTFOLIO</RevealText></p>
+          <p><RevealText>&copy; 2026</RevealText></p>
         </div>
 
-        <h1 className='text-[5vw] font-bold'>
+        <div className='text-[5vw] font-bold'>
           <RevealText isSlidingAnim>
             {["Meet", "Hatkar", "is", "a", ".", ".", "."].map((word, index) => (
               <span key={index} className='moving-word inline-block'>{word}&nbsp;</span>
             ))}
           </RevealText>
-        </h1>
+        </div>
 
         <div className='absolute bottom-[10%] overflow-clip'>
           <div ref={loader}><Loader /></div>
