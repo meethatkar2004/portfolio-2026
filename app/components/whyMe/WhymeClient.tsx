@@ -16,11 +16,12 @@ interface WhymeClientProps {
 
 export default function WhymeClient({ text }: WhymeClientProps) {
   const { isLoading } = useLoading();
-  const containerRef = useRef(null);
+  const containerRef = useRef<HTMLDivElement>(null);
 
   useGSAP(
     () => {
-      if (isLoading) return false;
+      if (isLoading) return;
+
       gsap.set(".reveal-word", {
         opacity: 0.03,
         scaleX: 0.9,
@@ -38,8 +39,8 @@ export default function WhymeClient({ text }: WhymeClientProps) {
 
         scrollTrigger: {
           trigger: containerRef.current,
-          start: "top 80%",
-          end: "bottom 60%",
+          start: "top 85%", // Slightly extended to ensure reveal trigger captures early scroll states
+          end: "bottom 65%",
           scrub: 1,
         },
       });
@@ -50,16 +51,22 @@ export default function WhymeClient({ text }: WhymeClientProps) {
   return (
     <Header
       title="Why Me ?!"
-      titleClass="text-[clamp(2.5rem,5vmax,5.5rem)] text-background"
+      titleClass="text-[clamp(2.25rem,5vw,4.5rem)] 2xl:text-7xl 4k:text-9xl font-extrabold text-background tracking-tight text-center"
     >
       <section
         ref={containerRef}
-        className="flex items-center justify-center px-6 relative overflow-hidden"
+        className="w-full min-h-[50vh] flex items-center justify-center px-4 sm:px-8 md:px-16 lg:px-24 2xl:px-32 4k:px-44 py-12 md:py-20 relative overflow-hidden"
       >
         <FilmGrain />
-        <p className="max-w-7xl text-background/90 font-sans text-[clamp(3rem,5vw,6rem)] leading-[1.2] font-bold tracking-tight flex flex-wrap justify-center gap-x-3 md:gap-x-4 relative z-10">
+
+        {/* Optimized fluid typographic clamps to handle text scaling safely from mobile to 4K displays */}
+        <p className="max-w-6xl 2xl:max-w-7xl 4k:max-w-[120rem] text-background/90 font-sans text-[clamp(1.5rem,3.5vw,3rem)] md:text-[clamp(3rem,4.5vw,5rem)] 4k:text-8xl leading-[1.25] md:leading-[1.15] font-bold tracking-tight flex flex-wrap justify-center gap-x-2 sm:gap-x-3 md:gap-x-4 gap-y-1 sm:gap-y-2 relative z-10 text-center">
           {text.split(" ").map((word, index) => (
-            <span key={index} className="reveal-word inline-block will-change-[transform,opacity]">
+            <span
+              key={index}
+              className="reveal-word inline-block will-change-transform"
+              style={{ transformOrigin: "bottom center" }}
+            >
               {word}
             </span>
           ))}
