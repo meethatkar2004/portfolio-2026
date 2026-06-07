@@ -39,41 +39,67 @@ export default function FooterClient({ connectLinks, navigateLinks }: FooterClie
   return (
     <footer
       ref={footerRef}
-      className="w-full pt-20 flex flex-col relative z-20 bg-transparent"
+      className="w-full pt-16 md:pt-24 flex flex-col relative z-20 bg-transparent px-4 sm:px-8 lg:px-16 2xl:px-24 4k:px-36 overflow-hidden"
     >
-      {/* Top Section */}
-      <div className="flex justify-between items-start px-4 w-full mx-auto z-10 max-w-360">
-        <FooterLinkGroup title="CONNECT" links={connectLinks} />
+      {/* Top Layout Section */}
+      <div className="w-full mx-auto z-10 max-w-7xl 2xl:max-w-[100rem] 4k:max-w-[150rem] flex flex-col md:flex-row md:justify-between md:items-start gap-8 md:gap-4">
 
-        {/* Center screensaver element */}
+        {/* Links Wrapper for Mobile Layout (Side-by-Side setup) */}
+        <div className="w-full flex justify-between items-start md:flex-1 md:justify-start">
+          <FooterLinkGroup title="CONNECT" links={connectLinks} />
+
+          {/* Kept visible ONLY on mobile/tablet screen viewports */}
+          <div className="block md:hidden text-right">
+            <FooterLinkGroup
+              title="NAVIGATE"
+              links={navigateLinks}
+              align="right"
+              onClickItem={handleScroll}
+            />
+          </div>
+        </div>
+
+        {/* --- MOBILE SCREENSAVER LAYOUT --- */}
+        {/* Displays gracefully between the links and the giant text on mobile devices */}
         <Screensaver
           textArr={['DESIGN']}
-          className="hidden md:flex w-[45vw] h-[45vh]"
+          className="flex md:hidden w-full h-[20vh] min-h-[120px] max-h-[180px] rounded-xl overflow-hidden opacity-80"
         />
 
-        <FooterLinkGroup
-          title="NAVIGATE"
-          links={navigateLinks}
-          align="right"
-          onClickItem={handleScroll}
+        {/* --- DESKTOP SCREENSAVER LAYOUT --- */}
+        <Screensaver
+          textArr={['DESIGN']}
+          className="hidden md:flex w-[35vw] h-[25vh] lg:h-[35vh] max-w-[500px] max-h-[350px] 4k:max-w-[900px] 4k:max-h-[550px]"
         />
+
+        {/* Standard Desktop Navigation layout positioning */}
+        <div className="hidden md:flex flex-1 justify-end text-right">
+          <FooterLinkGroup
+            title="NAVIGATE"
+            links={navigateLinks}
+            align="right"
+            onClickItem={handleScroll}
+          />
+        </div>
       </div>
 
-      {/* Big text */}
-      <div className="w-full flex justify-center pt-[7%] z-10 overflow-y-hidden">
+      {/* Big text Section */}
+      <div className="w-full flex justify-center pt-10 md:pt-[5%] z-10 overflow-hidden select-none pointer-events-none">
         <TextReveal
           text="MEET HATKAR"
           isLoading={isLoading}
-          className="footer-big-text text-[clamp(3.5rem,12vw,13rem)] mx-auto whitespace-nowrap leading-none font-black font-heading tracking-tighter text-primary"
+          className="footer-big-text text-[clamp(2.3rem,11.5vw,13rem)] 2xl:text-[14rem] 4k:text-[22rem] mx-auto whitespace-nowrap leading-none font-black font-heading tracking-tighter text-primary text-center"
         />
       </div>
 
       {/* Bottom bar */}
       <div
-        className="footer-small-text px-4 flex flex-col md:flex-row justify-between items-center w-full mx-auto text-[clamp(0.55rem,0.5rem+0.2vw,0.65rem)] font-mono tracking-widest uppercase z-10 max-w-360 text-foreground/40 pb-[2%]"
+        className="footer-small-text border-t border-foreground/10 pt-6 mt-8 flex flex-col sm:flex-row justify-between items-center w-full mx-auto text-[clamp(0.65rem,0.6rem+0.15vw,0.75rem)] 4k:text-xl font-mono tracking-widest uppercase z-10 max-w-7xl 2xl:max-w-[100rem] 4k:max-w-[150rem] text-foreground/40 gap-4 pb-8 md:pb-[2%] text-center sm:text-left"
       >
-        <p>© 2026 PORTFOLIO. ALL RIGHTS RESERVED. DESIGNED WITH PRECISION.</p>
-        <p className="mt-4 md:mt-0 flex gap-4">
+        <p className="max-w-xs sm:max-w-none leading-relaxed">
+          © 2026 PORTFOLIO. ALL RIGHTS RESERVED. DESIGNED WITH PRECISION.
+        </p>
+        <p className="flex gap-4 sm:gap-6 shrink-0">
           <span>v1.0.1</span>
           <span>Built with Next.js &amp; GSAP</span>
         </p>

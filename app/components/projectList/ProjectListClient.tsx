@@ -21,7 +21,7 @@ const ProjectListClient = ({ projects }: ProjectListClientProps) => {
 
   useEffect(() => {
     // Only enable hover tracking listeners on desktop screens (width >= 1024px)
-    if (typeof window !== 'undefined' && window.innerWidth < 1024) {
+    if (typeof window === 'undefined' || window.innerWidth < 1024) {
       return;
     }
 
