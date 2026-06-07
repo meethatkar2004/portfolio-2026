@@ -144,8 +144,7 @@ function Band({ maxSpeed = 50, minSpeed = 0, isMobile = false }: BandProps) {
 
   const { nodes, materials } = useGLTF(cardGLB) as any;
   const tLanyard = useTexture(lanyardTexturePath);
-  // const tFront = useTexture('/profile-normal.png');
-  const tFront = useTexture('/lanray-back-image.png');
+  const tFront = useTexture('/profile-normal.png');
   const tBack = useTexture('/lanray-back-image.png');
 
   const texture = useMemo(() => {
@@ -158,14 +157,19 @@ function Band({ maxSpeed = 50, minSpeed = 0, isMobile = false }: BandProps) {
   const frontTexture = useMemo(() => {
     const f = tFront.clone();
     f.center.set(0.38, 0.5);
-    f.rotation = Math.PI;
+    f.rotation = Math.PI
     return f;
   }, [tFront]);
 
   const backTexture = useMemo(() => {
     const b = tBack.clone();
-    b.center.set(0.38, 0.5);
-    b.rotation = -Math.PI;
+    b.center.set(0.18, 0.45);
+    b.rotation = 600;
+    b.wrapS = THREE.RepeatWrapping;
+    b.offset.x = 0.2;
+    b.repeat.x = -1; // Flip horizontally
+    b.needsUpdate = true;
+    b.repeat.set(-1.7, 1);
     return b;
   }, [tBack]);
 
