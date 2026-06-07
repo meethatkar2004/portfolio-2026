@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Anton&family=Bebas+Neue&family=Black+Ops+One&family=Elms+Sans:ital,wght@0,100..900;1,100..900&family=Manrope:wght@200..800&display=swap');
+/* Google Fonts are now loaded via next/font/google in layout.tsx (non-render-blocking) */
 @import "tailwindcss";
 
 :root {
@@ -10,7 +10,7 @@
 }
 
 @theme {
-  --font-heading: "Bebas Neue", sans-serif;
+  --font-heading: var(--font-bebas-neue), "Bebas Neue", sans-serif;
   --font-small: "Elms Sans", sans-serif;
   /* Use in tex-scroll component*/
   --color-background: var(--background);
@@ -92,7 +92,19 @@
     /* margin: 0; */
     /* padding: 0; */
     box-sizing: border-box;
-    cursor: none !important;
+  }
+
+  /* Custom cursor only on desktop - applied to body instead of * for fewer style recalcs */
+  @media (pointer: fine) {
+    body {
+      cursor: none !important;
+    }
+
+    a,
+    button,
+    [data-cursor] {
+      cursor: none !important;
+    }
   }
 }
 
@@ -154,6 +166,9 @@
   /* Optimized ProjectList styles for pure CSS hover states and buttery-smooth FPS */
   .project-item {
     transition: transform 0.35s cubic-bezier(0.25, 1, 0.5, 1), scale 0.35s cubic-bezier(0.25, 1, 0.5, 1);
+  }
+
+  .project-item:hover {
     will-change: transform, scale;
   }
 
@@ -163,8 +178,8 @@
     color: var(--heading);
     opacity: 0.3;
     /* text-heading/30 */
-    transition: font-size 0.4s cubic-bezier(0.25, 1, 0.5, 1), opacity 0.4s cubic-bezier(0.25, 1, 0.5, 1);
-    will-change: font-size, opacity;
+    /* Use transform-based scaling instead of font-size animation (non-composited) */
+    transition: opacity 0.4s cubic-bezier(0.25, 1, 0.5, 1);
   }
 
   @media (min-width: 640px) {

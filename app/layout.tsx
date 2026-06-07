@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono, Anton_SC } from "next/font/google";
+import { Geist, Geist_Mono, Anton_SC, Bebas_Neue } from "next/font/google";
 import "./globals.css";
 import SmoothScroll from "./components/SmoothScroll";
 import CustomCursor from "./commonComponents/CustomCursor/CustomCursor";
@@ -21,6 +21,13 @@ const anton = Anton_SC({
   weight: "400",
   subsets: ["latin"],
   variable: "--font-anton",
+});
+
+const bebasNeue = Bebas_Neue({
+  weight: "400",
+  subsets: ["latin"],
+  variable: "--font-bebas-neue",
+  display: "swap",
 });
 
 export const metadata: Metadata = {
@@ -87,8 +94,17 @@ export default function RootLayout({
     <html
       lang="en"
       suppressHydrationWarning
-      className={`${geistSans.variable} ${geistMono.variable} ${anton.variable} h-full antialiased`}
+      className={`${geistSans.variable} ${geistMono.variable} ${anton.variable} ${bebasNeue.variable} h-full antialiased`}
     >
+      <head>
+        {/* Preload Elms Sans (not available in next/font/google) — non-blocking */}
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+        <link
+          href="https://fonts.googleapis.com/css2?family=Elms+Sans:ital,wght@0,100..900;1,100..900&display=swap"
+          rel="stylesheet"
+        />
+      </head>
       <body className="min-h-full flex flex-col overflow-x-hidden" suppressHydrationWarning>
         <ScrollProvider>
           <LoadingProvider>

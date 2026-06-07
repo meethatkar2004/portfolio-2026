@@ -1,9 +1,17 @@
 'use client';
 import React, { useRef, useState, useEffect } from 'react'
-import Lanyard from '../../reactBitsComponents/lanyard/Lanyard'
-import DotField from '../../reactBitsComponents/dotField/DotField'
+import dynamic from 'next/dynamic'
+
+const DotField = dynamic(
+  () => import('../../reactBitsComponents/dotField/DotField'),
+  {
+    ssr: false,
+    loading: () => <div className="w-full h-full" />,
+  }
+);
 import gsap from 'gsap'
 import { useGSAP } from '@gsap/react'
+import Lanyard from '@/app/reactBitsComponents/lanyard/Lanyard';
 
 const Hero = ({ animateHero }: { animateHero: boolean }) => {
   const container = useRef<HTMLDivElement>(null);
@@ -22,8 +30,6 @@ const Hero = ({ animateHero }: { animateHero: boolean }) => {
     if (!animateHero) {
       // Initially hide the text blocks below the overflow wrapper
       gsap.set(".hero-text", { y: "100%" });
-      // Initially blur the lanyard wrapper and keep opacity low
-      gsap.set(".lanyard-wrapper", { filter: "blur(12px)", opacity: 0.4 });
       return;
     }
 
@@ -33,14 +39,6 @@ const Hero = ({ animateHero }: { animateHero: boolean }) => {
       duration: 1,
       stagger: 0.1,
       ease: "power4.out"
-    });
-
-    // Remove blur and fade opacity to 1 for the lanyard wrapper
-    gsap.to(".lanyard-wrapper", {
-      filter: "blur(0px)",
-      opacity: 1,
-      duration: 1.5,
-      ease: "power3.out"
     });
   }, { dependencies: [animateHero], scope: container });
 

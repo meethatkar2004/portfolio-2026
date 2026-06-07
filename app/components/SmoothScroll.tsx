@@ -13,6 +13,15 @@ export default function SmoothScroll({
   children: React.ReactNode;
 }) {
   useEffect(() => {
+    // Disable Lenis on mobile/touch devices — they have native momentum scrolling
+    // and Lenis adds unnecessary main-thread overhead per frame
+    const isTouchDevice = window.matchMedia('(pointer: coarse)').matches;
+    if (isTouchDevice) {
+      // Still register ScrollTrigger for GSAP animations, just without Lenis
+      ScrollTrigger.refresh();
+      return;
+    }
+
     const lenis = new Lenis({
       duration: 1.2,
       easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),

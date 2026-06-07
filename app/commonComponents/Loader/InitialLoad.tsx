@@ -1,7 +1,7 @@
 'use client';
 import gsap from 'gsap'
 import { useGSAP } from '@gsap/react';
-import React, { useRef, useState } from 'react'
+import React, { useRef, useState, useEffect } from 'react'
 import Loader from './Loader';
 import Hero from '@/app/components/Hero/Hero';
 import Navbar from '@/app/components/navbar/Navbar';
@@ -14,6 +14,8 @@ const RevealText = ({ children, isSlidingAnim = false }: { children: React.React
   </span>
 );
 
+import { useProgress } from '@react-three/drei'
+
 const InitialLoad = ({ onComplete }: { onComplete: () => void }) => {
   const container = useRef<HTMLDivElement>(null);
   const fullScreen = useRef<HTMLDivElement>(null);
@@ -22,6 +24,20 @@ const InitialLoad = ({ onComplete }: { onComplete: () => void }) => {
   const loader = useRef<HTMLDivElement>(null);
   const [isFixed, setisFixed] = useState(true);
   const [animateHero, setAnimateHero] = useState(false);
+
+  const { progress, total, active } = useProgress();
+  const tlRef = useRef<gsap.core.Timeline | null>(null);
+  const isReadyRef = useRef(false);
+
+  useEffect(() => {
+    // If progress is 100%, and we actually loaded something (total > 0), mark as ready!
+    if (progress === 100 && total > 0) {
+      isReadyRef.current = true;
+      if (tlRef.current && tlRef.current.paused()) {
+        tlRef.current.play();
+      }
+    }
+  }, [progress, total]);
 
   useGSAP(() => {
     gsap.set(
@@ -34,6 +50,7 @@ const InitialLoad = ({ onComplete }: { onComplete: () => void }) => {
     gsap.set(heroBg.current, { yPercent: 100, height: "100vh" });
 
     const tl = gsap.timeline({
+      // Start playing immediately for the intro animation!
       onComplete: () => {
         gsap.set(
           [fullScreen.current, GreenDiv.current, heroBg.current, loader.current],
@@ -45,10 +62,12 @@ const InitialLoad = ({ onComplete }: { onComplete: () => void }) => {
       }
     });
 
+    tlRef.current = tl;
+
     const movingWords = gsap.utils.toArray(".moving-word", container.current);
     const children = gsap.utils.toArray(".child", container.current);
 
-    // 1. Initial word-slide entry (optimized durations for better LCP)
+    // 1. Initial word-slide entry (auto-plays on mount)
     tl.from(movingWords, {
       xPercent: (index: number) => index * 10,
       opacity: 0.3,
@@ -59,7 +78,15 @@ const InitialLoad = ({ onComplete }: { onComplete: () => void }) => {
       force3D: true,
     });
 
-    // 2. Main reveal sequence
+    // Pause the timeline HERE if the 3D assets haven't loaded yet.
+    // If they have already loaded, it will just continue smoothly!
+    tl.add(() => {
+      if (!isReadyRef.current) {
+        tl.pause();
+      }
+    });
+
+    // 2. Main reveal sequence (hides text and spinner)
     tl.to(children, {
       yPercent: -100,
       duration: 0.6,
