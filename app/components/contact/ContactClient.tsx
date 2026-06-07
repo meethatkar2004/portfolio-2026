@@ -142,35 +142,37 @@ export default function ContactClient({ textArr }: ContactClientProps) {
   };
 
   return (
-    <section className="w-full relative overflow-hidden">
+    <section className="w-full min-h-screen relative overflow-hidden px-4 sm:px-6 md:px-8 lg:px-16 2xl:px-24 4k:px-32 flex items-center justify-center">
       <FilmGrain />
       <Header
         title="Let's Work Together"
         description={<ScramblingText texts={textArr} />}
-        className="w-full pt-16 pb-24 text-center relative z-30"
-        titleClass="text-white! text-[clamp(2rem,5vmax,4.5rem)]"
-        descClass="text-gray-300! text-[clamp(2rem,2vmax,3rem)]"
+        className="w-full pt-12 md:pt-16 pb-16 md:pb-24 text-center relative z-30"
+        titleClass="text-white! text-[clamp(2.25rem,4vw,3.5rem)] 2xl:text-6xl 4k:text-8xl font-bold tracking-tight mb-4"
+        descClass="text-gray-300! w-full text-[clamp(1.1rem,2vw,1.5rem)] 2xl:text-2xl 4k:text-4xl max-w-2xl 4k:max-w-5xl mx-auto min-h-[3.5rem] md:min-h-auto"
       >
-        <div className="w-full max-w-4xl mx-auto p-[3%] mt-12 text-left bg-yellow-700/5 backdrop-blur-md rounded-2xl border border-yellow-300/10 relative z-30">
+        {/* Container adjusts intelligently across layouts up to 4K displays */}
+        <div className="w-full max-w-4xl 2xl:max-w-5xl 4k:max-w-7xl mx-auto p-6 sm:p-8 md:p-12 4k:p-16 mt-8 md:mt-12 text-left bg-yellow-700/5 backdrop-blur-md rounded-2xl border border-yellow-300/10 relative z-30">
           {isSubmitted ? (
-            <div className="flex flex-col items-center justify-center py-16 text-center transition-all duration-500 ease-out">
-              <div className="w-20 h-20 rounded-full border border-yellow-400/30 flex items-center justify-center mb-6 animate-pulse">
-                <span className="text-[clamp(2rem,3vw,2.5rem)]">🧿</span>
+            <div className="flex flex-col items-center justify-center py-12 md:py-16 text-center transition-all duration-500 ease-out">
+              <div className="w-16 h-16 md:w-20 md:h-20 rounded-full border border-yellow-400/30 flex items-center justify-center mb-6 animate-pulse">
+                <span className="text-2xl md:text-3xl 4k:text-5xl">🧿</span>
               </div>
-              <h3 className="text-[clamp(1.5rem,2.5vw,1.875rem)] font-heading text-white tracking-wider mb-2">MESSAGE SENT</h3>
-              <p className="text-gray-400 font-medium text-[clamp(0.875rem,0.8rem+0.3vw,1rem)]">
+              <h3 className="text-xl md:text-2xl 4k:text-4xl font-heading text-white tracking-wider mb-2">MESSAGE SENT</h3>
+              <p className="text-gray-400 font-medium text-sm md:text-base 4k:text-2xl max-w-md mx-auto">
                 Thank you for reaching out! I will get back to you within 24 hours.
               </p>
             </div>
           ) : (
-            <form onSubmit={handleSubmit} className="space-y-12">
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-12">
+            <form onSubmit={handleSubmit} className="space-y-10 md:space-y-14 4k:space-y-20">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-x-8 lg:gap-x-12 gap-y-10 md:gap-y-14">
+
                 {/* Name input */}
-                <div className="relative border-b border-white/20 pb-2 group transition-colors duration-300 hover:border-yellow-400/50">
+                <div className="relative border-b border-white/20 pb-2 group transition-colors duration-300 hover:border-yellow-400/50 mt-4 md:mt-0">
                   <label
                     htmlFor="name"
-                    className={`absolute left-0 bottom-3 text-[clamp(1rem,0.9rem+0.4vw,1.125rem)] transition-all duration-300 pointer-events-none ${focusedField === 'name' || formState.name
-                      ? '-translate-y-8 text-[clamp(0.75rem,0.7rem+0.2vw,0.875rem)] text-yellow-500 font-bold uppercase tracking-wider'
+                    className={`absolute left-0 bottom-3 text-base 4k:text-2xl transition-all duration-300 pointer-events-none ${focusedField === 'name' || formState.name
+                      ? '-translate-y-8 text-xs 4k:text-lg text-yellow-500 font-bold uppercase tracking-wider'
                       : 'text-gray-400 font-semibold'
                       }`}
                   >
@@ -187,7 +189,7 @@ export default function ContactClient({ textArr }: ContactClientProps) {
                     onBlur={(e) => handleBlur('name', e.target.value)}
                     onChange={handleChange}
                     data-cursor="link"
-                    className="w-full bg-transparent text-white border-none outline-hidden py-1 text-[clamp(1rem,0.9rem+0.4vw,1.125rem)] font-sans font-medium disabled:opacity-50"
+                    className="w-full bg-transparent text-white border-none outline-none py-1 text-base 4k:text-2xl font-sans font-medium disabled:opacity-50"
                   />
                   <span
                     className={`absolute bottom-0 left-0 h-[2px] bg-yellow-600 transition-all duration-500 ease-out ${focusedField === 'name' ? 'w-full' : 'w-0'
@@ -196,11 +198,11 @@ export default function ContactClient({ textArr }: ContactClientProps) {
                 </div>
 
                 {/* Email input */}
-                <div className="relative border-b border-white/20 pb-2 group transition-colors duration-300 hover:border-yellow-400/50">
+                <div className="relative border-b border-white/20 pb-2 group transition-colors duration-300 hover:border-yellow-400/50 mt-4 md:mt-0">
                   <label
                     htmlFor="email"
-                    className={`absolute left-0 bottom-3 text-[clamp(1rem,0.9rem+0.4vw,1.125rem)] transition-all duration-300 pointer-events-none ${focusedField === 'email' || formState.email
-                      ? '-translate-y-8 text-[clamp(0.75rem,0.7rem+0.2vw,0.875rem)] text-yellow-500 font-bold uppercase tracking-wider'
+                    className={`absolute left-0 bottom-3 text-base 4k:text-2xl transition-all duration-300 pointer-events-none ${focusedField === 'email' || formState.email
+                      ? '-translate-y-8 text-xs 4k:text-lg text-yellow-500 font-bold uppercase tracking-wider'
                       : 'text-gray-400 font-semibold'
                       }`}
                   >
@@ -217,7 +219,7 @@ export default function ContactClient({ textArr }: ContactClientProps) {
                     onBlur={(e) => handleBlur('email', e.target.value)}
                     onChange={handleChange}
                     data-cursor="link"
-                    className="w-full bg-transparent text-white border-none outline-hidden py-1 text-[clamp(1rem,0.9rem+0.4vw,1.125rem)] font-sans font-medium disabled:opacity-50"
+                    className="w-full bg-transparent text-white border-none outline-none py-1 text-base 4k:text-2xl font-sans font-medium disabled:opacity-50"
                   />
                   <span
                     className={`absolute bottom-0 left-0 h-[2px] bg-yellow-600 transition-all duration-500 ease-out ${focusedField === 'email' ? 'w-full' : 'w-0'
@@ -227,15 +229,15 @@ export default function ContactClient({ textArr }: ContactClientProps) {
               </div>
 
               {/* Subject input */}
-              <div className="relative border-b border-white/20 pb-2 group transition-colors duration-300 hover:border-yellow-400/50">
+              <div className="relative border-b border-white/20 pb-2 group transition-colors duration-300 hover:border-yellow-400/50 pt-4">
                 <label
                   htmlFor="subject"
-                  className={`absolute left-0 bottom-3 text-[clamp(1rem,0.9rem+0.4vw,1.125rem)] transition-all duration-300 pointer-events-none ${focusedField === 'subject' || formState.subject
-                    ? '-translate-y-8 text-[clamp(0.75rem,0.7rem+0.2vw,0.875rem)] text-yellow-500 font-bold uppercase tracking-wider'
+                  className={`absolute left-0 bottom-3 text-sm md:text-base 4k:text-2xl transition-all duration-300 pointer-events-none truncate w-full ${focusedField === 'subject' || formState.subject
+                    ? '-translate-y-8 text-xs 4k:text-lg text-yellow-500 font-bold uppercase tracking-wider overflow-visible'
                     : 'text-gray-400 font-semibold'
                     }`}
                 >
-                  What are you looking for? (e.g. Web Design, Three.js, Creative Development)
+                  What are you looking for? <span className="hidden sm:inline text-gray-500">(e.g. Web Design, Three.js)</span>
                 </label>
                 <input
                   type="text"
@@ -248,7 +250,7 @@ export default function ContactClient({ textArr }: ContactClientProps) {
                   onBlur={(e) => handleBlur('subject', e.target.value)}
                   onChange={handleChange}
                   data-cursor="link"
-                  className="w-full bg-transparent text-white border-none outline-hidden py-1 text-[clamp(1rem,0.9rem+0.4vw,1.125rem)] font-sans font-medium disabled:opacity-50"
+                  className="w-full bg-transparent text-white border-none outline-none py-1 text-base 4k:text-2xl font-sans font-medium disabled:opacity-50"
                 />
                 <span
                   className={`absolute bottom-0 left-0 h-[2px] bg-yellow-600 transition-all duration-500 ease-out ${focusedField === 'subject' ? 'w-full' : 'w-0'
@@ -257,11 +259,11 @@ export default function ContactClient({ textArr }: ContactClientProps) {
               </div>
 
               {/* Message input */}
-              <div className="relative border-b border-white/20 pb-2 group transition-colors duration-300 hover:border-yellow-400/50">
+              <div className="relative border-b border-white/20 pb-2 group transition-colors duration-300 hover:border-yellow-400/50 pt-4">
                 <label
                   htmlFor="message"
-                  className={`absolute left-0 top-1 text-[clamp(1rem,0.9rem+0.4vw,1.125rem)] transition-all duration-300 pointer-events-none ${focusedField === 'message' || formState.message
-                    ? '-translate-y-8 text-[clamp(0.75rem,0.7rem+0.2vw,0.875rem)] text-yellow-500 font-bold uppercase tracking-wider'
+                  className={`absolute left-0 top-1 text-base 4k:text-2xl transition-all duration-300 pointer-events-none ${focusedField === 'message' || formState.message
+                    ? '-translate-y-8 text-xs 4k:text-lg text-yellow-500 font-bold uppercase tracking-wider'
                     : 'text-gray-400 font-semibold'
                     }`}
                 >
@@ -278,7 +280,7 @@ export default function ContactClient({ textArr }: ContactClientProps) {
                   onBlur={(e) => handleBlur('message', e.target.value)}
                   onChange={handleChange}
                   data-cursor="link"
-                  className="w-full bg-transparent text-white border-none outline-hidden py-2 text-[clamp(1rem,0.9rem+0.4vw,1.125rem)] font-sans font-medium resize-none disabled:opacity-50"
+                  className="w-full bg-transparent text-white border-none outline-none py-2 text-base 4k:text-2xl font-sans font-medium resize-none disabled:opacity-50 min-h-[100px]"
                 />
                 <span
                   className={`absolute bottom-0 left-0 h-[2px] bg-yellow-600 transition-all duration-500 ease-out ${focusedField === 'message' ? 'w-full' : 'w-0'
@@ -286,22 +288,22 @@ export default function ContactClient({ textArr }: ContactClientProps) {
                 />
               </div>
 
-              {/* Error Message */}
+              {/* Error Message Display */}
               {errorMsg && (
-                <div className="text-right">
-                  <span className="inline-block text-red-400 font-mono text-[clamp(0.75rem,0.7rem+0.2vw,0.875rem)] tracking-wide bg-red-950/20 border border-red-500/20 px-4 py-2 rounded-lg">
+                <div className="text-left md:text-right">
+                  <span className="inline-block text-red-400 font-mono text-xs md:text-sm 4k:text-xl tracking-wide bg-red-950/20 border border-red-500/20 px-4 py-2 rounded-lg">
                     ⚠️ {errorMsg}
                   </span>
                 </div>
               )}
 
               {/* Submit Button */}
-              <div className="flex justify-end pt-6">
+              <div className="flex justify-end pt-4">
                 <button
                   type="submit"
                   disabled={isPending}
                   data-cursor="link"
-                  className={`relative overflow-hidden group border border-yellow-400/40 text-white hover:text-black font-heading tracking-widest uppercase font-bold text-[clamp(1.125rem,1rem+0.5vw,1.25rem)] px-12 py-5 rounded-full transition-colors duration-500 ease-out cursor-pointer ${isPending ? 'opacity-50 pointer-events-none' : ''
+                  className={`w-full sm:w-auto relative overflow-hidden group border border-yellow-400/40 text-white hover:text-black font-heading tracking-widest uppercase font-bold text-sm md:text-base 4k:text-2xl px-8 md:px-12 py-4 md:py-5 rounded-full transition-colors duration-500 ease-out cursor-pointer ${isPending ? 'opacity-50 pointer-events-none' : ''
                     }`}
                 >
                   <span className="absolute inset-0 bg-yellow-600 transform -translate-x-full group-hover:translate-x-0 transition-transform duration-500 ease-out z-0" />

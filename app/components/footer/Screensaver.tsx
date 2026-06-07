@@ -39,26 +39,19 @@ export default function Screensaver({ textArr = DEFAULT_WORDS, className = '' }:
   const [textIndex, setTextIndex] = useState(0);
 
   const posRef = useRef({ x: 0, y: 0 });
-  const velRef = useRef({ vx: 1.8, vy: 1.8 });
+  const velRef = useRef({ vx: 1.2, vy: 1.2 }); // Reduced base speed slightly for better tracking consistency
   const dimensionsRef = useRef({ cw: 0, ch: 0, ew: 0, eh: 0 });
 
   const particlesRef = useRef<Particle[]>([]);
   const glowsRef = useRef<GlowWave[]>([]);
 
   useEffect(() => {
-    const speed = 1.8;
-    velRef.current = {
-      vx: Math.random() > 0.5 ? speed : -speed,
-      vy: Math.random() > 0.5 ? speed : -speed,
-    };
-
     const loadInitialHits = () => {
       const localVal = localStorage.getItem('corner_hits');
       if (localVal) {
         setCornerHits(parseInt(localVal, 10));
       }
     };
-
     loadInitialHits();
   }, []);
 
@@ -73,6 +66,13 @@ export default function Screensaver({ textArr = DEFAULT_WORDS, className = '' }:
 
       const prevDimensions = dimensionsRef.current;
       dimensionsRef.current = { cw, ch, ew, eh };
+
+      // RESPONSIVE TWEAK: Set movement speed dynamic to container layout widths (prevents glitching on mobile)
+      const speedModifier = cw < 640 ? 0.9 : cw > 2000 ? 3.2 : 1.5;
+      velRef.current = {
+        vx: velRef.current.vx > 0 ? speedModifier : -speedModifier,
+        vy: velRef.current.vy > 0 ? speedModifier : -speedModifier,
+      };
 
       if (canvasRef.current) {
         const dpr = typeof window !== 'undefined' ? window.devicePixelRatio || 1 : 1;
@@ -101,7 +101,7 @@ export default function Screensaver({ textArr = DEFAULT_WORDS, className = '' }:
     const spawnCornerBurst = (cx: number, cy: number, cornerType: string) => {
       glowsRef.current.push({ x: cx, y: cy, radius: 0, alpha: 1.0 });
 
-      const count = 35;
+      const count = dimensionsRef.current.cw < 640 ? 18 : 35; // Fewer particles on mobile for better frame rate performance
       let baseAngle = 0;
       if (cornerType === 'tl') baseAngle = Math.PI / 4;
       if (cornerType === 'tr') baseAngle = 3 * Math.PI / 4;
@@ -119,7 +119,7 @@ export default function Screensaver({ textArr = DEFAULT_WORDS, className = '' }:
           vx: Math.cos(angle) * speed,
           vy: Math.sin(angle) * speed,
           color: colors[Math.floor(Math.random() * colors.length)],
-          size: 3 + Math.random() * 5,
+          size: dimensionsRef.current.cw < 640 ? 2 + Math.random() * 3 : 3 + Math.random() * 5,
           alpha: 1.0,
         });
       }
@@ -145,10 +145,12 @@ export default function Screensaver({ textArr = DEFAULT_WORDS, className = '' }:
       const maxX = cw - ew;
       const maxY = ch - eh;
 
-      const isNearLeft = nextX <= 8 && vx < 0;
-      const isNearRight = nextX >= maxX - 8 && vx > 0;
-      const isNearTop = nextY <= 8 && vy < 0;
-      const isNearBottom = nextY >= maxY - 8 && vy > 0;
+      // RESPONSIVE TWEAK: Tighter physics boundary detection margins on narrow screens
+      const hitMargin = cw < 640 ? 4 : 8;
+      const isNearLeft = nextX <= hitMargin && vx < 0;
+      const isNearRight = nextX >= maxX - hitMargin && vx > 0;
+      const isNearTop = nextY <= hitMargin && vy < 0;
+      const isNearBottom = nextY >= maxY - hitMargin && vy > 0;
 
       if ((isNearLeft || isNearRight) && (isNearTop || isNearBottom)) {
         nextX = isNearLeft ? 0 : maxX;
@@ -159,7 +161,7 @@ export default function Screensaver({ textArr = DEFAULT_WORDS, className = '' }:
         spawnCornerBurst(isNearLeft ? 0 : cw, isNearTop ? 0 : ch, (isNearTop ? 't' : 'b') + (isNearLeft ? 'l' : 'r'));
 
         if (hudRef.current) {
-          hudRef.current.style.transform = 'scale(1.3)';
+          hudRef.current.style.transform = 'scale(1.2)';
           setTimeout(() => {
             if (hudRef.current) hudRef.current.style.transform = 'scale(1)';
           }, 200);
@@ -204,7 +206,7 @@ export default function Screensaver({ textArr = DEFAULT_WORDS, className = '' }:
           const glows = glowsRef.current;
           for (let i = glows.length - 1; i >= 0; i--) {
             const glow = glows[i];
-            glow.radius += 8;
+            glow.radius += cw < 640 ? 5 : 8; // Slower, tighter waves on mobile viewports
             glow.alpha -= 0.03;
 
             if (glow.alpha <= 0) {
@@ -270,24 +272,27 @@ export default function Screensaver({ textArr = DEFAULT_WORDS, className = '' }:
         style={{ zIndex: 12 }}
       />
 
+      {/* FIXED: Dynamic padding adjustment for HUD on mobile devices */}
       <div
         ref={hudRef}
         suppressHydrationWarning
-        className="absolute top-4 left-4 z-20 font-mono text-[clamp(14px,1.5vw,20px)] tracking-widest text-foreground/50 select-none transition-transform duration-100 ease-out origin-left"
+        className="absolute top-3 left-3 sm:top-4 sm:left-4 z-20 font-mono text-[clamp(11px,1.2vw,16px)] 4k:text-2xl tracking-widest text-foreground/50 select-none transition-transform duration-100 ease-out origin-left"
       >
         HITS: {String(cornerHits).padStart(2, '0')}
       </div>
 
-      <div className='absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 font-mono text-[clamp(12px,2vw,20px)] tracking-widest text-foreground/20 select-none uppercase font-black text-center whitespace-nowrap z-0'>
+      {/* FIXED: Scaled background watermarked text safely */}
+      <div className='absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 font-mono text-[clamp(9px,1.5vw,14px)] 4k:text-2xl tracking-widest text-foreground/20 select-none uppercase font-black text-center whitespace-nowrap z-0 px-4'>
         Precision takes patience.
       </div>
 
+      {/* FIXED: Adjusted bounding font layout sizes to guarantee text won't clip container borders on mobile screens */}
       <div
         ref={elementRef}
-        className="absolute top-0 left-0 font-heading font-black tracking-widest text-[clamp(1.75rem,3.5vw,2.25rem)] uppercase select-none pointer-events-none will-change-transform whitespace-nowrap text-foreground/80 origin-center"
+        className="absolute top-0 left-0 font-heading font-black tracking-widest text-[clamp(0.85rem,2vw,1.75rem)] 4k:text-4xl uppercase select-none pointer-events-none will-change-transform whitespace-nowrap text-foreground/80 origin-center"
         style={{
           lineHeight: 'normal',
-          padding: '6px 12px',
+          padding: '4px 8px',
           zIndex: 13,
         }}
       >

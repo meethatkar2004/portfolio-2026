@@ -21,7 +21,7 @@ const ProjectListClient = ({ projects }: ProjectListClientProps) => {
 
   useEffect(() => {
     // Only enable hover tracking listeners on desktop screens (width >= 1024px)
-    if (typeof window !== 'undefined' && window.innerWidth < 1024) {
+    if (typeof window === 'undefined' || window.innerWidth < 1024) {
       return;
     }
 
@@ -79,6 +79,8 @@ const ProjectListClient = ({ projects }: ProjectListClientProps) => {
       className="w-full p-[2%] px-[3%]"
       title="Work That Speaks in Pixels"
       description="A curated collection of modern websites and interactive experiences crafted to blend creativity, performance, and conversion-focused design."
+      titleClass="text-4xl sm:text-5xl md:text-6xl leading-[0.95] tracking-tight w-full mx-auto"
+      descClass="text-sm sm:text-base md:text-lg w-11/12 max-w-xl md:max-w-2xl mx-auto leading-relaxed"
     >
       <div
         className="w-full relative"
