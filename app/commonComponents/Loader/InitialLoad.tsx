@@ -25,19 +25,19 @@ const InitialLoad = ({ onComplete }: { onComplete: () => void }) => {
   const [isFixed, setisFixed] = useState(true);
   const [animateHero, setAnimateHero] = useState(false);
 
-  const { progress } = useProgress();
+  const { progress, total, active } = useProgress();
   const tlRef = useRef<gsap.core.Timeline | null>(null);
   const isReadyRef = useRef(false);
 
   useEffect(() => {
-    // If progress is 100%, mark as ready. If timeline is currently paused, resume it!
-    if (progress === 100) {
+    // If progress is 100%, and we actually loaded something (total > 0), mark as ready!
+    if (progress === 100 && total > 0) {
       isReadyRef.current = true;
       if (tlRef.current && tlRef.current.paused()) {
         tlRef.current.play();
       }
     }
-  }, [progress]);
+  }, [progress, total]);
 
   useGSAP(() => {
     gsap.set(

@@ -1,9 +1,17 @@
 'use client';
 import React, { useRef, useState, useEffect } from 'react'
-import Lanyard from '../../reactBitsComponents/lanyard/Lanyard'
-import DotField from '../../reactBitsComponents/dotField/DotField'
+import dynamic from 'next/dynamic'
+
+const DotField = dynamic(
+  () => import('../../reactBitsComponents/dotField/DotField'),
+  {
+    ssr: false,
+    loading: () => <div className="w-full h-full" />,
+  }
+);
 import gsap from 'gsap'
 import { useGSAP } from '@gsap/react'
+import Lanyard from '@/app/reactBitsComponents/lanyard/Lanyard';
 
 const Hero = ({ animateHero }: { animateHero: boolean }) => {
   const container = useRef<HTMLDivElement>(null);
