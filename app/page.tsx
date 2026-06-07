@@ -10,12 +10,18 @@ import BottomSectionWrapper from "./components/BottomSectionWrapper";
 const CertificateCard = dynamic(
   () => import("./components/certificateCard/CertificateCard")
 );
-const Skills = dynamic(() => import("./components/skills/Skills"));
+const Skills = dynamic(
+  () => import("./components/skills/Skills")
+);
 const HorizontalText = dynamic(
   () => import("./components/horizontalText/HorizontalText")
 );
-const Whyme = dynamic(() => import("./components/whyMe/Whyme"));
-const Contact = dynamic(() => import("./components/contact/Contact"));
+const Whyme = dynamic(
+  () => import("./components/whyMe/Whyme")
+);
+const Contact = dynamic(
+  () => import("./components/contact/Contact")
+);
 
 // JSON-LD Structured Data for SEO
 const personJsonLd = {

@@ -144,8 +144,8 @@ function Band({ maxSpeed = 50, minSpeed = 0, isMobile = false }: BandProps) {
 
   const { nodes, materials } = useGLTF(cardGLB) as any;
   const tLanyard = useTexture(lanyardTexturePath);
-  const tFront = useTexture('/profile-normal.png');
-  const tBack = useTexture('/lanray-back-image.png');
+  const tFront = useTexture('/profile-normal.webp');
+  const tBack = useTexture('/lanray-back-image.webp');
 
   const texture = useMemo(() => {
     const l = tLanyard.clone();
