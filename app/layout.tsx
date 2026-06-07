@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono, Anton_SC, Bebas_Neue } from "next/font/google";
+// import { Geist, Geist_Mono, Anton_SC, Bebas_Neue } from "next/font/google";
 import "./globals.css";
 import SmoothScroll from "./components/SmoothScroll";
 import CustomCursor from "./commonComponents/CustomCursor/CustomCursor";
@@ -7,28 +7,28 @@ import { CursorProvider } from "./context/CursorContext";
 import { ScrollProvider } from "./context/ScrollContext";
 import { LoadingProvider } from "./context/LoadingContext";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-});
+// const geistSans = Geist({
+//   variable: "--font-geist-sans",
+//   subsets: ["latin"],
+// });
 
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
-});
+// const geistMono = Geist_Mono({
+//   variable: "--font-geist-mono",
+//   subsets: ["latin"],
+// });
 
-const anton = Anton_SC({
-  weight: "400",
-  subsets: ["latin"],
-  variable: "--font-anton",
-});
+// const anton = Anton_SC({
+//   weight: "400",
+//   subsets: ["latin"],
+//   variable: "--font-anton",
+// });
 
-const bebasNeue = Bebas_Neue({
-  weight: "400",
-  subsets: ["latin"],
-  variable: "--font-bebas-neue",
-  display: "swap",
-});
+// const bebasNeue = Bebas_Neue({
+//   weight: "400",
+//   subsets: ["latin"],
+//   variable: "--font-bebas-neue",
+//   display: "swap",
+// });
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://meethatkar.dev"),
@@ -94,16 +94,9 @@ export default function RootLayout({
     <html
       lang="en"
       suppressHydrationWarning
-      className={`${geistSans.variable} ${geistMono.variable} ${anton.variable} ${bebasNeue.variable} h-full antialiased`}
+      className="h-full antialiased"
     >
       <head>
-        {/* Preload Elms Sans (not available in next/font/google) — non-blocking */}
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
-        <link
-          href="https://fonts.googleapis.com/css2?family=Elms+Sans:ital,wght@0,100..900;1,100..900&display=swap"
-          rel="stylesheet"
-        />
       </head>
       <body className="min-h-full flex flex-col overflow-x-hidden" suppressHydrationWarning>
         <ScrollProvider>
