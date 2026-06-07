@@ -1,4 +1,3 @@
-/* Google Fonts are now loaded via next/font/google in layout.tsx (non-render-blocking) */
 @import "tailwindcss";
 
 :root {
@@ -10,8 +9,11 @@
 }
 
 @theme {
-  --font-heading: var(--font-bebas-neue), "Bebas Neue", sans-serif;
-  --font-small: "Elms Sans", sans-serif;
+  /* --font-heading: var(--font-bebas-neue), "Bebas Neue", sans-serif;
+  --font-small: "Elms Sans", sans-serif; */
+  --font-heading: system-ui, sans-serif;
+  --font-small: system-ui, sans-serif;
+  --font-mono: Consolas, monospace;
   /* Use in tex-scroll component*/
   --color-background: var(--background);
   --color-foreground: var(--foreground);

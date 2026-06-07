@@ -69,7 +69,7 @@ export default function FooterClient({ connectLinks, navigateLinks }: FooterClie
         {/* --- DESKTOP SCREENSAVER LAYOUT --- */}
         <Screensaver
           textArr={['DESIGN']}
-          className="hidden md:flex w-[35vw] h-[25vh] lg:h-[35vh] max-w-[500px] max-h-[350px] 4k:max-w-[900px] 4k:max-h-[550px]"
+          className="hidden md:flex w-[45vw] h-[25vh] lg:h-[45vh] max-w-[900px] max-h-[350px] 4k:max-w-[900px] 4k:max-h-[550px]"
         />
 
         {/* Standard Desktop Navigation layout positioning */}
@@ -84,17 +84,17 @@ export default function FooterClient({ connectLinks, navigateLinks }: FooterClie
       </div>
 
       {/* Big text Section */}
-      <div className="w-full flex justify-center pt-10 md:pt-[5%] z-10 overflow-hidden select-none pointer-events-none">
+      <div className="w-full flex justify-center pt-10 mt-[5%] md:pt-[5%] z-10 select-none pointer-events-none">
         <TextReveal
           text="MEET HATKAR"
           isLoading={isLoading}
-          className="footer-big-text text-[clamp(2.3rem,11.5vw,13rem)] 2xl:text-[14rem] 4k:text-[22rem] mx-auto whitespace-nowrap leading-none font-black font-heading tracking-tighter text-primary text-center"
+          className="footer-big-text text-[clamp(2.3rem,13vw,13rem)] 2xl:text-[14rem] 4k:text-[22rem] mx-auto whitespace-nowrap leading-none font-black tracking-tighter font-heading text-primary text-center"
         />
       </div>
 
       {/* Bottom bar */}
       <div
-        className="footer-small-text border-t border-foreground/10 pt-6 mt-8 flex flex-col sm:flex-row justify-between items-center w-full mx-auto text-[clamp(0.65rem,0.6rem+0.15vw,0.75rem)] 4k:text-xl font-mono tracking-widest uppercase z-10 max-w-7xl 2xl:max-w-[100rem] 4k:max-w-[150rem] text-foreground/40 gap-4 pb-8 md:pb-[2%] text-center sm:text-left"
+        className="footer-small-text border-t border-foreground/10 flex flex-col sm:flex-row justify-between items-center w-full mx-auto text-[clamp(0.65rem,0.6rem+0.15vw,0.75rem)] 4k:text-xl font-mono tracking-widest uppercase z-10 max-w-7xl 2xl:max-w-[100rem] 4k:max-w-[150rem] text-foreground/40 gap-4 pb-8 md:pb-[2%] text-center sm:text-left"
       >
         <p className="max-w-xs sm:max-w-none leading-relaxed">
           © 2026 PORTFOLIO. ALL RIGHTS RESERVED. DESIGNED WITH PRECISION.

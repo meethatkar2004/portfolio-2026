@@ -289,7 +289,7 @@ export default function Screensaver({ textArr = DEFAULT_WORDS, className = '' }:
       {/* FIXED: Adjusted bounding font layout sizes to guarantee text won't clip container borders on mobile screens */}
       <div
         ref={elementRef}
-        className="absolute top-0 left-0 font-heading font-black tracking-widest text-[clamp(0.85rem,2vw,1.75rem)] 4k:text-4xl uppercase select-none pointer-events-none will-change-transform whitespace-nowrap text-foreground/80 origin-center"
+        className="absolute top-0 left-0 font-heading font-black tracking-widest text-[clamp(0.85rem,4vw,3rem)] 4k:text-4xl uppercase select-none pointer-events-none will-change-transform whitespace-nowrap text-foreground/80 origin-center"
         style={{
           lineHeight: 'normal',
           padding: '4px 8px',
