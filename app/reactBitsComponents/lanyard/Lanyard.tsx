@@ -69,7 +69,10 @@ export default function Lanyard({
           dpr={[1, isMobile ? 1.5 : 2]}
           gl={{ alpha: transparent }}
           onCreated={({ gl }) => gl.setClearColor(new THREE.Color(0xC0C0C0), transparent ? 0 : 1)}
-          style={{ touchAction: 'none' }}
+          style={{ 
+            touchAction: isMobile ? 'auto' : 'none', 
+            pointerEvents: isMobile ? 'none' : 'auto' 
+          }}
         >
           <ambientLight intensity={Math.PI} />
           <Physics gravity={gravity} timeStep={isMobile ? 1 / 30 : 1 / 60}>
