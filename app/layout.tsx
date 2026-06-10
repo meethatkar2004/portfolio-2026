@@ -112,7 +112,7 @@ export default function RootLayout({
       <body className="min-h-full flex flex-col overflow-x-clip" suppressHydrationWarning>
         <Script
           strategy="afterInteractive"
-          src="https://www.googletagmanager.com/gtag/js?id=G-CQJRS9SQQN"
+          src="https://www.googletagmanager.com/gtag/js?id=G-FKPSBJ78RG"
         />
         <Script
           id="google-analytics"
@@ -122,7 +122,7 @@ export default function RootLayout({
               window.dataLayer = window.dataLayer || [];
               function gtag(){dataLayer.push(arguments);}
               gtag('js', new Date());
-              gtag('config', 'G-CQJRS9SQQN', {
+              gtag('config', 'G-FKPSBJ78RG', {
                 page_path: window.location.pathname,
               });
             `,
