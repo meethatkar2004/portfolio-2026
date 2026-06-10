@@ -109,7 +109,7 @@ export default function RootLayout({
     >
       <head>
       </head>
-      <body className="min-h-full flex flex-col overflow-x-hidden" suppressHydrationWarning>
+      <body className="min-h-full flex flex-col overflow-x-clip" suppressHydrationWarning>
         <Script
           strategy="afterInteractive"
           src="https://www.googletagmanager.com/gtag/js?id=G-CQJRS9SQQN"
