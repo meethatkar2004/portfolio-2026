@@ -69,6 +69,7 @@ export default function Lanyard({
           dpr={[1, isMobile ? 1.5 : 2]}
           gl={{ alpha: transparent }}
           onCreated={({ gl }) => gl.setClearColor(new THREE.Color(0xC0C0C0), transparent ? 0 : 1)}
+          style={{ touchAction: 'none' }}
         >
           <ambientLight intensity={Math.PI} />
           <Physics gravity={gravity} timeStep={isMobile ? 1 / 30 : 1 / 60}>
@@ -275,7 +276,7 @@ function Band({ maxSpeed = 50, minSpeed = 0, isMobile = false }: BandProps) {
 
   return (
     <>
-      <group position={isMobile ? [0, 8, 0] : [2, 4, 0]}>
+      <group position={isMobile ? [0, 8.5, 0] : [2, 4, 0]}>
         <RigidBody ref={fixed} {...segmentProps} type="fixed" />
         <RigidBody position={isMobile ? [0, 0, 0] : [0.5, 0, 0]} ref={j1} {...segmentProps} type="dynamic">
           <BallCollider args={[0.1]} />
@@ -308,7 +309,7 @@ function Band({ maxSpeed = 50, minSpeed = 0, isMobile = false }: BandProps) {
                 setCursorType('default');
               }}
               onPointerUp={(e: ThreeEvent<PointerEvent>) => {
-                const target = e.target as any;
+                const target = e.nativeEvent.target as any;
                 if (target?.releasePointerCapture) {
                   target.releasePointerCapture(e.pointerId);
                 }
@@ -318,7 +319,7 @@ function Band({ maxSpeed = 50, minSpeed = 0, isMobile = false }: BandProps) {
               }}
               onPointerDown={(e: ThreeEvent<PointerEvent>) => {
                 e.stopPropagation();
-                const target = e.target as any;
+                const target = e.nativeEvent.target as any;
                 if (target?.setPointerCapture) {
                   target.setPointerCapture(e.pointerId);
                 }

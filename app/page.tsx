@@ -29,8 +29,8 @@ const personJsonLd = {
   "@type": "Person",
   name: "Meet Hatkar",
   jobTitle: "Website Designer & Creative Developer",
-  url: "https://meethatkar.dev",
-  image: "https://meethatkar.dev/logo.png",
+  url: "https://meethatkar.indevs.in",
+  image: "https://meethatkar.indevs.in/logo.png",
   description:
     "Website designer and creative developer based in Mumbai, specializing in interactive web experiences with Next.js, Three.js, GSAP, and TypeScript.",
   address: {
@@ -59,7 +59,7 @@ const websiteJsonLd = {
   "@context": "https://schema.org",
   "@type": "WebSite",
   name: "Meet Hatkar Portfolio",
-  url: "https://meethatkar.dev",
+  url: "https://meethatkar.indevs.in",
   description:
     "Portfolio of Meet Hatkar — a creative developer crafting interactive, animation-driven web experiences.",
   author: {

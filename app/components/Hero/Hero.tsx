@@ -87,7 +87,7 @@ const Hero = ({ animateHero }: { animateHero: boolean }) => {
       </div>
 
       {/* Lanyard Interactive Layer */}
-      <div className='lanyard-wrapper absolute inset-x-0 top-[0%] h-[80vh] md:h-screen w-full z-20 overflow-hidden pointer-events-none'>
+      <div className='lanyard-wrapper absolute inset-x-0 top-[0%] h-screen w-full z-20 overflow-hidden pointer-events-none'>
         {/* We use pointer-events-none on the container but Lanyard's internal Canvas handles its own raycasting */}
         <Lanyard isMobile={isMobile} position={isMobile ? [0, 0, 9.5] : [0, 0, 8]} gravity={[0, -40, -5]} />
       </div>
