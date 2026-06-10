@@ -4,7 +4,7 @@ const connectLinks = [
   { label: 'Github', href: 'https://github.com/meethatkar' },
   { label: 'LinkedIn', href: 'https://www.linkedin.com/in/meethatkar/' },
   { label: 'Instagram', href: 'https://www.instagram.com/hatkarmeet/' },
-  { label: 'Whatsup', href: 'https://wa.me/8355959889' },
+  { label: 'Whatsup', href: 'https://wa.me/918355959889' },
 ];
 
 const navigateLinks = [

@@ -31,7 +31,7 @@ import { LoadingProvider } from "./context/LoadingContext";
 // });
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://meethatkar.dev"),
+  metadataBase: new URL("https://meethatkar.indevs.in"),
   title: {
     default: "Meet Hatkar — Website Designer & Creative Developer",
     template: "%s | Meet Hatkar",
@@ -50,7 +50,7 @@ export const metadata: Metadata = {
     "Mumbai web developer",
     "frontend developer",
   ],
-  authors: [{ name: "Meet Hatkar", url: "https://meethatkar.dev" }],
+  authors: [{ name: "Meet Hatkar", url: "https://meethatkar.indevs.in" }],
   creator: "Meet Hatkar",
   publisher: "Meet Hatkar",
   icons: {
@@ -59,11 +59,19 @@ export const metadata: Metadata = {
   openGraph: {
     type: "website",
     locale: "en_US",
-    url: "https://meethatkar.dev",
+    url: "https://meethatkar.indevs.in",
     siteName: "Meet Hatkar Portfolio",
     title: "Meet Hatkar — Website Designer & Creative Developer",
     description:
       "Explore the portfolio of Meet Hatkar — a creative developer crafting interactive, animation-driven web experiences with Next.js, Three.js, and GSAP.",
+    images: [
+      {
+        url: "/logo.png",
+        width: 800,
+        height: 800,
+        alt: "Meet Hatkar Portfolio",
+      },
+    ],
   },
   twitter: {
     card: "summary_large_image",
@@ -71,6 +79,7 @@ export const metadata: Metadata = {
     description:
       "Creative developer crafting interactive web experiences with Next.js, Three.js, and GSAP. Based in Mumbai.",
     creator: "@meethatkar",
+    images: ["/logo.png"],
   },
   robots: {
     index: true,
