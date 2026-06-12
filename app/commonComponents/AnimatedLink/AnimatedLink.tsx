@@ -23,13 +23,13 @@ export default function AnimatedLink({ href, onClick, className = '', children, 
       <span className="absolute bottom-0 left-0 w-full h-[1.4px] overflow-hidden pointer-events-none">
         {/* Initial line that slides out to the right */}
         <span 
-          className="absolute inset-0 w-full h-full bg-primary transform-gpu translate-x-0 transition-transform duration-700 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover/link:translate-x-[150%] will-change-transform" 
+          className="absolute inset-0 w-full h-full bg-primary transform-gpu translate-x-0 transition-transform duration-700 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover/link:translate-x-[150%]" 
           style={{ backfaceVisibility: 'hidden', WebkitBackfaceVisibility: 'hidden' }} 
         />
         
         {/* New line that slides in from the left */}
         <span 
-          className="absolute inset-0 w-full h-full bg-primary transform-gpu -translate-x-[150%] transition-transform duration-700 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover/link:translate-x-0 will-change-transform" 
+          className="absolute inset-0 w-full h-full bg-primary transform-gpu -translate-x-[150%] transition-transform duration-700 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover/link:translate-x-0" 
           style={{ backfaceVisibility: 'hidden', WebkitBackfaceVisibility: 'hidden' }} 
         />
       </span>
