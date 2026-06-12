@@ -135,12 +135,17 @@ const CustomCursor: React.FC<CustomCursorProps> = ({
       }
       
       const element = document.elementFromPoint(xPrev, yPrev);
-      const isOverCanvas = !!element?.closest('canvas');
+      if (!element) {
+        isScrolling = false;
+        return;
+      }
+
+      // Fast path tag check before DOM traversal
+      const isOverCanvas = element.tagName === 'CANVAS' || !!element.closest('canvas');
       
       // Dispatch a synthetic pointermove event ONLY if we are over a canvas,
       // or if we were previously over a canvas (to notify it that we left).
-      // This prevents spamming global event listeners during normal page scroll.
-      if (element && (isOverCanvas || wasOverCanvas)) {
+      if (isOverCanvas || wasOverCanvas) {
         const fakeEvent = new PointerEvent('pointermove', {
           clientX: xPrev,
           clientY: yPrev,
@@ -153,13 +158,12 @@ const CustomCursor: React.FC<CustomCursorProps> = ({
       
       wasOverCanvas = isOverCanvas;
 
-      const interactive = element?.closest('a, button, [data-cursor]');
+      const interactive = element.closest('a, button, [data-cursor]');
       if (interactive) {
         const type = interactive.getAttribute('data-cursor');
         setCursorType((type as CursorType) || 'link');
       } else if (!isOverCanvas) {
         // Only force default if we are NOT over a canvas.
-        // If we are over a canvas, R3F's internal pointer events will manage setCursorType.
         setCursorType('default');
       }
       isScrolling = false;
@@ -167,8 +171,8 @@ const CustomCursor: React.FC<CustomCursorProps> = ({
 
     const handleScroll = () => {
       const now = Date.now();
-      // Throttle scroll checks to run at most once every ~40ms to save CPU
-      if (!isScrolling && now - lastScrollTime > 40) {
+      // Increased throttle to 80ms (~12 FPS) for extreme optimization during scroll
+      if (!isScrolling && now - lastScrollTime > 80) {
         isScrolling = true;
         lastScrollTime = now;
         rafId = requestAnimationFrame(checkCursorUnderMouse);
@@ -177,13 +181,11 @@ const CustomCursor: React.FC<CustomCursorProps> = ({
 
     window.addEventListener('mousemove', handleMouseMove, { passive: true });
     window.addEventListener('mouseover', handleMouseOver, { passive: true });
-    window.addEventListener('wheel', handleScroll, { passive: true });
     window.addEventListener('scroll', handleScroll, { passive: true });
 
     return () => {
       window.removeEventListener('mousemove', handleMouseMove);
       window.removeEventListener('mouseover', handleMouseOver);
-      window.removeEventListener('wheel', handleScroll);
       window.removeEventListener('scroll', handleScroll);
       if (timeoutId) clearTimeout(timeoutId);
       if (rafId) cancelAnimationFrame(rafId);
