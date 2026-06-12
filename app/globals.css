@@ -104,7 +104,11 @@
 
     a,
     button,
-    [data-cursor] {
+    [data-cursor="link"] {
+      cursor: pointer !important;
+    }
+    
+    [data-cursor]:not([data-cursor="link"]) {
       cursor: none !important;
     }
   }

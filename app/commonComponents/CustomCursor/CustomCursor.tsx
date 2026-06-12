@@ -204,6 +204,7 @@ const CustomCursor: React.FC<CustomCursorProps> = ({
         height: 80,
         backgroundColor: 'rgba(251, 191, 36, 0.15)',
         borderColor: 'rgba(251, 191, 36, 0.8)',
+        autoAlpha: 1,
         duration: 0.4,
         ease: 'power3.out'
       });
@@ -215,26 +216,25 @@ const CustomCursor: React.FC<CustomCursorProps> = ({
         height: 40,
         backgroundColor: 'rgba(251, 191, 36, 0.4)',
         borderColor: 'rgba(251, 191, 36, 1)',
+        autoAlpha: 1,
         duration: 0.3,
         ease: 'power3.out'
       });
       gsap.to(innerRef.current, { scale: 0, autoAlpha: 0, duration: 0.2 });
       gsap.to(labelRef.current, { scale: 0.5, autoAlpha: 0, duration: 0.2 });
     } else if (cursorType === 'link') {
+      // Hide the custom cursor completely for links so the native hand pointer takes over
       gsap.to(innerRef.current, {
-        width: outerSize,
-        height: outerSize,
         autoAlpha: 0,
-        duration: 0.4,
+        duration: 0.2,
         ease: 'power3.out'
       });
       gsap.to(outerRef.current, {
-        width: outerSize * 1.2,
-        height: outerSize * 1.2,
-        borderColor: 'rgba(251, 191, 36, 0.8)',
-        duration: 0.4,
+        autoAlpha: 0,
+        duration: 0.2,
         ease: 'power3.out'
       });
+      gsap.to(labelRef.current, { autoAlpha: 0, duration: 0.2, ease: 'power3.out' });
     } else {
       // Default and 'project' types
       gsap.to(outerRef.current, {
@@ -242,6 +242,7 @@ const CustomCursor: React.FC<CustomCursorProps> = ({
         height: outerSize,
         backgroundColor: 'transparent',
         borderColor: outerBorderColor,
+        autoAlpha: 1,
         duration: 0.4,
         ease: 'power3.out'
       });
