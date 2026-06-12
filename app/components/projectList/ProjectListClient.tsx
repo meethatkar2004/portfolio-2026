@@ -97,7 +97,7 @@ const ProjectListClient = ({ projects }: ProjectListClientProps) => {
             <div
               key={index}
               data-index={index}
-              data-cursor="project"
+              data-cursor="view"
               className="project-item group flex flex-row items-center justify-between py-6 border-b border-b-gray-400 relative lg:hover:scale-[1.02] lg:hover:-translate-y-1 transition-transform ease-out duration-300"
               onMouseEnter={() => {
                 if (typeof window !== 'undefined' && window.innerWidth >= 1024) {
