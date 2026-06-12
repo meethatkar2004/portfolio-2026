@@ -79,8 +79,8 @@ const Hero = ({ animateHero }: { animateHero: boolean }) => {
             </span>
           </span>
         </h1>
-        <div className="overflow-hidden mt-6=[2%]">
-          <p className='hero-text text-[clamp(0.875rem,0.7rem+0.8vw,1.25rem)] text-primary ml-[45vw] md:ml-[50vw] font-bold tracking-widest uppercase opacity-80 block'>
+        <div className="overflow-hidden">
+          <p className='hero-text text-[clamp(0.875rem,0.7rem+0.8vw,1.25rem)] text-primary ml-[calc(4rem+35vw)] md:ml-[calc(8rem+38vw)] font-bold tracking-widest uppercase opacity-80 block'>
             BASED IN MUMBAI
           </p>
         </div>

@@ -1,6 +1,6 @@
 'use client';
 
-import Link from 'next/link';
+import AnimatedLink from '../../commonComponents/AnimatedLink/AnimatedLink';
 
 interface LinkItem {
   label: string;
@@ -25,23 +25,23 @@ export default function FooterLinkGroup({ title, links, className = '', align = 
         {links.map((link) => (
           <li key={link.label}>
             {onClickItem ? (
-              <span
+              <AnimatedLink
                 onClick={(e) => onClickItem(link.label, e)}
                 data-cursor="link"
-                className="footer-link text-[clamp(0.875rem,0.75rem+1vw,1.25rem)] text-primary hover:text-black transition-colors font-small cursor-pointer"
-              >
-                {link.label}
-              </span>
-            ) : (
-              <Link
-                href={link.href}
-                target='_blank'
-                rel='noopener noreferrer'
-                // rel='noopener noreferrer' IMP for security, when opned in new window, can't get access to parent site.
                 className="footer-link text-[clamp(0.875rem,0.75rem+1vw,1.25rem)] text-primary hover:text-black transition-colors font-small"
               >
                 {link.label}
-              </Link>
+              </AnimatedLink>
+            ) : (
+              <AnimatedLink
+                href={link.href}
+                target='_blank'
+                rel='noopener noreferrer'
+                data-cursor="link"
+                className="footer-link text-[clamp(0.875rem,0.75rem+1vw,1.25rem)] text-primary hover:text-black transition-colors font-small"
+              >
+                {link.label}
+              </AnimatedLink>
             )}
           </li>
         ))}

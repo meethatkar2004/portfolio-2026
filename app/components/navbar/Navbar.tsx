@@ -1,6 +1,7 @@
 'use client';
 import React, { useRef } from 'react'
 import CircularText from '../../reactBitsComponents/circularText/CircularText'
+import AnimatedLink from '../../commonComponents/AnimatedLink/AnimatedLink'
 import gsap from 'gsap'
 import { useGSAP } from '@gsap/react'
 import { ScrollToPlugin } from 'gsap/ScrollToPlugin'
@@ -40,25 +41,25 @@ const Navbar = ({ animateHero = false }: { animateHero?: boolean }) => {
 
   return (
     <div ref={container} className='w-full px-[3vw] py-6 flex items-center justify-between relative z-50 opacity-0'>
-      <div 
+      <AnimatedLink
         onClick={() => handleScroll('#hero')}
         data-cursor="link"
-        className='h-full flex justify-start font-heading cursor-pointer'
+        className='h-full flex items-center justify-start font-heading cursor-pointer text-[clamp(1.25rem,1.1rem+0.6vw,1.5rem)] font-extrabold text-primary uppercase tracking-tighter'
       >
-        <span className='text-[clamp(1.25rem,1.1rem+0.6vw,1.5rem)] font-extrabold text-primary uppercase tracking-tighter'>Meet</span>
-      </div>
+        Meet
+      </AnimatedLink>
 
       {/* Navigation Links */}
       <div className='absolute left-1/2 -translate-x-1/2 hidden md:flex items-center gap-8 font-heading'>
         {navItems.map((item) => (
-          <span
+          <AnimatedLink
             key={item.label}
             onClick={() => handleScroll(item.target)}
             data-cursor="link"
             className='text-[clamp(1rem,0.9rem+0.4vw,1.125rem)] font-bold text-heading cursor-pointer hover:text-primary transition-colors'
           >
             {item.label}
-          </span>
+          </AnimatedLink>
         ))}
       </div>
 

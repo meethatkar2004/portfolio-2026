@@ -102,6 +102,11 @@ export default function HorizontalText() {
       <div
         ref={scrollRef}
         className="flex flex-row items-center flex-nowrap h-fit pl-[10vw] pr-[30vw] gap-[8vw] md:gap-[10vw] will-change-transform relative z-10"
+        style={{
+          transform: 'translateZ(0)',
+          backfaceVisibility: 'hidden',
+          WebkitBackfaceVisibility: 'hidden',
+        }}
       >
         {/* FORGET */}
         <div className="font-[family:var(--font-anton)]  text-white uppercase text-[clamp(10rem,28vw,36rem)] font-black leading-none tracking-tighter shrink-0 select-none">
