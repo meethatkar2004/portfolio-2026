@@ -19,7 +19,7 @@ const Hero = ({ animateHero }: { animateHero: boolean }) => {
 
   useEffect(() => {
     const checkMobile = () => {
-      setIsMobile(window.innerWidth < 768);
+      setIsMobile(window.innerWidth < 1024);
     };
     checkMobile();
     window.addEventListener('resize', checkMobile);
@@ -67,20 +67,20 @@ const Hero = ({ animateHero }: { animateHero: boolean }) => {
       </div>
 
       {/* Hero Typography */}
-      <div className='absolute left-[3vw] bottom-[10%] md:bottom-auto md:top-[45%] -translate-y-0 md:-translate-y-1/2 z-30 pointer-events-none'>
-        <h1 className='text-[clamp(1.6rem,7vmax,10rem)] md:text-[clamp(2.2rem,10vmax,10rem)] font-black leading-[0.95] md:leading-[0.8] tracking-tighter text-heading uppercase'>
+      <div className='absolute left-[3vw] bottom-[10%] lg:bottom-auto lg:top-[45%] -translate-y-0 lg:-translate-y-1/2 z-30 pointer-events-none'>
+        <h1 className='text-[clamp(1.6rem,7vmax,10rem)] lg:text-[clamp(2.2rem,10vmax,10rem)] font-black leading-[0.95] lg:leading-[0.8] tracking-tighter text-heading uppercase'>
           <span className="sr-only">Meet Hatkar — Creative Website Designer & Developer Based in Mumbai</span>
           <span className="block overflow-hidden">
             <span className="hero-text block">WEBSITE</span>
           </span>
-          <span className="block overflow-hidden ml-[4vw] md:ml-[12vw]">
+          <span className="block overflow-hidden ml-[4vw] lg:ml-[12vw]">
             <span className="hero-text block">
               DESIGNER
             </span>
           </span>
         </h1>
         <div className="overflow-hidden">
-          <p className='hero-text text-[clamp(0.875rem,0.7rem+0.8vw,1.25rem)] text-primary ml-[calc(4rem+35vw)] md:ml-[calc(8rem+38vw)] font-bold tracking-widest uppercase opacity-80 block'>
+          <p className='hero-text text-[clamp(0.875rem,0.7rem+0.8vw,1.25rem)] text-primary ml-[calc(4rem+35vw)] lg:ml-[calc(8rem+38vw)] font-bold tracking-widest uppercase opacity-80 block'>
             BASED IN MUMBAI
           </p>
         </div>
