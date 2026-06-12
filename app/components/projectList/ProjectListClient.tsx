@@ -83,8 +83,8 @@ const ProjectListClient = ({ projects }: ProjectListClientProps) => {
       className="w-full p-[2%] px-[3%]"
       title="Work That Speaks in Pixels"
       description="A curated collection of modern websites and interactive experiences crafted to blend creativity, performance, and conversion-focused design."
-      titleClass="text-4xl sm:text-5xl md:text-6xl leading-[0.95] tracking-tight w-full mx-auto"
-      descClass="text-sm sm:text-base md:text-lg w-11/12 max-w-xl md:max-w-2xl mx-auto leading-relaxed"
+      titleClass="text-4xl sm:text-5xl lg:text-6xl leading-[0.95] tracking-tight w-full mx-auto"
+      descClass="text-sm sm:text-base lg:text-lg w-11/12 max-w-xl lg:max-w-2xl mx-auto leading-relaxed"
     >
       <div
         className="w-full relative"
@@ -111,8 +111,8 @@ const ProjectListClient = ({ projects }: ProjectListClientProps) => {
               onClick={() => window.open(project.link, "_blank")}
             >
               {/* Text details container */}
-              <div className="flex flex-col sm:flex-row sm:items-center justify-between w-full pr-4 sm:pr-0">
-                <div className="block sm:hidden shrink-0 w-full h-[22vmax] rounded-xl overflow-hidden relative border border-black/10">
+              <div className="flex flex-col lg:flex-row lg:items-center justify-between w-full pr-4 lg:pr-0">
+                <div className="block lg:hidden shrink-0 w-full h-[20vh] md:h-[40vh] min-h-[100px] max-h-[400px] mb-4 rounded-xl overflow-hidden relative border border-black/10">
                   <Image
                     src={project.image}
                     alt={`Screenshot of ${project.name} — ${project.roles}`}
@@ -124,7 +124,7 @@ const ProjectListClient = ({ projects }: ProjectListClientProps) => {
                   ? 'text-[clamp(1.95rem,1.3rem+3.9vw,3.9rem)] text-heading'
                   : hoveredProject
                     ? 'text-[clamp(1.46rem,1.3rem+0.65vw,1.625rem)] text-heading/50'
-                    : 'text-[clamp(1.46rem,1.3rem+1vmax,1.5rem)] md:text-[clamp(1.46rem,1.3rem+0.65vw,1.625rem)] lg:text-heading/30 text-heading'
+                    : 'text-[clamp(1.46rem,1.3rem+1vmax,1.5rem)] lg:text-[clamp(1.46rem,1.3rem+0.65vw,1.625rem)] lg:text-heading/30 text-heading'
                   }`}>
                   {project.name}
                 </h3>
