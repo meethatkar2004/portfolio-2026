@@ -21,11 +21,9 @@ const ProjectListClient = ({ projects }: ProjectListClientProps) => {
 
   useEffect(() => {
     // Only enable hover tracking listeners on desktop screens (width >= 1024px)
-    if (typeof window === 'undefined' || window.innerWidth < 1024) {
-      return;
-    }
+    if (typeof window === 'undefined' || window.innerWidth < 1024) return;
 
-    let rafId: number | null = null;
+    let timeoutId: ReturnType<typeof setTimeout> | null = null;
     let isScrolling = false;
 
     const handleMouseMove = (e: MouseEvent) => {
@@ -34,7 +32,10 @@ const ProjectListClient = ({ projects }: ProjectListClientProps) => {
 
     const checkHoverState = () => {
       const { x, y } = mouseCoordsRef.current;
-      if (x === 0 && y === 0) return;
+      if (x === 0 && y === 0) {
+        isScrolling = false;
+        return;
+      }
 
       const element = document.elementFromPoint(x, y);
       const projectItem = element?.closest('.project-item');
@@ -53,24 +54,27 @@ const ProjectListClient = ({ projects }: ProjectListClientProps) => {
       } else {
         setHoveredProject((prev) => (prev === null ? prev : null));
       }
-
       isScrolling = false;
     };
 
     const handleScroll = () => {
+      // Throttle the expensive elementFromPoint layout calculation to 100ms
+      // instead of every frame, vastly improving scroll performance!
       if (!isScrolling) {
         isScrolling = true;
-        rafId = requestAnimationFrame(checkHoverState);
+        timeoutId = setTimeout(checkHoverState, 100);
       }
     };
 
     window.addEventListener('mousemove', handleMouseMove, { passive: true });
     window.addEventListener('wheel', handleScroll, { passive: true });
+    window.addEventListener('scroll', handleScroll, { passive: true }); // Catch manual scrollbar drags too
 
     return () => {
       window.removeEventListener('mousemove', handleMouseMove);
       window.removeEventListener('wheel', handleScroll);
-      if (rafId) cancelAnimationFrame(rafId);
+      window.removeEventListener('scroll', handleScroll);
+      if (timeoutId) clearTimeout(timeoutId);
     };
   }, [projects]);
 

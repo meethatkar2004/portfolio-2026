@@ -224,7 +224,6 @@
     opacity: 0.5;
     /* text-heading/50 */
     transition: opacity 0.4s cubic-bezier(0.25, 1, 0.5, 1);
-    will-change: opacity;
   }
 
   @media (min-width: 640px) {

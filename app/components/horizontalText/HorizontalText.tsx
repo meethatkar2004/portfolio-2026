@@ -101,7 +101,7 @@ export default function HorizontalText() {
       {/* Horizontal Scrolling Track containing only the ultra-massive text */}
       <div
         ref={scrollRef}
-        className="flex flex-row items-center flex-nowrap h-fit pl-[10vw] pr-[30vw] gap-[8vw] md:gap-[10vw] will-change-transform relative z-10"
+        className="flex flex-row items-center flex-nowrap h-fit pl-[10vw] pr-[30vw] gap-[8vw] md:gap-[10vw] relative z-10"
         style={{
           transform: 'translateZ(0)',
           backfaceVisibility: 'hidden',
