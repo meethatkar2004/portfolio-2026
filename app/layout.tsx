@@ -6,6 +6,7 @@ import CustomCursor from "./commonComponents/CustomCursor/CustomCursor";
 import { CursorProvider } from "./context/CursorContext";
 import { ScrollProvider } from "./context/ScrollContext";
 import { LoadingProvider } from "./context/LoadingContext";
+import { Analytics } from "@vercel/analytics/next";
 
 // const geistSans = Geist({
 //   variable: "--font-geist-sans",
@@ -146,6 +147,7 @@ export default function RootLayout({
             </CursorProvider>
           </LoadingProvider>
         </ScrollProvider>
+        <Analytics />
       </body>
     </html>
   );
