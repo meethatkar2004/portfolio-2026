@@ -71,8 +71,9 @@
   body {
     background-color: var(--background);
     color: var(--foreground);
-    overflow-x: clip;
+    overflow-x: hidden;
     width: 100%;
+    -webkit-overflow-scrolling: touch;
   }
 
   h1,
@@ -152,7 +153,7 @@
   html {
     scrollbar-width: thin;
     scrollbar-color: #b99400 transparent;
-    overflow-x: clip;
+    overflow-x: hidden;
     width: 100%;
   }
 
