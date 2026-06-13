@@ -16,10 +16,14 @@ export default function PageWrapper({ children }: { children: React.ReactNode })
 
   useEffect(() => {
     if (!isLoading) {
+      // Use a longer delay on touch/iOS devices: Safari needs more time to
+      // settle layout (pin spacers, viewport height) after the loader exits.
+      const isTouchDevice = typeof window !== 'undefined' && window.matchMedia('(pointer: coarse)').matches;
+      const delay = isTouchDevice ? 500 : 150;
       const timer = setTimeout(() => {
         window.dispatchEvent(new Event("resize"));
         ScrollTrigger.refresh();
-      }, 150);
+      }, delay);
       return () => clearTimeout(timer);
     }
   }, [isLoading]);

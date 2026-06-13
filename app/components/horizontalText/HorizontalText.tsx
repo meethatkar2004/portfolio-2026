@@ -20,9 +20,16 @@ export default function HorizontalText() {
     () => {
       if (isLoading || !containerRef.current || !scrollRef.current) return;
 
+      // Safari/iOS: normalize scroll events so ScrollTrigger works on touch devices
+      // This must be called inside useGSAP so it has the right scope
+      ScrollTrigger.normalizeScroll(true);
+
+      // Pre-composite the layer on Safari before animation begins
+      gsap.set(scrollRef.current, { willChange: 'transform' });
+
       // 1. Horizontal scroll layout calculation with dynamic functions
       // This ensures that when fonts load or window is resized, GSAP dynamically recalculates the exact scroll widths!
-      gsap.to(scrollRef.current, {
+      const horizontalTween = gsap.to(scrollRef.current, {
         x: () => {
           if (!scrollRef.current || !containerRef.current) return 0;
           const scrollWidth = scrollRef.current.scrollWidth;
@@ -39,6 +46,7 @@ export default function HorizontalText() {
             return `+=${scrollRef.current.scrollWidth}`;
           },
           pin: true,
+          pinSpacing: true,
           scrub: 1,
           anticipatePin: 1,
           invalidateOnRefresh: true,
@@ -68,6 +76,14 @@ export default function HorizontalText() {
       }
 
       requestAnimationFrame(() => ScrollTrigger.refresh());
+
+      return () => {
+        // Reset will-change when done to free GPU memory
+        if (scrollRef.current) {
+          gsap.set(scrollRef.current, { willChange: 'auto' });
+        }
+        horizontalTween.kill();
+      };
     },
     { scope: containerRef, dependencies: [isLoading] }
   );
@@ -75,7 +91,7 @@ export default function HorizontalText() {
   return (
     <section
       ref={containerRef}
-      className="w-full mt-[20%] min-h-screen flex flex-col justify-center bg-transparent relative overflow-hidden py-32 select-none"
+      className="w-full mt-[20%] min-h-screen flex flex-col justify-center bg-transparent relative py-32 select-none"
     >
       <FilmGrain opacity={0.15} zIndex={1} />
 
@@ -102,11 +118,6 @@ export default function HorizontalText() {
       <div
         ref={scrollRef}
         className="flex flex-row items-center flex-nowrap h-fit pl-[10vw] pr-[30vw] gap-[8vw] md:gap-[10vw] relative z-10"
-        style={{
-          transform: 'translateZ(0)',
-          backfaceVisibility: 'hidden',
-          WebkitBackfaceVisibility: 'hidden',
-        }}
       >
         {/* FORGET */}
         <div className="font-[family:var(--font-anton)]  text-white uppercase text-[clamp(10rem,28vw,36rem)] font-black leading-none tracking-tighter shrink-0 select-none">

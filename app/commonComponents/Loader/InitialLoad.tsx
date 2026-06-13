@@ -39,6 +39,7 @@ const InitialLoad = ({ onComplete }: { onComplete: () => void }) => {
     }
   }, [progress, total]);
 
+
   useGSAP(() => {
     gsap.set(
       [fullScreen.current, GreenDiv.current, heroBg.current, loader.current],
