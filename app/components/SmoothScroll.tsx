@@ -17,9 +17,12 @@ export default function SmoothScroll({
     // and Lenis adds unnecessary main-thread overhead per frame
     const isTouchDevice = window.matchMedia('(pointer: coarse)').matches;
     if (isTouchDevice) {
-      // Still register ScrollTrigger for GSAP animations, just without Lenis
-      ScrollTrigger.refresh();
-      return;
+      // On iOS Safari, normalizeScroll intercepts native touch events so that
+      // ScrollTrigger's scroll position calculations are accurate for pinning + scrub.
+      ScrollTrigger.normalizeScroll(true);
+      // Defer refresh so layout (including pin spacers) is fully settled.
+      const t = setTimeout(() => ScrollTrigger.refresh(), 200);
+      return () => clearTimeout(t);
     }
 
     const lenis = new Lenis({
