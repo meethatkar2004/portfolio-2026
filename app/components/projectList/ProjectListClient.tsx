@@ -117,6 +117,7 @@ const ProjectListClient = ({ projects }: ProjectListClientProps) => {
                     src={project.image}
                     alt={`Screenshot of ${project.name} — ${project.roles}`}
                     fill
+                    sizes="(max-width: 768px) 95vw, 50vw"
                     className="object-cover"
                   />
                 </div>

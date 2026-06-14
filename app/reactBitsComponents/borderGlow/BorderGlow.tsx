@@ -1,6 +1,6 @@
 "use client";
 import React from 'react';
-import { useRef, useCallback, useState, useEffect, type ReactNode } from 'react';
+import { useRef, useCallback, useState, useEffect, useSyncExternalStore, type ReactNode } from 'react';
 
 interface BorderGlowProps {
   children?: ReactNode;
@@ -90,6 +90,19 @@ const BorderGlow: React.FC<BorderGlowProps> = ({
   const [isHovered, setIsHovered] = useState(false);
   const [sweepActive, setSweepActive] = useState(false);
 
+  // Only enable glow on devices with a fine pointer (mouse/trackpad).
+  // Touch-only devices (phones, tablets) skip the effect entirely.
+  // useSyncExternalStore avoids cascading-render warnings from setState-in-useEffect.
+  const hasMousePointer = useSyncExternalStore(
+    (onStoreChange) => {
+      const mql = window.matchMedia('(pointer: fine)');
+      mql.addEventListener('change', onStoreChange);
+      return () => mql.removeEventListener('change', onStoreChange);
+    },
+    () => window.matchMedia('(pointer: fine)').matches,
+    () => false
+  );
+
   const lastProximity = useRef(0);
   const lastAngle = useRef(45);
 
@@ -138,6 +151,7 @@ const BorderGlow: React.FC<BorderGlowProps> = ({
   }, []);
 
   const handlePointerMove = useCallback((e: React.PointerEvent<HTMLDivElement>) => {
+    if (!hasMousePointer) return;
     const card = cardRef.current;
     if (!card) return;
     const rect = card.getBoundingClientRect(); // READ PHASE
@@ -149,14 +163,14 @@ const BorderGlow: React.FC<BorderGlowProps> = ({
 
     // WRITE PHASE is batched inside updateDOM's requestAnimationFrame
     updateDOM(lastProximity.current, lastAngle.current, true);
-  }, [getEdgeProximity, getCursorAngle, updateDOM]);
+  }, [hasMousePointer, getEdgeProximity, getCursorAngle, updateDOM]);
 
   useEffect(() => {
     updateDOM(lastProximity.current, lastAngle.current, isHovered || sweepActive);
   }, [isHovered, sweepActive, updateDOM]);
 
   useEffect(() => {
-    if (!animated) return;
+    if (!animated || !hasMousePointer) return;
     const angleStart = 110;
     const angleEnd = 465;
 
@@ -192,9 +206,9 @@ const BorderGlow: React.FC<BorderGlowProps> = ({
       },
       onEnd: () => setSweepActive(false),
     });
-  }, [animated, updateDOM]);
+  }, [animated, hasMousePointer, updateDOM]);
 
-  const isVisible = isHovered || sweepActive;
+  const isVisible = hasMousePointer && (isHovered || sweepActive);
 
   // Memoize heavy string calculations
   const { borderBg, fillBg } = React.useMemo(() => {
@@ -208,9 +222,9 @@ const BorderGlow: React.FC<BorderGlowProps> = ({
   return (
     <div
       ref={cardRef}
-      onPointerMove={handlePointerMove}
-      onPointerEnter={() => setIsHovered(true)}
-      onPointerLeave={() => setIsHovered(false)}
+      onPointerMove={hasMousePointer ? handlePointerMove : undefined}
+      onPointerEnter={hasMousePointer ? () => setIsHovered(true) : undefined}
+      onPointerLeave={hasMousePointer ? () => setIsHovered(false) : undefined}
       className={`relative grid isolate border border-white/15 ${className}`}
       style={{
         background: backgroundColor,

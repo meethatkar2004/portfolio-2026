@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-// import { Geist, Geist_Mono, Anton_SC, Bebas_Neue } from "next/font/google";
 import "./globals.css";
 import SmoothScroll from "./components/SmoothScroll";
 import CustomCursor from "./commonComponents/CustomCursor/CustomCursor";
@@ -7,29 +6,7 @@ import { CursorProvider } from "./context/CursorContext";
 import { ScrollProvider } from "./context/ScrollContext";
 import { LoadingProvider } from "./context/LoadingContext";
 import { Analytics } from "@vercel/analytics/next";
-
-// const geistSans = Geist({
-//   variable: "--font-geist-sans",
-//   subsets: ["latin"],
-// });
-
-// const geistMono = Geist_Mono({
-//   variable: "--font-geist-mono",
-//   subsets: ["latin"],
-// });
-
-// const anton = Anton_SC({
-//   weight: "400",
-//   subsets: ["latin"],
-//   variable: "--font-anton",
-// });
-
-// const bebasNeue = Bebas_Neue({
-//   weight: "400",
-//   subsets: ["latin"],
-//   variable: "--font-bebas-neue",
-//   display: "swap",
-// });
+import { SpeedInsights } from "@vercel/speed-insights/next"
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://meethatkar.indevs.in"),
@@ -148,6 +125,7 @@ export default function RootLayout({
           </LoadingProvider>
         </ScrollProvider>
         <Analytics />
+        <SpeedInsights />
       </body>
     </html>
   );
