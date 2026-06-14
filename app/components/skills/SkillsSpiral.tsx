@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import React, { useEffect, useRef } from "react";
 
 interface SkillItem {
@@ -234,12 +235,15 @@ const SkillsSpiral: React.FC<SkillsSpiralProps> = ({ skills }) => {
                 opacity: 0,
               }}
             >
-              <img
+                <Image
                 ref={(node) => {
                   imgRefs.current[i] = node;
                 }}
                 src={initialSkill.src}
                 alt={initialSkill.alt}
+                width={40}
+                height={40}
+                decoding="async"
                 className="w-8 h-8 xs:w-10 xs:h-10 object-contain drop-shadow-[0_4px_6px_rgba(0,0,0,0.3)]"
                 loading="eager"
               />

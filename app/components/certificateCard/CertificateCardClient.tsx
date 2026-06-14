@@ -69,8 +69,9 @@ export default function CertificateCardClient({ certificateData }: CertificateCa
                         src={certificate.image}
                         alt={`${certificate.title} certificate issued by ${certificate.issueBy}`}
                         className="w-full h-full object-cover"
-                        width={500}
-                        height={500}
+                        width={380}
+                        height={380}
+                        sizes="(max-width: 640px) 90vw, (max-width: 1024px) 45vw, 380px"
                       />
                     </div>
 
